@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Manipulation Exercise</title>
+</head>
+<body>
+    <button>9a</button>
+    <button class="js-btn">9b</button>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <button class="js-HeadBtn" onclick="buttonClick('heads')">Heads</button>
+    <button class="js-TailsBtn" onclick="buttonClick('tails')">Tails</button>
+    <p class="js-display"></p>
+    <br>
+    <hr>
+
+    <input type="text" name="" class="js-NameInput" placeholder="Enter Your Name" onkeydown="
+    handleKey(event)
+    " >
+    <button onclick="
+    displayNames()
+    ">Submit</button>
+    <p class="js-NameDisplay"></p>
+
+    <hr>
+    <input type="text" name="" class="js-keyUp" onkeyup="handlesKeyUp()">
+    <p class="js-displaykeyUp"></p>
+</body>
+
+<script>
+    console.log(document.querySelector('button'))
+    document.querySelector('.js-btn').innerText =  '9B Done'
+
+    let display = document.querySelector('.js-display')
+    function buttonClick(button){
+        if(button === 'heads'){
+            display.innerHTML = 'You choose: Heads'
+        }else if(button === 'tails'){
+            display.innerHTML = 'You choose: Tails'
+        }
+    }
+
+   
+    function displayNames(){
+         let displayName = document.querySelector('.js-NameDisplay')
+    let getName = document.querySelector('.js-NameInput')
+        displayName.innerHTML = `Your name is: ${getName.value}`
+    }
+    function handleKey(event){
+        if(event.key === 'Enter'){
+            displayNames()
+        }
+    }
+
+
+    function handlesKeyUp(){
+        let getName = document.querySelector('.js-keyUp')
+        let display = document.querySelector('.js-displaykeyUp')
+        display.innerHTML = getName.value 
+    }
+
+    
+
+</script>
+</html>
