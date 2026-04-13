@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .addCart-btn{
+            color: black;
+            background-color: rgb(255, 216, 20);
+            border: none;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 8px 60px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 50px;
+        }
+           .calculate-btn{
+        background-color: green;
+        border: none;
+        font-size: 15px;
+        padding: 13px 15px;
+        color: white;
+        cursor: pointer;
+    }
+
+        .uber-btn{
+            background-color: black;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-right: 30px;
+            cursor: pointer;
+        }
+
+        .is-clicked{
+            background-color: rgb(230, 230, 230);
+            border: none;
+            color: black;
+        }
+
+        .js-button{
+            background-color: green;
+            border: none;
+            padding: 15px 40px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+
+        }
+
+        .hobby-btn{
+            padding: 10px 15px;
+           
+            background-color: rgb(230, 230, 230);
+             color: black;
+            font-size: 15px;
+            border-radius: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            border: none;
+        }
+
+        .is-toggled{
+             background-color: black;
+             color: white;          
+            border: none;
+        }
+
+        .cost-input{
+        font-size: 15px;
+        padding: 10px;
+    
+        
+    }
+
+    .error{
+        color: red;
+    }
+
+    </style>
+
+</head>
+
+<body>
+    <button class="addCart-btn">Add to Cart</button>
+    <br>
+    <button class="js-uberBtn uber-btn" onclick="getUberBtn()">Request now</button>
+
+    <button class="js-button" onclick="test()">Test</button>
+<br>
+<br>
+<br>
+    <button class="js-Gaming hobby-btn" onclick="toggle('.js-Gaming')">Gaming</button>
+    <button class="js-Music hobby-btn" onclick="toggle('.js-Music')">Music</button>
+    <button class="js-Tech hobby-btn" onclick="toggle('.js-Tech')">Tech</button>
+<br>
+<br>
+     <p>Amazon Shipping Calculator</p>
+    <input type="number" onkeydown="handleKeyDown(event)" class="js-CostInput  cost-input"  placeholder="Cost of Order">
+    <button onclick="
+    CalculateTotal()
+    " class="js-CalculateBtn calculate-btn">Calculate</button>
+    <p class="js-result"></p>
+  
+</body>
+
+<script>
+    function getUberBtn(){
+    const uberbtn = document.querySelector('.js-uberBtn')
+
+    if(uberbtn.innerText === 'Request now'){
+        uberbtn.innerText = 'Schedule for later'
+        uberbtn.classList.add('is-clicked')
+    }else{
+        uberbtn.innerText = 'Request now'
+        uberbtn.classList.remove('is-clicked')
+    }
+}
+
+function test(){
+    const testBtn = document.querySelector('.js-button')
+
+    if(testBtn.classList.contains('js-button')){
+        console.log('It have Classlist')
+    }   
+
+}
+
+function toggle(tog){
+    const button = document.querySelector(tog)
+
+    if(!button.classList.contains('is-toggled')){
+        removeToggle()
+        button.classList.add('is-toggled')
+
+    }else{
+        button.classList.remove('is-toggled')
+    }
+}
+
+function removeToggle(){
+    const prev = document.querySelector('.is-toggled')
+
+    if(prev){
+        prev.classList.remove('is-toggled')
+    }
+}
+
+function CalculateTotal(){
+   const input = document.querySelector('.js-CostInput')
+    const result = document.querySelector('.js-result')
+    let cost = Number(input.value);
+ 
+    if(cost <= 0){
+             
+         
+            result.innerHTML = 'Error: cost cannot be less than $0'  
+            result.classList.add('error')
+              return;
+    }
+  if(cost < 40){
+       
+        result.classList.remove('error')
+
+         cost = cost + 10;
+        
+    }
+
+    result.innerHTML = `The total cost is: ${cost}`
+
+}
+
+function handleKeyDown(event){
+        if(event.key === 'Enter'){
+                CalculateTotal()
+            }
+    }
+    
+</script>
+
+
+
+</html>
