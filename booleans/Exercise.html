@@ -7,47 +7,42 @@
 </head>
 <body>
     <p>Cart Quantity</p>
-    <button onclick="
-    console.log(`Cart Quantity: ${cartQuantity}`);
-    ">Show Quantity</button>
-    <button onclick="
-    
-    ">Add to Cart</button>
-    <button onclick="
-    
-        if(cartQuantity === 10){
-        alert('You have reached the maximum quantity allowed in the cart');
-    }else if (cartQuantity + 2 > 10){
-        cartQuantity = 10;
-        alert('You have reached the maximum quantity allowed in the cart');
-    console.log(`Cart Quantity: ${cartQuantity}`);
-    }else{
-        cartQuantity += 2;
-        console.log(`Cart Quantity: ${cartQuantity}`);
-    }
-    "
-    >+2</button>
-    <button onclick="
-    if(cartQuantity === 10){
-        alert('You have reached the maximum quantity allowed in the cart');
-    }else if (cartQuantity + 3 > 10){
-        cartQuantity = 10;  
-        alert('You have reached the maximum quantity allowed in the cart');
-    console.log(`Cart Quantity: ${cartQuantity}`);  
-    }else{
-        cartQuantity += 3;
-        console.log(`Cart Quantity: ${cartQuantity}`);
-    }
-    ">+3</button>
-    <button onclick="
-    cartQuantity = 0
-    console.log('Cart Was Reset')
-    console.log(`Cart Quantity: ${cartQuantity}`)
-    ">Reset Cart</button>
+    <button onclick="showQuantity()">Show Quantity</button>
+    <button onclick="addToCart(1)">Add to Cart</button>
+    <button onclick="addToCart(2)">+2</button>
+    <button onclick="addToCart(3)">+3</button>
+    <button onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
-   
     let cartQuantity = 0;
+    const maxCartQuantity = 10;
+
+    function showQuantity() {
+        console.log(`Cart Quantity: ${cartQuantity}`);
+    }
+
+    function addToCart(amount) {
+        if (cartQuantity >= maxCartQuantity) {
+            alert('You have reached the maximum quantity allowed in the cart');
+            showQuantity();
+            return;
+        }
+
+        if (cartQuantity + amount > maxCartQuantity) {
+            cartQuantity = maxCartQuantity;
+            alert('You have reached the maximum quantity allowed in the cart');
+        } else {
+            cartQuantity += amount;
+        }
+
+        showQuantity();
+    }
+
+    function resetCart() {
+        cartQuantity = 0;
+        console.log('Cart Was Reset');
+        showQuantity();
+    }
 
 
 
