@@ -7,17 +7,23 @@
 </head>
 <body>
     <p>Cart Quantity</p>
+    <p class="js-cart-status">Cart Quantity: 0</p>
     <button onclick="showQuantity()">Show Quantity</button>
     <button onclick="addToCart(1)">Add to Cart</button>
     <button onclick="addToCart(2)">+2</button>
     <button onclick="addToCart(3)">+3</button>
+    <button onclick="removeFromCart(1)">-1</button>
     <button onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
     let cartQuantity = 0;
     const maxCartQuantity = 10;
+    const cartStatusElement = document.querySelector('.js-cart-status');
+
+    showQuantity();
 
     function showQuantity() {
+        cartStatusElement.innerHTML = `Cart Quantity: ${cartQuantity}`;
         console.log(`Cart Quantity: ${cartQuantity}`);
     }
 
@@ -33,6 +39,16 @@
             alert('You have reached the maximum quantity allowed in the cart');
         } else {
             cartQuantity += amount;
+        }
+
+        showQuantity();
+    }
+
+    function removeFromCart(amount) {
+        cartQuantity -= amount;
+
+        if (cartQuantity < 0) {
+            cartQuantity = 0;
         }
 
         showQuantity();
