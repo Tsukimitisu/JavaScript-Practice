@@ -1,0 +1,15 @@
+{
+  "name": "Luma Studio",
+  "short_name": "Luma",
+  "start_url": "/JavaScript-Practice/new-website/",
+  "display": "standalone",
+  "background_color": "#f6f2ea",
+  "theme_color": "#da4d2f",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
