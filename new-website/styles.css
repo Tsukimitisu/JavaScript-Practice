@@ -28,6 +28,23 @@ body {
   overflow-x: hidden;
 }
 
+.skip-link {
+  position: absolute;
+  left: 0.8rem;
+  top: -100px;
+  padding: 0.7rem 1rem;
+  border-radius: 0.6rem;
+  background: #101420;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  z-index: 50;
+}
+
+.skip-link:focus {
+  top: 0.8rem;
+}
+
 .bg-glow {
   position: fixed;
   width: 34rem;
@@ -143,6 +160,13 @@ h2 {
   box-shadow: var(--shadow);
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(21, 92, 147, 0.45);
+  outline-offset: 2px;
+}
+
 .btn-primary {
   background: linear-gradient(120deg, var(--accent), #f2794a);
   color: #fff;
@@ -214,6 +238,10 @@ label {
   font-weight: 700;
 }
 
+small {
+  color: var(--muted);
+}
+
 input {
   border: 1px solid rgba(16, 20, 32, 0.2);
   border-radius: 0.7rem;
@@ -274,5 +302,21 @@ footer {
 
   nav {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .btn {
+    transition: none;
   }
 }

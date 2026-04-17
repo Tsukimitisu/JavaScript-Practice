@@ -42,11 +42,14 @@ contactForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   if (!emailInput.checkValidity()) {
+    emailInput.setAttribute("aria-invalid", "true");
     formMessage.textContent = "Enter a valid email so we can contact you.";
     formMessage.style.color = "#bc2a66";
+    emailInput.focus();
     return;
   }
 
+  emailInput.removeAttribute("aria-invalid");
   formMessage.textContent = "Thanks. We will send a proposal soon.";
   formMessage.style.color = "#0f7b6c";
   contactForm.reset();
