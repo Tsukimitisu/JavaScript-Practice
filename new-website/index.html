@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luma Studio</title>
+  <meta name="description" content="Luma Studio builds memorable digital experiences." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-a"></div>
+  <div class="bg-glow bg-glow-b"></div>
+
+  <header class="site-header">
+    <a href="#" class="brand">Luma Studio</a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal">
+      <p class="eyebrow">Design + Development</p>
+      <h1>Websites that feel alive, fast, and unforgettable.</h1>
+      <p class="hero-copy">
+        We craft expressive digital products with bold visuals, smooth motion, and clean code that scales.
+      </p>
+      <div class="hero-actions">
+        <button id="explore-btn" class="btn btn-primary">Explore Projects</button>
+        <button id="palette-btn" class="btn btn-secondary">Change Palette</button>
+      </div>
+    </section>
+
+    <section id="services" class="cards reveal">
+      <article class="card">
+        <h2>Brand-first UI</h2>
+        <p>Interfaces built around your personality, not templates.</p>
+      </article>
+      <article class="card">
+        <h2>Performance Engineering</h2>
+        <p>Core Web Vitals tuned from day one for speed and trust.</p>
+      </article>
+      <article class="card">
+        <h2>Animation Systems</h2>
+        <p>Meaningful motion that guides attention and tells a story.</p>
+      </article>
+    </section>
+
+    <section id="work" class="highlight reveal">
+      <div>
+        <p class="eyebrow">Featured Build</p>
+        <h2>Orbit Journal</h2>
+        <p>
+          A reading and note-taking platform with ambient gradients and micro-interactions inspired by editorial design.
+        </p>
+      </div>
+      <a class="btn btn-primary" href="#contact">Start Similar Project</a>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <h2>Let’s build your next site</h2>
+      <form id="contact-form" novalidate>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required />
+        <button class="btn btn-primary" type="submit">Request Proposal</button>
+      </form>
+      <p id="form-message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Luma Studio. Crafted with care.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

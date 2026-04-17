@@ -1,0 +1,278 @@
+:root {
+  --bg: #f6f2ea;
+  --bg-soft: #fff9ef;
+  --text: #101420;
+  --muted: #4d5568;
+  --accent: #da4d2f;
+  --accent-2: #155c93;
+  --card: rgba(255, 255, 255, 0.72);
+  --ring: rgba(16, 20, 32, 0.08);
+  --shadow: 0 20px 45px rgba(20, 26, 38, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  background: radial-gradient(circle at 20% 20%, #fff6db 0%, var(--bg) 45%, #ece3d4 100%);
+  color: var(--text);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+.bg-glow {
+  position: fixed;
+  width: 34rem;
+  height: 34rem;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-glow-a {
+  top: -10rem;
+  right: -8rem;
+  background: #ff9869;
+}
+
+.bg-glow-b {
+  bottom: -14rem;
+  left: -10rem;
+  background: #5da7d4;
+}
+
+.site-header,
+main,
+footer {
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 0;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+
+.brand {
+  font-family: "Fraunces", serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text);
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+}
+
+main {
+  padding-top: 3rem;
+}
+
+.hero h1,
+h2 {
+  font-family: "Fraunces", serif;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 7vw, 4.7rem);
+  max-width: 12ch;
+  margin-top: 0.6rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+
+.hero-copy {
+  margin-top: 1rem;
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, background 300ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.btn-primary {
+  background: linear-gradient(120deg, var(--accent), #f2794a);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--text);
+  border: 1px solid var(--ring);
+}
+
+.cards {
+  margin-top: 3.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: 1rem;
+  padding: 1rem;
+  backdrop-filter: blur(7px);
+}
+
+.card h2 {
+  font-size: 1.34rem;
+}
+
+.card p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.highlight {
+  margin-top: 3.4rem;
+  border-radius: 1.2rem;
+  padding: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgba(21, 92, 147, 0.2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(230, 244, 255, 0.75));
+}
+
+.highlight h2 {
+  font-size: clamp(1.7rem, 5vw, 2.9rem);
+}
+
+.highlight p {
+  max-width: 48ch;
+  color: var(--muted);
+}
+
+.contact {
+  margin-top: 3.4rem;
+  max-width: 560px;
+}
+
+form {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+label {
+  font-weight: 700;
+}
+
+input {
+  border: 1px solid rgba(16, 20, 32, 0.2);
+  border-radius: 0.7rem;
+  padding: 0.8rem;
+  font: inherit;
+}
+
+input:focus {
+  outline: 2px solid rgba(21, 92, 147, 0.35);
+  outline-offset: 1px;
+}
+
+#form-message {
+  min-height: 1.2em;
+  font-weight: 700;
+}
+
+footer {
+  margin: 3.5rem auto 2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rise 640ms ease forwards;
+}
+
+.cards.reveal {
+  animation-delay: 120ms;
+}
+
+.highlight.reveal {
+  animation-delay: 220ms;
+}
+
+.contact.reveal {
+  animation-delay: 320ms;
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 860px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .highlight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    display: none;
+  }
+}
