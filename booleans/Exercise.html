@@ -46,6 +46,12 @@
     }
 
     function removeFromCart(amount) {
+        if (cartQuantity === 0) {
+            alert('Your cart is already empty');
+            showQuantity();
+            return;
+        }
+
         cartQuantity -= amount;
 
         if (cartQuantity < 0) {
