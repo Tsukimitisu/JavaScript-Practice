@@ -7,7 +7,7 @@
 </head>
 <body>
     <p>Cart Quantity</p>
-    <p class="js-cart-status">Cart Quantity: 0</p>
+    <p class="js-cart-status">Cart Quantity: 0 / 10</p>
     <button type="button" onclick="showQuantity()">Show Quantity</button>
     <button type="button" onclick="addToCart(1)">Add to Cart</button>
     <button type="button" onclick="addToCart(2)">+2</button>
@@ -24,8 +24,8 @@
     showQuantity();
 
     function showQuantity() {
-        cartStatusElement.innerHTML = `Cart Quantity: ${cartQuantity}`;
-        console.log(`Cart Quantity: ${cartQuantity}`);
+        cartStatusElement.innerHTML = `Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`;
+        console.log(`Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`);
     }
 
     function addToCart(amount) {
