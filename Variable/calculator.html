@@ -6,89 +6,65 @@
     <title>Calculator</title>
 </head>
 <body>
-    
-    <p>
-    <button onclick="
-        calculation += '7';
-        console.log(calculation);
-        ">7</button>
-    <button onclick="
-    calculation += '8';
-    console.log(calculation)
-    ">8</button>
-    <button onclick="
-    calculation += '9';
-    console.log(calculation)
-    ">9</button>
-    <button onclick="
-    calculation += ' / '
-    console.log(calculation)
-    ">/</button>
-    </p>
-
-     <p>
-    <button onclick="
-        calculation += '4';
-        console.log(calculation);
-        ">4</button>
-    <button onclick="
-    calculation += '5';
-    console.log(calculation)
-    ">5</button>
-    <button onclick="
-    calculation += '6';
-    console.log(calculation)
-    ">6</button>
-    <button onclick="
-    calculation += ' * '
-    console.log(calculation)
-    ">*</button>
-    </p>
+    <h1>Calculator</h1>
+    <output class="js-result" aria-live="polite">0</output>
 
     <p>
-    <button onclick="
-        calculation += '1';
-        console.log(calculation);
-        ">1</button>
-    <button onclick="
-    calculation += '2';
-    console.log(calculation)
-    ">2</button>
-    <button onclick="
-    calculation += '3';
-    console.log(calculation)
-    ">3</button>
-    <button onclick="
-    calculation += ' - '
-    console.log(calculation)
-    ">-</button>
+        <button type="button" onclick="updateCalculation('7')">7</button>
+        <button type="button" onclick="updateCalculation('8')">8</button>
+        <button type="button" onclick="updateCalculation('9')">9</button>
+        <button type="button" onclick="updateCalculation(' / ')">/</button>
     </p>
     <p>
-    <button onclick="
-    calculation += '0';
-    console.log(calculation);
-        ">0</button>
-    <button onclick="
-    calculation += '.';
-    console.log(calculation)
-    ">.</button>
-    <button onclick="
-    console.log(eval(calculation))
-    ">=</button>
-    <button onclick="
-    calculation += '+';
-    console.log(calculation)
-    ">+</button> 
+        <button type="button" onclick="updateCalculation('4')">4</button>
+        <button type="button" onclick="updateCalculation('5')">5</button>
+        <button type="button" onclick="updateCalculation('6')">6</button>
+        <button type="button" onclick="updateCalculation(' * ')">*</button>
     </p>
-    <button onclick="
-    calculation = '0'
-    console.log('cleared')
-    console.log(calculation)
-    ">clear</button>
-    </body>
-<script>
+    <p>
+        <button type="button" onclick="updateCalculation('1')">1</button>
+        <button type="button" onclick="updateCalculation('2')">2</button>
+        <button type="button" onclick="updateCalculation('3')">3</button>
+        <button type="button" onclick="updateCalculation(' - ')">-</button>
+    </p>
+    <p>
+        <button type="button" onclick="updateCalculation('0')">0</button>
+        <button type="button" onclick="updateCalculation('.')">.</button>
+        <button type="button" onclick="calculateResult()">=</button>
+        <button type="button" onclick="updateCalculation(' + ')">+</button>
+    </p>
+    <button type="button" onclick="clearCalculation()">Clear</button>
 
-    let calculation = '';
+    <script>
+        let calculation = '';
 
-</script>
+        function displayCalculation(value = calculation || '0') {
+            document.querySelector('.js-result').textContent = value;
+        }
+
+        function updateCalculation(value) {
+            calculation += value;
+            displayCalculation();
+        }
+
+        function calculateResult() {
+            if (!calculation) {
+                return;
+            }
+
+            try {
+                calculation = String(eval(calculation));
+                displayCalculation();
+            } catch {
+                calculation = '';
+                displayCalculation('Invalid calculation');
+            }
+        }
+
+        function clearCalculation() {
+            calculation = '';
+            displayCalculation();
+        }
+    </script>
+</body>
 </html>
