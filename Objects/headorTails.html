@@ -1,42 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heads or Tails</title>
+  </head>
   <body>
-    <h1>Head Or Tails Game</h1>
-        <button onclick="
+    <h1>Heads or Tails Game</h1>
+        <button type="button" onclick="
         playGame('heads')
-        ">heads</button>
-        <button onclick="
+        ">Heads</button>
+        <button type="button" onclick="
         playGame('tails')
         ">Tails</button>
+        <p class="js-result" aria-live="polite"></p>
+        <p class="js-score"></p>
 
     <script>
-        let score = JSON.parse(localStorage.getItem('score')) 
-        function playGame(guess){
-             const randomNumber = Math.random();
-      const result = randomNumber < 0.5 ? 'heads' : 'tails';
-            let finalResult = '';
+        let score = JSON.parse(localStorage.getItem('heads-tails-score')) || {
+            wins: 0,
+            losses: 0
+        };
 
-            if(guess === result){
-                finalResult = 'You win!'
-            }else{
-                finalResult = 'You lose!'
-            }
-      
+        updateScore();
+
+        function playGame(guess){
+            const randomNumber = Math.random();
+            const result = randomNumber < 0.5 ? 'heads' : 'tails';
+            const finalResult = guess === result ? 'You win!' : 'You lose!';
+
             if(finalResult === 'You win!'){
                 score.wins += 1;
-            }else if(finalResult === 'You lose!'){
+            }else{
                 score.losses += 1;
             }
 
-            localStorage.setItem('score', JSON.stringify(score)) 
-       console.log(`${finalResult}, 
-Wins: ${score.wins}, Losses: ${score.losses}`)  
+            localStorage.setItem('heads-tails-score', JSON.stringify(score));
+            document.querySelector('.js-result').textContent =
+                `The coin landed on ${result}. ${finalResult}`;
+            updateScore();
+        }
 
- 
-  
-}
-        
+        function updateScore() {
+            document.querySelector('.js-score').textContent =
+                `Wins: ${score.wins}, Losses: ${score.losses}`;
+        }
 
    </script>
   </body>
