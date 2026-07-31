@@ -259,6 +259,14 @@ input:focus {
   font-weight: 700;
 }
 
+#form-message[data-state="error"] {
+  color: #bc2a66;
+}
+
+#form-message[data-state="success"] {
+  color: #0f7b6c;
+}
+
 footer {
   margin: 3.5rem auto 2rem;
   color: var(--muted);
