@@ -6,39 +6,32 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-   <p>Rock Paper Scissor</p>
-    <button onclick="
+   <h1>Rock Paper Scissors</h1>
+    <button type="button" onclick="
          playGame('Rock');
     ">Rock</button>
-    <button onclick="
+    <button type="button" onclick="
         playGame('Paper');
     ">Paper</button>
-    <button onclick="  
+    <button type="button" onclick="
        playGame('Scissors');
     ">Scissors</button>
-    <p class = "js-result"></p>
-    <p class="js-moves"></p>
+    <p class="js-result" role="status"></p>
+    <p class="js-moves" aria-live="polite"></p>
     <p class="js-score"></p>
 
-    <button onclick="resetScore()">Reset Score</button>
+    <button type="button" onclick="resetScore()">Reset Score</button>
 </body>
 
 <script>
-    let score = JSON.parse(localStorage.getItem('score')) || {
+    const storageKey = 'dom-rps-score';
+    let score = JSON.parse(localStorage.getItem(storageKey)) || {
             wins: 0,
             losses: 0,
             tie: 0
         };
 
-            updateScoreElement()
-    /* if(!score){
-        score = {
-            wins: 0,
-            losses: 0,
-            tie: 0
-        };
-    }
-*/
+    updateScoreElement();
     function getComputersMove(){
         const randomNumber = Math.random();
        
@@ -74,27 +67,29 @@
             score.tie += 1;
         }
 
-                updateScoreElement() 
+        updateScoreElement();
 
-        localStorage.setItem('score',JSON.stringify(score))
-        document.querySelector('.js-moves').innerHTML = `You Choose ${playersMove}. Computer Choose ${computersMove}.`
-        document.querySelector('.js-result').innerHTML = `The Result is ${result}`
+        localStorage.setItem(storageKey, JSON.stringify(score));
+        document.querySelector('.js-moves').textContent =
+            `You chose ${playersMove}. The computer chose ${computersMove}.`;
+        document.querySelector('.js-result').textContent = result;
 
   
     }
 
     function updateScoreElement(){
-         document.querySelector('.js-score').innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.tie}`
+         document.querySelector('.js-score').textContent =
+            `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.tie}`;
     }
 
     function resetScore() {
         score.wins = 0;
         score.losses = 0;
         score.tie = 0;
-        localStorage.removeItem('score');
+        localStorage.removeItem(storageKey);
         updateScoreElement();
-        document.querySelector('.js-result').innerHTML = '';
-        document.querySelector('.js-moves').innerHTML = '';
+        document.querySelector('.js-result').textContent = '';
+        document.querySelector('.js-moves').textContent = '';
     }
 
     
