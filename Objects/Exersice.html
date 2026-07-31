@@ -20,7 +20,10 @@
         price: 100
     }
 
-     const product3 = product1
+    const product3 = {
+        name: 'Basketball',
+        price: 2095
+    }
 
 
 
@@ -35,21 +38,22 @@
     console.log(product1)*/
 
     function comparePrice(product1, product2){
-        if(product1.price > product2.price){
-            return `The less expensive is ${product2.name}`
-        }else{
-            return `The Less expensive is ${product1.name}`
+        if (product1.price === product2.price) {
+            return `${product1.name} and ${product2.name} have the same price`;
         }
+
+        const lessExpensiveProduct = product1.price < product2.price
+            ? product1
+            : product2;
+
+        return `The less expensive product is ${lessExpensiveProduct.name}`;
     }
 
     console.log(comparePrice(product1, product2))
 
     function isSameProduct(product1, product2){
-        if(product1 === product2){
-            return true
-        }else {
-            return false
-        }
+        return product1.name === product2.name &&
+            product1.price === product2.price;
     }
 
        console.log(isSameProduct(product1, product3))
