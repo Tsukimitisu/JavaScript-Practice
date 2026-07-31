@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do List</title>
+    <title>Todo List</title>
 </head>
 <body>
-<P>Todo List</P>
-<input type="text" name="" id="" placeholder="Todo name" class="js-input">
-<button onclick="
-addTodo()
-">Add</button>
+    <main>
+        <h1>Todo List</h1>
+        <form class="js-todo-form">
+            <label for="todo-name">Todo name</label>
+            <input type="text" id="todo-name" placeholder="Todo name" class="js-input" required>
+            <button type="submit">Add</button>
+        </form>
+        <ul class="js-todo-list" aria-live="polite"></ul>
+    </main>
+    <script src="todo-list.js"></script>
 </body>
-<script src="todo-list.js"></script>
 </html>
