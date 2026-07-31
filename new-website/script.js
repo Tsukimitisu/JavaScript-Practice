@@ -8,29 +8,40 @@ const formMessage = document.getElementById("form-message");
 
 const palettes = [
   {
+    name: "Ember",
     accent: "#da4d2f",
     accent2: "#155c93"
   },
   {
+    name: "Evergreen",
     accent: "#0f7b6c",
     accent2: "#9a4119"
   },
   {
+    name: "Berry",
     accent: "#bc2a66",
     accent2: "#2f5b9b"
   }
 ];
 
-let paletteIndex = 0;
+const savedPaletteIndex = Number.parseInt(localStorage.getItem("palette-index") ?? "0", 10);
+let paletteIndex = savedPaletteIndex >= 0 && savedPaletteIndex < palettes.length
+  ? savedPaletteIndex
+  : 0;
 
 function applyPalette(index) {
   const palette = palettes[index];
   root.style.setProperty("--accent", palette.accent);
   root.style.setProperty("--accent-2", palette.accent2);
+  paletteBtn.setAttribute(
+    "aria-label",
+    `Current palette: ${palette.name}. Change website color palette.`
+  );
 }
 
 paletteBtn.addEventListener("click", () => {
   paletteIndex = (paletteIndex + 1) % palettes.length;
+  localStorage.setItem("palette-index", String(paletteIndex));
   applyPalette(paletteIndex);
 });
 
