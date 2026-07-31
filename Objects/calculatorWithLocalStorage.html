@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage Calculator</title>
+  </head>
   <body>
+    <p class="js-result" aria-live="polite">0</p>
     <p>
       <button onclick="
         updateCalculation('1');
@@ -66,14 +71,7 @@
       ">.</button>
 
       <button onclick="
-        // Note: eval() takes a string and runs it as code.
-        // Avoid using eval() in real world projects since
-        // it can potentially be given harmful code to run.
-        // Only use eval() for learning purposes.
-        calculation = eval(calculation);
-        console.log(calculation);
-
-         localStorage.setItem('calculation',calculation)
+        calculateResult();
       ">=</button>
 
       <button onclick="
@@ -83,20 +81,50 @@
 
     <p>
       <button onclick="
-        calculation = '';
-        console.log(calculation);
+        clearCalculation();
       ">Clear</button>
     </p>
 
     <script>
-      let calculation = localStorage.getItem('calculation') || '0';
+      const storageKey = 'object-calculator-value';
+      let calculation = localStorage.getItem(storageKey) || '';
+
+      displayCalculation();
 
       function updateCalculation(value) {
         calculation += value;
-        console.log(calculation); 
+        saveAndDisplayCalculation();
       }
 
-     
+      function calculateResult() {
+        if (!calculation) {
+          return;
+        }
+
+        try {
+          calculation = String(eval(calculation));
+          saveAndDisplayCalculation();
+        } catch {
+          calculation = '';
+          localStorage.removeItem(storageKey);
+          displayCalculation('Invalid calculation');
+        }
+      }
+
+      function clearCalculation() {
+        calculation = '';
+        localStorage.removeItem(storageKey);
+        displayCalculation();
+      }
+
+      function saveAndDisplayCalculation() {
+        localStorage.setItem(storageKey, calculation);
+        displayCalculation();
+      }
+
+      function displayCalculation(value = calculation || '0') {
+        document.querySelector('.js-result').textContent = value;
+      }
     </script>
   </body>
 </html>
