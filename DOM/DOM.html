@@ -11,12 +11,13 @@
   subscribe()
    " class="js-subBtn">Subscribe</button>
 
-   <p>Amazon Shipping Calculator</p>
-    <input type="number" onkeydown="handleKeyDown(event)" class="js-CostInput"  placeholder="Cost of Order">
+   <h2>Amazon Shipping Calculator</h2>
+    <label for="order-cost">Cost of order</label>
+    <input id="order-cost" type="number" min="0" step="0.01" onkeydown="handleKeyDown(event)" class="js-CostInput" placeholder="Cost of order">
     <button onclick="
     CalculateTotal()
     " class="js-CalculateBtn">Calculate</button>
-    <p class="js-result"></p>
+    <p class="js-result" role="status" aria-live="polite"></p>
 </body>
 
 <script>
@@ -26,16 +27,17 @@
             }
     }
 function CalculateTotal(){
-   const input = document.querySelector('.js-CostInput')
-    const result = document.querySelector('.js-result')
-    let cost = Number(input.value);
+    const input = document.querySelector('.js-CostInput');
+    const result = document.querySelector('.js-result');
+    const cost = Number(input.value);
 
-    if(cost < 40){
-        cost = cost + 10;
+    if (input.value.trim() === '' || !Number.isFinite(cost) || cost < 0) {
+        result.textContent = 'Enter a valid order cost.';
+        return;
     }
 
-    result.innerHTML = `The Total Cost is: ${cost.toFixed(2)}$`
-    
+    const total = cost < 40 ? cost + 10 : cost;
+    result.textContent = `The total cost is: $${total.toFixed(2)}`;
 }
 
     function subscribe(){
