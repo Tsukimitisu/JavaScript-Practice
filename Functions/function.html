@@ -19,20 +19,16 @@
 </body>
 
 <script>
-     let computersMove = '';
-    
     function getComputersMove(){
         const randomNumber = Math.random();
        
         if(randomNumber >= 0 && randomNumber <1/3){
-            computersMove = 'Scissors';  
+            return 'Scissors';  
         }else if (randomNumber >= 1/3 && randomNumber < 2/3){
-            computersMove = 'Paper';        
+            return 'Paper';        
         }else{  
-            computersMove = 'Rock';
+            return 'Rock';
         }
-        return computersMove;
-        
     }
 
     function playGame(playersMove){
@@ -43,7 +39,7 @@
         }else if (
             (playersMove === 'Rock' && computersMove === 'Paper')||
             (playersMove === 'Scissors' && computersMove === 'Rock')||
-            (playersMove === 'Paper' && computersMove === 'Scissprs')
+            (playersMove === 'Paper' && computersMove === 'Scissors')
         ){
             result = 'You Lose!';
         }else{
