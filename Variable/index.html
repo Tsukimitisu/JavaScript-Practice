@@ -6,34 +6,38 @@
     <title>Cart Quantity</title>
 </head>
 <body>
-    <p>Cart Quantity</p>
-    <button onclick="
-    console.log(`Cart Quantity: ${cartQuantity}`);
-    ">Show Quantity</button>
-    <button onclick="
-    cartQuantity ++;
-    console.log(`Cart Quantity: ${cartQuantity}`);
-    ">Add to Cart</button>
-    <button onclick="
-    cartQuantity += 2;
-    console.log(`Cart Quantity: ${cartQuantity}`);
-    "
-    >+2</button>
-    <button onclick="
-    cartQuantity += 3;
-    console.log(`Cart Quantity: ${cartQuantity}`)
-    ">+3</button>
-    <button onclick="
-    cartQuantity = 0
-    console.log('Cart Was Reset')
-    console.log(`Cart Quantity: ${cartQuantity}`)
-    ">Reset Cart</button>
+    <h1>Cart Quantity</h1>
+    <p class="js-cart-status" role="status" aria-live="polite"></p>
+    <button type="button" onclick="showQuantity()">Show Quantity</button>
+    <button type="button" onclick="addToCart(1)">Add to Cart</button>
+    <button type="button" onclick="addToCart(2)">+2</button>
+    <button type="button" onclick="addToCart(3)">+3</button>
+    <button type="button" onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
-   
     let cartQuantity = 0;
+    const maxCartQuantity = 10;
 
+    showQuantity();
 
+    function showQuantity(message = '') {
+        const status = document.querySelector('.js-cart-status');
+        status.textContent = message || `Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`;
+    }
 
+    function addToCart(amount) {
+        if (cartQuantity + amount > maxCartQuantity) {
+            showQuantity(`The cart can hold at most ${maxCartQuantity} items.`);
+            return;
+        }
+
+        cartQuantity += amount;
+        showQuantity();
+    }
+
+    function resetCart() {
+        cartQuantity = 0;
+        showQuantity('Cart reset. Cart Quantity: 0 / 10');
+    }
 </script>
 </html>
