@@ -3,6 +3,8 @@ const todoList = loadTodoList();
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
 const listElement = document.querySelector('.js-todo-list');
+const summaryElement = document.querySelector('.js-todo-summary');
+const clearCompletedButton = document.querySelector('.js-clear-completed');
 
 function loadTodoList() {
     try {
@@ -69,7 +71,18 @@ function renderTodoList() {
         itemElement.append(completedInput, ' ', todoText, ' ', removeButton);
         listElement.append(itemElement);
     });
+
+    const remainingCount = todoList.filter((todo) => !todo.completed).length;
+    summaryElement.textContent = `${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining`;
+    clearCompletedButton.disabled = !todoList.some((todo) => todo.completed);
 }
+
+clearCompletedButton.addEventListener('click', () => {
+    const activeTodos = todoList.filter((todo) => !todo.completed);
+    todoList.splice(0, todoList.length, ...activeTodos);
+    saveTodoList();
+    renderTodoList();
+});
 
 formElement.addEventListener('submit', (event) => {
     event.preventDefault();
