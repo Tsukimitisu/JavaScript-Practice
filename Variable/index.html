@@ -15,8 +15,13 @@
     <button type="button" onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
-    let cartQuantity = 0;
     const maxCartQuantity = 10;
+    const storageKey = 'cart-quantity';
+    const savedQuantity = Number.parseInt(localStorage.getItem(storageKey), 10);
+    let cartQuantity = Number.isInteger(savedQuantity) &&
+        savedQuantity >= 0 && savedQuantity <= maxCartQuantity
+        ? savedQuantity
+        : 0;
 
     showQuantity();
 
@@ -32,12 +37,14 @@
         }
 
         cartQuantity += amount;
+        localStorage.setItem(storageKey, String(cartQuantity));
         showQuantity();
     }
 
     function resetCart() {
         cartQuantity = 0;
-        showQuantity('Cart reset. Cart Quantity: 0 / 10');
+        localStorage.removeItem(storageKey);
+        showQuantity(`Cart reset. Cart Quantity: 0 / ${maxCartQuantity}`);
     }
 </script>
 </html>
