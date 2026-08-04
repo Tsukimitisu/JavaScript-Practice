@@ -1,11 +1,22 @@
 const storageKey = 'styled-rps-score';
-let score = JSON.parse(localStorage.getItem(storageKey)) || {
-  wins: 0,
-  losses: 0,
-  tie: 0
-};
+let score = loadScore();
 
 updateScoreElement();
+
+function loadScore() {
+  try {
+    const savedScore = JSON.parse(localStorage.getItem(storageKey));
+    const values = [savedScore?.wins, savedScore?.losses, savedScore?.tie];
+
+    if (values.every((value) => Number.isInteger(value) && value >= 0)) {
+      return savedScore;
+    }
+  } catch {
+    // Ignore invalid JSON and start a new score.
+  }
+
+  return { wins: 0, losses: 0, tie: 0 };
+}
 
 function getComputerMove() {
   const randomNumber = Math.random();
