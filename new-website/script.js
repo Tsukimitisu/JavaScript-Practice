@@ -5,6 +5,8 @@ const exploreBtn = document.getElementById("explore-btn");
 const contactForm = document.getElementById("contact-form");
 const emailInput = document.getElementById("email");
 const formMessage = document.getElementById("form-message");
+const navToggle = document.getElementById("nav-toggle");
+const primaryNav = document.getElementById("primary-nav");
 
 const palettes = [
   {
@@ -70,6 +72,21 @@ emailInput.addEventListener("input", () => {
   emailInput.removeAttribute("aria-invalid");
   formMessage.textContent = "";
   delete formMessage.dataset.state;
+});
+
+function closeNavigation() {
+  navToggle.setAttribute("aria-expanded", "false");
+  primaryNav.dataset.open = "false";
+}
+
+navToggle.addEventListener("click", () => {
+  const willOpen = navToggle.getAttribute("aria-expanded") !== "true";
+  navToggle.setAttribute("aria-expanded", String(willOpen));
+  primaryNav.dataset.open = String(willOpen);
+});
+
+primaryNav.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", closeNavigation);
 });
 
 yearEl.textContent = String(new Date().getFullYear());

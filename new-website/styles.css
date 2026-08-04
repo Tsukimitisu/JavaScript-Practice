@@ -259,6 +259,18 @@ input:focus {
   font-weight: 700;
 }
 
+.nav-toggle {
+  display: none;
+  border: 1px solid var(--ring);
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 #form-message[data-state="error"] {
   color: #bc2a66;
 }
@@ -308,8 +320,23 @@ footer {
     align-items: flex-start;
   }
 
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
   nav {
     display: none;
+    width: 100%;
+    padding: 0.8rem 0;
+    flex-direction: column;
+  }
+
+  nav[data-open="true"] {
+    display: flex;
   }
 }
 
