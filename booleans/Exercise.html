@@ -7,7 +7,7 @@
 </head>
 <body>
     <p>Cart Quantity</p>
-    <p class="js-cart-status">Cart Quantity: 0 / 10</p>
+    <p class="js-cart-status" role="status" aria-live="polite">Cart Quantity: 0 / 10</p>
     <button type="button" onclick="showQuantity()">Show Quantity</button>
     <button type="button" onclick="addToCart(1)">Add to Cart</button>
     <button type="button" onclick="addToCart(2)">+2</button>
@@ -17,38 +17,42 @@
     <button type="button" onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
-    let cartQuantity = 0;
     const maxCartQuantity = 10;
+    const storageKey = 'boolean-cart-quantity';
+    const savedQuantity = Number.parseInt(localStorage.getItem(storageKey), 10);
+    let cartQuantity = Number.isInteger(savedQuantity) &&
+        savedQuantity >= 0 && savedQuantity <= maxCartQuantity
+        ? savedQuantity
+        : 0;
     const cartStatusElement = document.querySelector('.js-cart-status');
 
     showQuantity();
 
-    function showQuantity() {
-        cartStatusElement.innerHTML = `Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`;
+    function showQuantity(message = '') {
+        cartStatusElement.textContent = message ||
+            `Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`;
         console.log(`Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`);
     }
 
     function addToCart(amount) {
         if (cartQuantity >= maxCartQuantity) {
-            alert('You have reached the maximum quantity allowed in the cart');
-            showQuantity();
+            showQuantity('The cart is already full.');
             return;
         }
 
         if (cartQuantity + amount > maxCartQuantity) {
             cartQuantity = maxCartQuantity;
-            alert('You have reached the maximum quantity allowed in the cart');
         } else {
             cartQuantity += amount;
         }
 
+        localStorage.setItem(storageKey, String(cartQuantity));
         showQuantity();
     }
 
     function removeFromCart(amount) {
         if (cartQuantity === 0) {
-            alert('Your cart is already empty');
-            showQuantity();
+            showQuantity('The cart is already empty.');
             return;
         }
 
@@ -58,13 +62,15 @@
             cartQuantity = 0;
         }
 
+        localStorage.setItem(storageKey, String(cartQuantity));
         showQuantity();
     }
 
     function resetCart() {
         cartQuantity = 0;
+        localStorage.removeItem(storageKey);
         console.log('Cart Was Reset');
-        showQuantity();
+        showQuantity('Cart reset. Cart Quantity: 0 / 10');
     }
 
 
