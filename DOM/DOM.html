@@ -7,9 +7,7 @@
 </head>
 <body>
    <p>Youtube Subscribed Button</p>
-   <button onclick="
-  subscribe()
-   " class="js-subBtn">Subscribe</button>
+   <button type="button" onclick="subscribe()" class="js-subBtn" aria-pressed="false">Subscribe</button>
 
    <h2>Amazon Shipping Calculator</h2>
     <label for="order-cost">Cost of order</label>
@@ -21,6 +19,11 @@
 </body>
 
 <script>
+    const subscriptionStorageKey = 'youtube-subscription';
+    let isSubscribed = localStorage.getItem(subscriptionStorageKey) === 'true';
+
+    renderSubscription();
+
     function handleKeyDown(event){
         if(event.key === 'Enter'){
                 CalculateTotal()
@@ -41,13 +44,15 @@ function CalculateTotal(){
 }
 
     function subscribe(){
-         const button = document.querySelector('.js-subBtn')
+        isSubscribed = !isSubscribed;
+        localStorage.setItem(subscriptionStorageKey, String(isSubscribed));
+        renderSubscription();
+    }
 
-   if(button.innerText === 'Subscribe'){
-    button.innerText = 'Subscribed'
-   }else{
-    button.innerText = 'Subscribe'
-   }
+    function renderSubscription() {
+        const button = document.querySelector('.js-subBtn');
+        button.textContent = isSubscribed ? 'Subscribed' : 'Subscribe';
+        button.setAttribute('aria-pressed', String(isSubscribed));
     }
 </script>
 </html>
