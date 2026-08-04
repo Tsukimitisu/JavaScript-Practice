@@ -7,9 +7,24 @@ const listElement = document.querySelector('.js-todo-list');
 function loadTodoList() {
     try {
         const savedTodos = JSON.parse(localStorage.getItem(storageKey));
-        return Array.isArray(savedTodos)
-            ? savedTodos.filter((todo) => typeof todo === 'string')
-            : [];
+        if (!Array.isArray(savedTodos)) {
+            return [];
+        }
+
+        return savedTodos.flatMap((todo) => {
+            if (typeof todo === 'string') {
+                return [{ name: todo, completed: false }];
+            }
+
+            if (typeof todo?.name === 'string') {
+                return [{
+                    name: todo.name,
+                    completed: Boolean(todo.completed)
+                }];
+            }
+
+            return [];
+        });
     } catch {
         return [];
     }
@@ -24,19 +39,34 @@ function renderTodoList() {
 
     todoList.forEach((todo, index) => {
         const itemElement = document.createElement('li');
+        const completedInput = document.createElement('input');
+        const todoText = document.createElement('span');
         const removeButton = document.createElement('button');
 
-        itemElement.append(todo, ' ');
+        completedInput.type = 'checkbox';
+        completedInput.checked = todo.completed;
+        completedInput.setAttribute('aria-label', `Mark ${todo.name} as complete`);
+        completedInput.addEventListener('change', () => {
+            todo.completed = completedInput.checked;
+            saveTodoList();
+            renderTodoList();
+        });
+
+        todoText.textContent = todo.name;
+        if (todo.completed) {
+            todoText.style.textDecoration = 'line-through';
+        }
+
         removeButton.type = 'button';
         removeButton.textContent = 'Remove';
-        removeButton.setAttribute('aria-label', `Remove ${todo}`);
+        removeButton.setAttribute('aria-label', `Remove ${todo.name}`);
         removeButton.addEventListener('click', () => {
             todoList.splice(index, 1);
             saveTodoList();
             renderTodoList();
         });
 
-        itemElement.append(removeButton);
+        itemElement.append(completedInput, ' ', todoText, ' ', removeButton);
         listElement.append(itemElement);
     });
 }
@@ -50,7 +80,7 @@ formElement.addEventListener('submit', (event) => {
         return;
     }
 
-    todoList.push(name);
+    todoList.push({ name, completed: false });
     saveTodoList();
     renderTodoList();
     formElement.reset();
