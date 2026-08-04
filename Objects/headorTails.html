@@ -16,6 +16,7 @@
         <button type="button" onclick="resetScore()">Reset Score</button>
         <p class="js-result" aria-live="polite"></p>
         <p class="js-score"></p>
+        <p class="js-streak"></p>
 
     <script>
         const storageKey = 'heads-tails-score';
@@ -31,13 +32,20 @@
                     Number.isInteger(savedScore?.wins) && savedScore.wins >= 0 &&
                     Number.isInteger(savedScore?.losses) && savedScore.losses >= 0
                 ) {
-                    return savedScore;
+                    const currentStreak = Number.isInteger(savedScore.currentStreak) && savedScore.currentStreak >= 0
+                        ? savedScore.currentStreak
+                        : 0;
+                    const bestStreak = Number.isInteger(savedScore.bestStreak) && savedScore.bestStreak >= currentStreak
+                        ? savedScore.bestStreak
+                        : currentStreak;
+
+                    return { ...savedScore, currentStreak, bestStreak };
                 }
             } catch {
                 // Ignore invalid saved data and start with a clean score.
             }
 
-            return { wins: 0, losses: 0 };
+            return { wins: 0, losses: 0, currentStreak: 0, bestStreak: 0 };
         }
 
         function playGame(guess){
@@ -47,8 +55,11 @@
 
             if(finalResult === 'You win!'){
                 score.wins += 1;
+                score.currentStreak += 1;
+                score.bestStreak = Math.max(score.bestStreak, score.currentStreak);
             }else{
                 score.losses += 1;
+                score.currentStreak = 0;
             }
 
             localStorage.setItem(storageKey, JSON.stringify(score));
@@ -60,10 +71,12 @@
         function updateScore() {
             document.querySelector('.js-score').textContent =
                 `Wins: ${score.wins}, Losses: ${score.losses}`;
+            document.querySelector('.js-streak').textContent =
+                `Current streak: ${score.currentStreak}, Best streak: ${score.bestStreak}`;
         }
 
         function resetScore() {
-            score = { wins: 0, losses: 0 };
+            score = { wins: 0, losses: 0, currentStreak: 0, bestStreak: 0 };
             localStorage.removeItem(storageKey);
             document.querySelector('.js-result').textContent = '';
             updateScore();
