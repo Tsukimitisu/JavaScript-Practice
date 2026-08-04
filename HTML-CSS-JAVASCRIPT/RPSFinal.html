@@ -8,20 +8,14 @@
 </head>
 <body>
    <h1 class="title">Rock Paper Scissors</h1>
-    <button type="button" class="move-btn" aria-label="Play Rock" onclick="
-         playGame('Rock');
-    "><img src="image/rock-emoji.png" alt="" class="move-icon" ></button>
-    <button type="button" class="move-btn" aria-label="Play Paper" onclick="
-        playGame('Paper');
-    "><img src="image/paper-emoji.png" alt="" class="move-icon"></button>
-    <button type="button" class="move-btn" aria-label="Play Scissors" onclick="
-       playGame('Scissors');
-    "><img src="image/scissors-emoji.png" alt="" class="move-icon"></button>
+    <button type="button" class="move-btn" data-move="Rock" aria-label="Play Rock"><img src="image/rock-emoji.png" alt="" class="move-icon" ></button>
+    <button type="button" class="move-btn" data-move="Paper" aria-label="Play Paper"><img src="image/paper-emoji.png" alt="" class="move-icon"></button>
+    <button type="button" class="move-btn" data-move="Scissors" aria-label="Play Scissors"><img src="image/scissors-emoji.png" alt="" class="move-icon"></button>
     <p class="js-result result" role="status"></p>
     <p class="js-moves" aria-live="polite"></p>
     <p class="js-score score"></p>
 
-    <button type="button" onclick="resetScore()" class="reset-btn">Reset Score</button>
+    <button type="button" class="reset-btn">Reset Score</button>
     <script src="RPS.js"></script>
 </body>
 </html>

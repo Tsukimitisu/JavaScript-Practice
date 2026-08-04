@@ -3,6 +3,12 @@ let score = loadScore();
 
 updateScoreElement();
 
+document.querySelectorAll('.move-btn').forEach((button) => {
+  button.addEventListener('click', () => playGame(button.dataset.move));
+});
+
+document.querySelector('.reset-btn').addEventListener('click', resetScore);
+
 function loadScore() {
   try {
     const savedScore = JSON.parse(localStorage.getItem(storageKey));
