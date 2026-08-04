@@ -12,9 +12,31 @@
     <button type="button" onclick="playGame('Scissors')">Scissors</button>
     <p class="js-moves" aria-live="polite"></p>
     <p class="js-result" role="status"></p>
+    <p class="js-score"></p>
+    <button type="button" onclick="resetScore()">Reset Score</button>
 </body>
 
 <script>
+    const storageKey = 'boolean-rps-score';
+    let score = loadScore();
+
+    updateScore();
+
+    function loadScore() {
+        try {
+            const savedScore = JSON.parse(localStorage.getItem(storageKey));
+            const values = [savedScore?.wins, savedScore?.losses, savedScore?.ties];
+
+            if (values.every((value) => Number.isInteger(value) && value >= 0)) {
+                return savedScore;
+            }
+        } catch {
+            // Start fresh when the stored score is not valid JSON.
+        }
+
+        return { wins: 0, losses: 0, ties: 0 };
+    }
+
     function getComputerMove() {
         const randomNumber = Math.random();
 
@@ -49,11 +71,34 @@
         const computerMove = getComputerMove();
         const result = getResult(playerMove, computerMove);
 
+        if (result === 'You Win!') {
+            score.wins += 1;
+        } else if (result === 'You Lose!') {
+            score.losses += 1;
+        } else {
+            score.ties += 1;
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(score));
+
         document.querySelector('.js-moves').textContent =
             `You chose ${playerMove}. The computer chose ${computerMove}.`;
         document.querySelector('.js-result').textContent = result;
+        updateScore();
     }
 
+    function updateScore() {
+        document.querySelector('.js-score').textContent =
+            `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+    }
+
+    function resetScore() {
+        score = { wins: 0, losses: 0, ties: 0 };
+        localStorage.removeItem(storageKey);
+        document.querySelector('.js-moves').textContent = '';
+        document.querySelector('.js-result').textContent = '';
+        updateScore();
+    }
 
 </script>
 </html>
