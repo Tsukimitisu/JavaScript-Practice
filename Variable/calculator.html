@@ -33,6 +33,7 @@
         <button type="button" onclick="calculateResult()">=</button>
         <button type="button" onclick="updateCalculation(' + ')">+</button>
     </p>
+    <button type="button" onclick="removeLastEntry()">Backspace</button>
     <button type="button" onclick="clearCalculation()">Clear</button>
 
     <script>
@@ -65,6 +66,34 @@
             calculation = '';
             displayCalculation();
         }
+
+        function removeLastEntry() {
+            calculation = calculation.trimEnd().slice(0, -1).trimEnd();
+            displayCalculation();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.target instanceof HTMLButtonElement) {
+                return;
+            }
+
+            if (/^[0-9.]$/.test(event.key)) {
+                updateCalculation(event.key);
+            } else if (/^[+\-*/]$/.test(event.key)) {
+                updateCalculation(` ${event.key} `);
+            } else if (event.key === 'Enter' || event.key === '=') {
+                event.preventDefault();
+                calculateResult();
+            } else if (event.key === 'Backspace') {
+                removeLastEntry();
+            } else if (event.key === 'Escape') {
+                clearCalculation();
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+        });
     </script>
 </body>
 </html>
