@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DOM Exercises</title>
 </head>
 <style>
        body{
@@ -49,45 +49,49 @@
 </style>
 <body>
    <p>Youtube Subscribed Button</p>
-   <button onclick="
+   <button type="button" onclick="
   subscribe()
    " class="js-subBtn  subscribe-btn">Subscribe</button>
 
    <p>Amazon Shipping Calculator</p>
-    <input type="number" onkeydown="handleKeyDown(event)" class="js-CostInput  cost-input"  placeholder="Cost of Order">
-    <button onclick="
-    CalculateTotal()
+    <label for="order-cost">Cost of order</label>
+    <input type="number" id="order-cost" min="0" step="0.01" onkeydown="handleKeyDown(event)" class="js-CostInput cost-input" placeholder="0.00">
+    <button type="button" onclick="
+    calculateTotal()
     " class="js-CalculateBtn calculate-btn">Calculate</button>
-    <p class="js-result"></p>
+    <p class="js-result" role="status" aria-live="polite"></p>
 </body>
 
 <script>
     function handleKeyDown(event){
         if(event.key === 'Enter'){
-                CalculateTotal()
+                calculateTotal()
             }
     }
-function CalculateTotal(){
-   const input = document.querySelector('.js-CostInput')
-    const result = document.querySelector('.js-result')
-    let cost = Number(input.value);
+function calculateTotal(){
+    const input = document.querySelector('.js-CostInput');
+    const result = document.querySelector('.js-result');
+    const inputValue = input.value.trim();
+    const cost = Number(inputValue);
 
-    if(cost < 40){
-        cost = cost + 10;
+    if (!inputValue || !Number.isFinite(cost) || cost < 0) {
+        result.textContent = 'Enter an order cost of $0 or more.';
+        input.focus();
+        return;
     }
 
-    result.innerHTML = `The Total Cost is: ${cost.toFixed(2)}$`
-    
+    const total = cost < 40 ? cost + 10 : cost;
+    result.textContent = `The total cost is: $${total.toFixed(2)}`;
 }
 
     function subscribe(){
          const button = document.querySelector('.js-subBtn')
 
-   if(button.innerText === 'Subscribe'){
-    button.innerText = 'Subscribed'
+   if(button.textContent === 'Subscribe'){
+    button.textContent = 'Subscribed'
     button.classList.add('is-subscribed')
    }else{
-    button.innerText = 'Subscribe'
+    button.textContent = 'Subscribe'
     button.classList.remove('is-subscribed')
    }
     }
