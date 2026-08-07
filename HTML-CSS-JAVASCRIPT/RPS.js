@@ -9,6 +9,29 @@ document.querySelectorAll('.move-btn').forEach((button) => {
 
 document.querySelector('.reset-btn').addEventListener('click', resetScore);
 
+document.addEventListener('keydown', (event) => {
+  if (event.repeat) {
+    return;
+  }
+
+  const keyboardMoves = {
+    1: 'Rock',
+    2: 'Paper',
+    3: 'Scissors'
+  };
+  const move = keyboardMoves[event.key];
+
+  if (move) {
+    playGame(move);
+  } else if (event.key.toLowerCase() === 'r') {
+    resetScore();
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+});
+
 function loadScore() {
   try {
     const savedScore = JSON.parse(localStorage.getItem(storageKey));

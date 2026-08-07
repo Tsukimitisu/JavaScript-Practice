@@ -8,14 +8,15 @@
 </head>
 <body>
    <h1 class="title">Rock Paper Scissors</h1>
-    <button type="button" class="move-btn" data-move="Rock" aria-label="Play Rock"><img src="image/rock-emoji.png" alt="" class="move-icon" ></button>
-    <button type="button" class="move-btn" data-move="Paper" aria-label="Play Paper"><img src="image/paper-emoji.png" alt="" class="move-icon"></button>
-    <button type="button" class="move-btn" data-move="Scissors" aria-label="Play Scissors"><img src="image/scissors-emoji.png" alt="" class="move-icon"></button>
+    <button type="button" class="move-btn" data-move="Rock" aria-label="Play Rock" aria-keyshortcuts="1"><img src="image/rock-emoji.png" alt="" class="move-icon" ></button>
+    <button type="button" class="move-btn" data-move="Paper" aria-label="Play Paper" aria-keyshortcuts="2"><img src="image/paper-emoji.png" alt="" class="move-icon"></button>
+    <button type="button" class="move-btn" data-move="Scissors" aria-label="Play Scissors" aria-keyshortcuts="3"><img src="image/scissors-emoji.png" alt="" class="move-icon"></button>
+    <p>Keyboard shortcuts: 1 for rock, 2 for paper, 3 for scissors, and R to reset.</p>
     <p class="js-result result" role="status"></p>
     <p class="js-moves" aria-live="polite"></p>
     <p class="js-score score"></p>
 
-    <button type="button" class="reset-btn">Reset Score</button>
+    <button type="button" class="reset-btn" aria-keyshortcuts="R">Reset Score</button>
     <script src="RPS.js"></script>
 </body>
 </html>
