@@ -14,6 +14,12 @@
             <button type="submit">Add</button>
         </form>
         <p class="js-todo-summary" aria-live="polite">0 tasks remaining</p>
+        <label for="todo-filter">Show</label>
+        <select id="todo-filter" class="js-todo-filter">
+            <option value="all">All tasks</option>
+            <option value="active">Active tasks</option>
+            <option value="completed">Completed tasks</option>
+        </select>
         <button type="button" class="js-clear-completed">Clear completed</button>
         <ul class="js-todo-list" aria-live="polite"></ul>
     </main>

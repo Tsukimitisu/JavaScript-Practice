@@ -4,6 +4,7 @@ const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
+const filterElement = document.querySelector('.js-todo-filter');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 let editingIndex = null;
 
@@ -40,7 +41,21 @@ function saveTodoList() {
 function renderTodoList() {
     listElement.replaceChildren();
 
-    todoList.forEach((todo, index) => {
+    const visibleTodos = todoList
+        .map((todo, index) => ({ todo, index }))
+        .filter(({ todo }) => {
+            if (filterElement.value === 'active') {
+                return !todo.completed;
+            }
+
+            if (filterElement.value === 'completed') {
+                return todo.completed;
+            }
+
+            return true;
+        });
+
+    visibleTodos.forEach(({ todo, index }) => {
         const itemElement = document.createElement('li');
 
         if (editingIndex === index) {
@@ -133,6 +148,11 @@ clearCompletedButton.addEventListener('click', () => {
     const activeTodos = todoList.filter((todo) => !todo.completed);
     todoList.splice(0, todoList.length, ...activeTodos);
     saveTodoList();
+    renderTodoList();
+});
+
+filterElement.addEventListener('change', () => {
+    editingIndex = null;
     renderTodoList();
 });
 
