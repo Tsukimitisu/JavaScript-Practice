@@ -10,26 +10,27 @@
    <button type="button" onclick="subscribe()" class="js-subBtn" aria-pressed="false">Subscribe</button>
 
    <h2>Amazon Shipping Calculator</h2>
-    <label for="order-cost">Cost of order</label>
-    <input id="order-cost" type="number" min="0" step="0.01" onkeydown="handleKeyDown(event)" class="js-CostInput" placeholder="Cost of order">
-    <button onclick="
-    CalculateTotal()
-    " class="js-CalculateBtn">Calculate</button>
+    <form class="js-shipping-form">
+        <label for="order-cost">Cost of order</label>
+        <input id="order-cost" type="number" min="0" step="0.01" class="js-CostInput" placeholder="Cost of order" required>
+        <button type="submit" class="js-CalculateBtn">Calculate</button>
+    </form>
     <p class="js-result" role="status" aria-live="polite"></p>
 </body>
 
 <script>
     const subscriptionStorageKey = 'youtube-subscription';
     let isSubscribed = localStorage.getItem(subscriptionStorageKey) === 'true';
+    const shippingForm = document.querySelector('.js-shipping-form');
 
     renderSubscription();
 
-    function handleKeyDown(event){
-        if(event.key === 'Enter'){
-                CalculateTotal()
-            }
-    }
-function CalculateTotal(){
+    shippingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        calculateTotal();
+    });
+
+function calculateTotal(){
     const input = document.querySelector('.js-CostInput');
     const result = document.querySelector('.js-result');
     const cost = Number(input.value);
