@@ -6,19 +6,24 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <p>Rock Paper Scissor</p>
-    <button onclick="
+    <h1>Rock Paper Scissors</h1>
+    <button type="button" onclick="
          playGame('Rock');
     ">Rock</button>
-    <button onclick="
+    <button type="button" onclick="
         playGame('Paper');
     ">Paper</button>
-    <button onclick="  
+    <button type="button" onclick="
        playGame('Scissors');
     ">Scissors</button>
+    <p class="js-result" role="status" aria-live="polite">Choose a move to start.</p>
+    <p class="js-score">Wins: 0, Losses: 0, Ties: 0</p>
+    <button type="button" onclick="resetScore()">Reset Score</button>
 </body>
 
 <script>
+    let score = { wins: 0, losses: 0, ties: 0 };
+
     function getComputersMove(){
         const randomNumber = Math.random();
        
@@ -45,7 +50,29 @@
         }else{
             result = 'You Win!';
         }
-        alert(`You Choose ${playersMove}. Computer Choose ${computersMove}. The Result is ${result}`)
+
+        if (result === 'You Win!') {
+            score.wins += 1;
+        } else if (result === 'You Lose!') {
+            score.losses += 1;
+        } else {
+            score.ties += 1;
+        }
+
+        document.querySelector('.js-result').textContent =
+            `You chose ${playersMove}. Computer chose ${computersMove}. ${result}`;
+        updateScore();
+    }
+
+    function updateScore() {
+        document.querySelector('.js-score').textContent =
+            `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+    }
+
+    function resetScore() {
+        score = { wins: 0, losses: 0, ties: 0 };
+        document.querySelector('.js-result').textContent = 'Choose a move to start.';
+        updateScore();
     }
 
 
