@@ -14,6 +14,7 @@
     <button type="button" onclick="addToCart(3)">+3</button>
     <button type="button" onclick="addToCart(4)">+4</button>
     <button type="button" onclick="removeFromCart(1)">-1</button>
+    <button type="button" class="js-checkout" onclick="checkout()">Checkout</button>
     <button type="button" onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
@@ -25,12 +26,14 @@
         ? savedQuantity
         : 0;
     const cartStatusElement = document.querySelector('.js-cart-status');
+    const checkoutButton = document.querySelector('.js-checkout');
 
     showQuantity();
 
     function showQuantity(message = '') {
         cartStatusElement.textContent = message ||
             `Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`;
+        checkoutButton.disabled = cartQuantity === 0;
         console.log(`Cart Quantity: ${cartQuantity} / ${maxCartQuantity}`);
     }
 
@@ -71,6 +74,18 @@
         localStorage.removeItem(storageKey);
         console.log('Cart Was Reset');
         showQuantity('Cart reset. Cart Quantity: 0 / 10');
+    }
+
+    function checkout() {
+        if (cartQuantity === 0) {
+            showQuantity('Add an item before checking out.');
+            return;
+        }
+
+        const purchasedQuantity = cartQuantity;
+        cartQuantity = 0;
+        localStorage.removeItem(storageKey);
+        showQuantity(`Checked out ${purchasedQuantity} ${purchasedQuantity === 1 ? 'item' : 'items'}.`);
     }
 
 
