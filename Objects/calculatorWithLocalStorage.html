@@ -80,6 +80,7 @@
     </p>
 
     <p>
+      <button onclick="removeLastEntry();">Backspace</button>
       <button onclick="
         clearCalculation();
       ">Clear</button>
@@ -117,14 +118,45 @@
         displayCalculation();
       }
 
+      function removeLastEntry() {
+        calculation = calculation.trimEnd().slice(0, -1).trimEnd();
+        saveAndDisplayCalculation();
+      }
+
       function saveAndDisplayCalculation() {
-        localStorage.setItem(storageKey, calculation);
+        if (calculation) {
+          localStorage.setItem(storageKey, calculation);
+        } else {
+          localStorage.removeItem(storageKey);
+        }
         displayCalculation();
       }
 
       function displayCalculation(value = calculation || '0') {
         document.querySelector('.js-result').textContent = value;
       }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.target instanceof HTMLButtonElement) {
+          return;
+        }
+
+        if (/^[0-9.]$/.test(event.key)) {
+          updateCalculation(event.key);
+        } else if (/^[+\-*/]$/.test(event.key)) {
+          updateCalculation(` ${event.key} `);
+        } else if (event.key === 'Enter' || event.key === '=') {
+          calculateResult();
+        } else if (event.key === 'Backspace') {
+          removeLastEntry();
+        } else if (event.key === 'Escape') {
+          clearCalculation();
+        } else {
+          return;
+        }
+
+        event.preventDefault();
+      });
     </script>
   </body>
 </html>
