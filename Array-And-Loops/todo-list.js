@@ -5,6 +5,7 @@ const inputElement = document.querySelector('.js-input');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
+let editingIndex = null;
 
 function loadTodoList() {
     try {
@@ -41,8 +42,51 @@ function renderTodoList() {
 
     todoList.forEach((todo, index) => {
         const itemElement = document.createElement('li');
+
+        if (editingIndex === index) {
+            const editForm = document.createElement('form');
+            const editInput = document.createElement('input');
+            const saveButton = document.createElement('button');
+            const cancelButton = document.createElement('button');
+
+            editInput.value = todo.name;
+            editInput.required = true;
+            editInput.setAttribute('aria-label', `Edit ${todo.name}`);
+
+            saveButton.type = 'submit';
+            saveButton.textContent = 'Save';
+
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Cancel';
+            cancelButton.addEventListener('click', () => {
+                editingIndex = null;
+                renderTodoList();
+            });
+
+            editForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const updatedName = editInput.value.trim();
+
+                if (!updatedName) {
+                    return;
+                }
+
+                todo.name = updatedName;
+                editingIndex = null;
+                saveTodoList();
+                renderTodoList();
+            });
+
+            editForm.append(editInput, ' ', saveButton, ' ', cancelButton);
+            itemElement.append(editForm);
+            listElement.append(itemElement);
+            editInput.focus();
+            return;
+        }
+
         const completedInput = document.createElement('input');
         const todoText = document.createElement('span');
+        const editButton = document.createElement('button');
         const removeButton = document.createElement('button');
 
         completedInput.type = 'checkbox';
@@ -59,6 +103,14 @@ function renderTodoList() {
             todoText.style.textDecoration = 'line-through';
         }
 
+        editButton.type = 'button';
+        editButton.textContent = 'Edit';
+        editButton.setAttribute('aria-label', `Edit ${todo.name}`);
+        editButton.addEventListener('click', () => {
+            editingIndex = index;
+            renderTodoList();
+        });
+
         removeButton.type = 'button';
         removeButton.textContent = 'Remove';
         removeButton.setAttribute('aria-label', `Remove ${todo.name}`);
@@ -68,7 +120,7 @@ function renderTodoList() {
             renderTodoList();
         });
 
-        itemElement.append(completedInput, ' ', todoText, ' ', removeButton);
+        itemElement.append(completedInput, ' ', todoText, ' ', editButton, ' ', removeButton);
         listElement.append(itemElement);
     });
 
