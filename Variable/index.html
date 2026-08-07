@@ -12,6 +12,7 @@
     <button type="button" onclick="addToCart(1)">Add to Cart</button>
     <button type="button" onclick="addToCart(2)">+2</button>
     <button type="button" onclick="addToCart(3)">+3</button>
+    <button type="button" onclick="removeFromCart(1)">Remove from Cart</button>
     <button type="button" onclick="resetCart()">Reset Cart</button>
 </body>
 <script>
@@ -37,6 +38,17 @@
         }
 
         cartQuantity += amount;
+        localStorage.setItem(storageKey, String(cartQuantity));
+        showQuantity();
+    }
+
+    function removeFromCart(amount) {
+        if (cartQuantity - amount < 0) {
+            showQuantity('The cart is already empty.');
+            return;
+        }
+
+        cartQuantity -= amount;
         localStorage.setItem(storageKey, String(cartQuantity));
         showQuantity();
     }
