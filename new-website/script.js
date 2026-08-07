@@ -74,19 +74,30 @@ emailInput.addEventListener("input", () => {
   delete formMessage.dataset.state;
 });
 
+function setNavigationState(isOpen) {
+  navToggle.setAttribute("aria-expanded", String(isOpen));
+  navToggle.textContent = isOpen ? "Close" : "Menu";
+  primaryNav.dataset.open = String(isOpen);
+}
+
 function closeNavigation() {
-  navToggle.setAttribute("aria-expanded", "false");
-  primaryNav.dataset.open = "false";
+  setNavigationState(false);
 }
 
 navToggle.addEventListener("click", () => {
   const willOpen = navToggle.getAttribute("aria-expanded") !== "true";
-  navToggle.setAttribute("aria-expanded", String(willOpen));
-  primaryNav.dataset.open = String(willOpen);
+  setNavigationState(willOpen);
 });
 
 primaryNav.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", closeNavigation);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+    closeNavigation();
+    navToggle.focus();
+  }
 });
 
 yearEl.textContent = String(new Date().getFullYear());
