@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+        <h1>Function Exercises</h1>
+        <h2>Calculator</h2>
+        <output class="js-calculation" aria-live="polite">0</output>
         <p>
       <button onclick="
         updateCalculation('1');
@@ -70,12 +73,7 @@
       ">.</button>
 
       <button onclick="
-        // Note: eval() takes a string and runs it as code.
-        // Avoid using eval() in real world projects since
-        // it can potentially be given harmful code to run.
-        // Only use eval() for learning purposes.
-        calculation = eval(calculation);
-        console.log(calculation);
+        calculateResult();
       ">=</button>
 
       <button onclick="
@@ -85,8 +83,7 @@
 
     <p>
       <button onclick="
-        calculation = '';
-        console.log(calculation);
+        clearCalculation();
       ">Clear</button>
     </p>
  
@@ -162,11 +159,67 @@
     console.log(convertLength(5, 'miles', 'ft'));
     console.log(convertLength(5, 'lbs', 'lbs'));
 
-  let calculation = '';
-   function updateCalculation(value) {
+    let calculation = '';
+
+    function updateCalculation(value) {
         calculation += value;
-        console.log(calculation);
-      }
+        displayCalculation();
+    }
+
+    function calculateResult() {
+        if (!calculation) {
+            return;
+        }
+
+        try {
+            calculation = String(evaluateCalculation(calculation));
+            displayCalculation();
+        } catch {
+            calculation = '';
+            displayCalculation('Invalid calculation');
+        }
+    }
+
+    function evaluateCalculation(expression) {
+        const tokens = expression.trim().split(/\s+/);
+
+        if (tokens.length % 2 === 0 || !tokens.every((token, index) =>
+            index % 2 === 0 ? /^(?:\d+\.?\d*|\.\d+)$/.test(token) : /^[+\-*/]$/.test(token)
+        )) {
+            throw new Error('Invalid expression');
+        }
+
+        const values = [Number(tokens[0])];
+        const operators = [];
+
+        for (let index = 1; index < tokens.length; index += 2) {
+            const operator = tokens[index];
+            const rightValue = Number(tokens[index + 1]);
+
+            if (operator === '*' || operator === '/') {
+                const leftValue = values.pop();
+                if (operator === '/' && rightValue === 0) {
+                    throw new Error('Cannot divide by zero');
+                }
+                values.push(operator === '*' ? leftValue * rightValue : leftValue / rightValue);
+            } else {
+                operators.push(operator);
+                values.push(rightValue);
+            }
+        }
+
+        return operators.reduce((result, operator, index) =>
+            operator === '+' ? result + values[index + 1] : result - values[index + 1], values[0]);
+    }
+
+    function clearCalculation() {
+        calculation = '';
+        displayCalculation();
+    }
+
+    function displayCalculation(value = calculation || '0') {
+        document.querySelector('.js-calculation').textContent = value;
+    }
 
 </script>
 </html>
