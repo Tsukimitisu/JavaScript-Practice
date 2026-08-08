@@ -12,24 +12,22 @@
     <br>
     <hr>
     <br>
-    <button class="js-HeadBtn" onclick="buttonClick('heads')">Heads</button>
-    <button class="js-TailsBtn" onclick="buttonClick('tails')">Tails</button>
+    <button type="button" class="js-choice-btn" data-choice="heads">Heads</button>
+    <button type="button" class="js-choice-btn" data-choice="tails">Tails</button>
     <p class="js-display" aria-live="polite"></p>
     <br>
     <hr>
 
-    <label for="name-input">Your name</label>
-    <input id="name-input" type="text" name="name" class="js-NameInput" placeholder="Enter your name" onkeydown="
-    handleKey(event)
-    " >
-    <button onclick="
-    displayNames()
-    ">Submit</button>
+    <form class="js-name-form">
+        <label for="name-input">Your name</label>
+        <input id="name-input" type="text" name="name" class="js-NameInput" placeholder="Enter your name" required>
+        <button type="submit">Submit</button>
+    </form>
     <p class="js-NameDisplay" aria-live="polite"></p>
 
     <hr>
     <label for="live-input">Live preview</label>
-    <input id="live-input" type="text" class="js-keyUp" onkeyup="handlesKeyUp()">
+    <input id="live-input" type="text" class="js-keyUp">
     <p class="js-displaykeyUp" aria-live="polite"></p>
 </body>
 
@@ -38,16 +36,15 @@
     document.querySelector('.js-btn').innerText =  '9B Done'
 
     const display = document.querySelector('.js-display')
-    function buttonClick(button){
-        if(button === 'heads'){
-            display.textContent = 'You choose: Heads'
-        }else if(button === 'tails'){
-            display.textContent = 'You choose: Tails'
-        }
-    }
+    document.querySelectorAll('.js-choice-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            const choice = button.dataset.choice;
+            display.textContent = `You chose: ${choice === 'heads' ? 'Heads' : 'Tails'}`;
+        });
+    });
 
    
-    function displayNames(){
+    function displayNames() {
         const displayName = document.querySelector('.js-NameDisplay')
         const nameInput = document.querySelector('.js-NameInput')
         const name = nameInput.value.trim()
@@ -56,18 +53,17 @@
             ? `Your name is: ${name}`
             : 'Please enter your name.'
     }
-    function handleKey(event){
-        if(event.key === 'Enter'){
-            displayNames()
-        }
-    }
 
+    document.querySelector('.js-name-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        displayNames();
+    });
 
-    function handlesKeyUp(){
+    document.querySelector('.js-keyUp').addEventListener('input', () => {
         const getName = document.querySelector('.js-keyUp')
         const keyUpDisplay = document.querySelector('.js-displaykeyUp')
         keyUpDisplay.textContent = getName.value
-    }
+    });
 
     
 
