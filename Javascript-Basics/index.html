@@ -3,42 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JavaScript Basics</title>
 </head>
 <body>
-    
+    <main>
+        <h1>JavaScript Basics</h1>
+        <p>These results are calculated with variables, arithmetic, and template strings.</p>
+        <ul class="js-results" aria-live="polite"></ul>
+    </main>
+
+    <script>
+        const shirtPrice = 10;
+        const socksPrice = 8;
+        const platesPrice = 20;
+        const shoppingTotal = shirtPrice + socksPrice + platesPrice;
+
+        const startingBalance = 100;
+        const lunchCost = 20;
+        const dinnerCost = 50;
+        const earnings = 200;
+        const totalCost = lunchCost + dinnerCost;
+        const endingBalance = startingBalance - totalCost + earnings;
+
+        const exerciseResults = [
+            'Good morning, James Andrei Revilla!',
+            `10 + 5 = ${10 + 5}`,
+            `20 - 5 = ${20 - 5}`,
+            `2 + 2 - 5 = ${2 + 2 - 5}`,
+            `Shopping total: $${shoppingTotal}`,
+            `Starting with $${startingBalance}, spending $${totalCost}, and earning $${earnings} leaves $${endingBalance}.`
+        ];
+
+        const resultsElement = document.querySelector('.js-results');
+        exerciseResults.forEach((result) => {
+            const item = document.createElement('li');
+            item.textContent = result;
+            resultsElement.append(item);
+        });
+    </script>
 </body>
-<script>
-    //1a. 
-    alert('Goodmorning')
-    //1b.
-    alert('James Andrei Revilla')
-    //1c
-    console.log(10 + 5)
-    //1d.
-    console.log(20 - 5)
-    //1e.
-    console.log(2 + 2 - 5)
-    //1f
-    document.body.innerHTML = 'Good Morning James Andrei Revilla'
-    //1h
-    let Tshirt =  10;
-    let socks = 8;
-    let plates = 20;
-
-    let total = Tshirt + socks + plates;
-    console.log(total);
-    //1i
-    let bankAccount =  100;
-    let lunch = 20;
-    let dinner = 50;
-    let earn = 200;
-    let totalcost = lunch + dinner;
-    bankAccount = bankAccount - totalcost + earn;
-
-
-    console.log(`I had 100 dollars, I spent ${totalcost} dollars and I earned ${earn} dollars`);
-    console.log(`My bank account now has ${bankAccount} dollars`);
-
-</script>
 </html>
