@@ -7,13 +7,10 @@
   </head>
   <body>
     <h1>Heads or Tails Game</h1>
-        <button type="button" onclick="
-        playGame('heads')
-        ">Heads</button>
-        <button type="button" onclick="
-        playGame('tails')
-        ">Tails</button>
-        <button type="button" onclick="resetScore()">Reset Score</button>
+        <button type="button" class="js-guess-button" data-guess="heads" aria-keyshortcuts="H">Heads</button>
+        <button type="button" class="js-guess-button" data-guess="tails" aria-keyshortcuts="T">Tails</button>
+        <button type="button" class="js-reset-button" aria-keyshortcuts="R">Reset Score</button>
+        <p>Keyboard shortcuts: H for heads, T for tails, and R to reset.</p>
         <p class="js-result" aria-live="polite"></p>
         <p class="js-score"></p>
         <p class="js-streak"></p>
@@ -23,6 +20,32 @@
         let score = loadScore();
 
         updateScore();
+
+        document.querySelectorAll('.js-guess-button').forEach((button) => {
+            button.addEventListener('click', () => playGame(button.dataset.guess));
+        });
+
+        document.querySelector('.js-reset-button').addEventListener('click', resetScore);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.repeat) {
+                return;
+            }
+
+            const key = event.key.toLowerCase();
+
+            if (key === 'h') {
+                playGame('heads');
+            } else if (key === 't') {
+                playGame('tails');
+            } else if (key === 'r') {
+                resetScore();
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+        });
 
         function loadScore() {
             try {
