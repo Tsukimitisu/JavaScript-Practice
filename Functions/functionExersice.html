@@ -86,6 +86,21 @@
         clearCalculation();
       ">Clear</button>
     </p>
+
+    <section>
+      <h2>Temperature Converter</h2>
+      <form class="js-temperature-form">
+        <label for="temperature-value">Temperature</label>
+        <input id="temperature-value" class="js-temperature-value" type="number" step="any" required>
+        <label for="temperature-unit">Convert from</label>
+        <select id="temperature-unit" class="js-temperature-unit">
+          <option value="C">Celsius</option>
+          <option value="F">Fahrenheit</option>
+        </select>
+        <button type="submit">Convert</button>
+      </form>
+      <output class="js-temperature-result" aria-live="polite"></output>
+    </section>
  
 
 </body>
@@ -220,6 +235,23 @@
     function displayCalculation(value = calculation || '0') {
         document.querySelector('.js-calculation').textContent = value;
     }
+
+    const temperatureForm = document.querySelector('.js-temperature-form');
+    const temperatureValue = document.querySelector('.js-temperature-value');
+    const temperatureUnit = document.querySelector('.js-temperature-unit');
+    const temperatureResult = document.querySelector('.js-temperature-result');
+
+    temperatureForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const degrees = Number(temperatureValue.value);
+
+        if (!Number.isFinite(degrees)) {
+            temperatureResult.textContent = 'Enter a valid temperature.';
+            return;
+        }
+
+        temperatureResult.textContent = convertTemperature(degrees, temperatureUnit.value);
+    });
 
 </script>
 </html>
