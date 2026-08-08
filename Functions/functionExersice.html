@@ -101,6 +101,28 @@
       </form>
       <output class="js-temperature-result" aria-live="polite"></output>
     </section>
+
+    <section>
+      <h2>Length Converter</h2>
+      <form class="js-length-form">
+        <label for="length-value">Length</label>
+        <input id="length-value" class="js-length-value" type="number" min="0" step="any" required>
+        <label for="length-from">From</label>
+        <select id="length-from" class="js-length-from">
+          <option value="miles">Miles</option>
+          <option value="km">Kilometers</option>
+          <option value="ft">Feet</option>
+        </select>
+        <label for="length-to">To</label>
+        <select id="length-to" class="js-length-to">
+          <option value="km">Kilometers</option>
+          <option value="miles">Miles</option>
+          <option value="ft">Feet</option>
+        </select>
+        <button type="submit">Convert</button>
+      </form>
+      <output class="js-length-result" aria-live="polite"></output>
+    </section>
  
 
 </body>
@@ -251,6 +273,24 @@
         }
 
         temperatureResult.textContent = convertTemperature(degrees, temperatureUnit.value);
+    });
+
+    const lengthForm = document.querySelector('.js-length-form');
+    const lengthValue = document.querySelector('.js-length-value');
+    const lengthFrom = document.querySelector('.js-length-from');
+    const lengthTo = document.querySelector('.js-length-to');
+    const lengthResult = document.querySelector('.js-length-result');
+
+    lengthForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const length = Number(lengthValue.value);
+
+        if (!Number.isFinite(length) || length < 0) {
+            lengthResult.textContent = 'Enter a valid non-negative length.';
+            return;
+        }
+
+        lengthResult.textContent = convertLength(length, lengthFrom.value, lengthTo.value);
     });
 
 </script>
