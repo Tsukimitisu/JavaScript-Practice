@@ -2,6 +2,7 @@ const storageKey = 'todo-list';
 const todoList = loadTodoList();
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
+const messageElement = document.querySelector('.js-todo-message');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
@@ -36,6 +37,14 @@ function loadTodoList() {
 
 function saveTodoList() {
     localStorage.setItem(storageKey, JSON.stringify(todoList));
+}
+
+function isDuplicateTodo(name, excludedIndex = -1) {
+    const normalizedName = name.toLocaleLowerCase();
+
+    return todoList.some((todo, index) =>
+        index !== excludedIndex && todo.name.toLocaleLowerCase() === normalizedName
+    );
 }
 
 function renderTodoList() {
@@ -86,9 +95,16 @@ function renderTodoList() {
                     return;
                 }
 
+                if (isDuplicateTodo(updatedName, index)) {
+                    messageElement.textContent = 'A task with that name already exists.';
+                    editInput.focus();
+                    return;
+                }
+
                 todo.name = updatedName;
                 editingIndex = null;
                 saveTodoList();
+                messageElement.textContent = `Updated task to ${updatedName}.`;
                 renderTodoList();
             });
 
@@ -165,11 +181,22 @@ formElement.addEventListener('submit', (event) => {
         return;
     }
 
+    if (isDuplicateTodo(name)) {
+        messageElement.textContent = 'A task with that name already exists.';
+        inputElement.focus();
+        return;
+    }
+
     todoList.push({ name, completed: false });
     saveTodoList();
     renderTodoList();
     formElement.reset();
+    messageElement.textContent = `Added ${name}.`;
     inputElement.focus();
+});
+
+inputElement.addEventListener('input', () => {
+    messageElement.textContent = '';
 });
 
 renderTodoList();
