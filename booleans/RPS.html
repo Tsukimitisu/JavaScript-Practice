@@ -13,6 +13,7 @@
     <p class="js-moves" aria-live="polite"></p>
     <p class="js-result" role="status"></p>
     <p class="js-score"></p>
+    <p class="js-win-rate"></p>
     <button type="button" onclick="resetScore()">Reset Score</button>
 </body>
 
@@ -88,8 +89,15 @@
     }
 
     function updateScore() {
+        const totalRounds = score.wins + score.losses + score.ties;
+        const winRate = totalRounds === 0
+            ? 0
+            : Math.round((score.wins / totalRounds) * 100);
+
         document.querySelector('.js-score').textContent =
             `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+        document.querySelector('.js-win-rate').textContent =
+            `Rounds played: ${totalRounds}. Win rate: ${winRate}%.`;
     }
 
     function resetScore() {
