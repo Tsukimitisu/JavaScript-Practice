@@ -3,65 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Object Exercises</title>
 </head>
 <body>
-    
-</body>
-<script>
+    <main>
+        <h1>Object Exercises</h1>
+        <h2>Products</h2>
+        <ul class="js-product-list"></ul>
+        <h2>Comparisons</h2>
+        <p class="js-price-comparison"></p>
+        <p class="js-product-match"></p>
+        <h2>String Methods</h2>
+        <p class="js-string-results"></p>
+    </main>
 
-    const product1 = {
-        name: 'Basketball',
-        price: 2095,
-    }
+    <script>
+        const product1 = {
+            name: 'Basketball',
+            price: 2095
+        };
 
-    const product2 = {
-        name: 'Wallet',
-        price: 100
-    }
+        const product2 = {
+            name: 'Wallet',
+            price: 100
+        };
 
-    const product3 = {
-        name: 'Basketball',
-        price: 2095
-    }
+        const product3 = {
+            name: 'Basketball',
+            price: 2095
+        };
 
+        function comparePrice(firstProduct, secondProduct) {
+            if (firstProduct.price === secondProduct.price) {
+                return `${firstProduct.name} and ${secondProduct.name} have the same price.`;
+            }
 
+            const lessExpensiveProduct = firstProduct.price < secondProduct.price
+                ? firstProduct
+                : secondProduct;
 
-   /* console.log(product1)
-
-    product1.price = 2095 + 500
-
-    console.log(product1)
-
-    product1['delivery-time'] = '3 Days'
-
-    console.log(product1)*/
-
-    function comparePrice(product1, product2){
-        if (product1.price === product2.price) {
-            return `${product1.name} and ${product2.name} have the same price`;
+            return `The less expensive product is ${lessExpensiveProduct.name}.`;
         }
 
-        const lessExpensiveProduct = product1.price < product2.price
-            ? product1
-            : product2;
+        function isSameProduct(firstProduct, secondProduct) {
+            return firstProduct.name === secondProduct.name &&
+                firstProduct.price === secondProduct.price;
+        }
 
-        return `The less expensive product is ${lessExpensiveProduct.name}`;
-    }
+        function formatPrice(priceInCents) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(priceInCents / 100);
+        }
 
-    console.log(comparePrice(product1, product2))
+        const productList = document.querySelector('.js-product-list');
+        [product1, product2, product3].forEach((product) => {
+            const item = document.createElement('li');
+            item.textContent = `${product.name}: ${formatPrice(product.price)}`;
+            productList.append(item);
+        });
 
-    function isSameProduct(product1, product2){
-        return product1.name === product2.name &&
-            product1.price === product2.price;
-    }
-
-       console.log(isSameProduct(product1, product3))
-
-    console.log('Good Morning'.toLocaleLowerCase())
-
-    console.log('test'.repeat(2))
-
-    
-</script>
+        document.querySelector('.js-price-comparison').textContent =
+            comparePrice(product1, product2);
+        document.querySelector('.js-product-match').textContent =
+            `Product 1 and Product 3 match: ${isSameProduct(product1, product3) ? 'Yes' : 'No'}.`;
+        document.querySelector('.js-string-results').textContent =
+            `Lowercase: ${'Good Morning'.toLowerCase()}. Repeated text: ${'test'.repeat(2)}.`;
+    </script>
+</body>
 </html>
