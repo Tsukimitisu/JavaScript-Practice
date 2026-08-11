@@ -8,12 +8,12 @@
 <body>
     <h1>Cart Quantity</h1>
     <p class="js-cart-status" role="status" aria-live="polite"></p>
-    <button type="button" onclick="showQuantity()">Show Quantity</button>
-    <button type="button" onclick="addToCart(1)">Add to Cart</button>
-    <button type="button" onclick="addToCart(2)">+2</button>
-    <button type="button" onclick="addToCart(3)">+3</button>
-    <button type="button" onclick="removeFromCart(1)">Remove from Cart</button>
-    <button type="button" onclick="resetCart()">Reset Cart</button>
+    <button type="button" class="js-show-cart">Show Quantity</button>
+    <button type="button" data-cart-amount="1">Add to Cart</button>
+    <button type="button" data-cart-amount="2">+2</button>
+    <button type="button" data-cart-amount="3">+3</button>
+    <button type="button" data-cart-amount="-1">Remove from Cart</button>
+    <button type="button" class="js-reset-cart">Reset Cart</button>
 </body>
 <script>
     const maxCartQuantity = 10;
@@ -58,5 +58,23 @@
         localStorage.removeItem(storageKey);
         showQuantity(`Cart reset. Cart Quantity: 0 / ${maxCartQuantity}`);
     }
+
+    document.querySelector('.js-show-cart').addEventListener('click', () => {
+        showQuantity();
+    });
+
+    document.querySelectorAll('[data-cart-amount]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const amount = Number(button.dataset.cartAmount);
+
+            if (amount > 0) {
+                addToCart(amount);
+            } else {
+                removeFromCart(Math.abs(amount));
+            }
+        });
+    });
+
+    document.querySelector('.js-reset-cart').addEventListener('click', resetCart);
 </script>
 </html>
