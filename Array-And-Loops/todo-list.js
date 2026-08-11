@@ -117,6 +117,8 @@ function renderTodoList() {
 
         const completedInput = document.createElement('input');
         const todoText = document.createElement('span');
+        const moveUpButton = document.createElement('button');
+        const moveDownButton = document.createElement('button');
         const editButton = document.createElement('button');
         const removeButton = document.createElement('button');
 
@@ -133,6 +135,28 @@ function renderTodoList() {
         if (todo.completed) {
             todoText.style.textDecoration = 'line-through';
         }
+
+        moveUpButton.type = 'button';
+        moveUpButton.textContent = 'Move up';
+        moveUpButton.disabled = index === 0;
+        moveUpButton.setAttribute('aria-label', `Move ${todo.name} up`);
+        moveUpButton.addEventListener('click', () => {
+            [todoList[index - 1], todoList[index]] = [todoList[index], todoList[index - 1]];
+            saveTodoList();
+            messageElement.textContent = `Moved ${todo.name} up.`;
+            renderTodoList();
+        });
+
+        moveDownButton.type = 'button';
+        moveDownButton.textContent = 'Move down';
+        moveDownButton.disabled = index === todoList.length - 1;
+        moveDownButton.setAttribute('aria-label', `Move ${todo.name} down`);
+        moveDownButton.addEventListener('click', () => {
+            [todoList[index], todoList[index + 1]] = [todoList[index + 1], todoList[index]];
+            saveTodoList();
+            messageElement.textContent = `Moved ${todo.name} down.`;
+            renderTodoList();
+        });
 
         editButton.type = 'button';
         editButton.textContent = 'Edit';
@@ -151,7 +175,19 @@ function renderTodoList() {
             renderTodoList();
         });
 
-        itemElement.append(completedInput, ' ', todoText, ' ', editButton, ' ', removeButton);
+        itemElement.append(
+            completedInput,
+            ' ',
+            todoText,
+            ' ',
+            moveUpButton,
+            ' ',
+            moveDownButton,
+            ' ',
+            editButton,
+            ' ',
+            removeButton
+        );
         listElement.append(itemElement);
     });
 
