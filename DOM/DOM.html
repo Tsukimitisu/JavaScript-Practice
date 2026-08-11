@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DOM Interaction Exercises</title>
 </head>
 <body>
    <p>Youtube Subscribed Button</p>
-   <button type="button" onclick="subscribe()" class="js-subBtn" aria-pressed="false">Subscribe</button>
+   <button type="button" class="js-subBtn" aria-pressed="false">Subscribe</button>
 
    <h2>Amazon Shipping Calculator</h2>
     <form class="js-shipping-form">
@@ -21,9 +21,12 @@
 <script>
     const subscriptionStorageKey = 'youtube-subscription';
     let isSubscribed = localStorage.getItem(subscriptionStorageKey) === 'true';
+    const subscriptionButton = document.querySelector('.js-subBtn');
     const shippingForm = document.querySelector('.js-shipping-form');
 
     renderSubscription();
+
+    subscriptionButton.addEventListener('click', subscribe);
 
     shippingForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -51,9 +54,8 @@ function calculateTotal(){
     }
 
     function renderSubscription() {
-        const button = document.querySelector('.js-subBtn');
-        button.textContent = isSubscribed ? 'Subscribed' : 'Subscribe';
-        button.setAttribute('aria-pressed', String(isSubscribed));
+        subscriptionButton.textContent = isSubscribed ? 'Subscribed' : 'Subscribe';
+        subscriptionButton.setAttribute('aria-pressed', String(isSubscribed));
     }
 </script>
 </html>
