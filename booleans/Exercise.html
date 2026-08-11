@@ -8,14 +8,14 @@
 <body>
     <p>Cart Quantity</p>
     <p class="js-cart-status" role="status" aria-live="polite">Cart Quantity: 0 / 10</p>
-    <button type="button" onclick="showQuantity()">Show Quantity</button>
-    <button type="button" onclick="addToCart(1)">Add to Cart</button>
-    <button type="button" onclick="addToCart(2)">+2</button>
-    <button type="button" onclick="addToCart(3)">+3</button>
-    <button type="button" onclick="addToCart(4)">+4</button>
-    <button type="button" onclick="removeFromCart(1)">-1</button>
-    <button type="button" class="js-checkout" onclick="checkout()">Checkout</button>
-    <button type="button" onclick="resetCart()">Reset Cart</button>
+    <button type="button" class="js-show-cart">Show Quantity</button>
+    <button type="button" data-cart-amount="1">Add to Cart</button>
+    <button type="button" data-cart-amount="2">+2</button>
+    <button type="button" data-cart-amount="3">+3</button>
+    <button type="button" data-cart-amount="4">+4</button>
+    <button type="button" data-cart-amount="-1">-1</button>
+    <button type="button" class="js-checkout">Checkout</button>
+    <button type="button" class="js-reset-cart">Reset Cart</button>
 </body>
 <script>
     const maxCartQuantity = 10;
@@ -87,6 +87,25 @@
         localStorage.removeItem(storageKey);
         showQuantity(`Checked out ${purchasedQuantity} ${purchasedQuantity === 1 ? 'item' : 'items'}.`);
     }
+
+    document.querySelector('.js-show-cart').addEventListener('click', () => {
+        showQuantity();
+    });
+
+    document.querySelectorAll('[data-cart-amount]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const amount = Number(button.dataset.cartAmount);
+
+            if (amount > 0) {
+                addToCart(amount);
+            } else {
+                removeFromCart(Math.abs(amount));
+            }
+        });
+    });
+
+    checkoutButton.addEventListener('click', checkout);
+    document.querySelector('.js-reset-cart').addEventListener('click', resetCart);
 
 
 
