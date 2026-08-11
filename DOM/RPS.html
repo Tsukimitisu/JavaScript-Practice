@@ -7,20 +7,15 @@
 </head>
 <body>
    <h1>Rock Paper Scissors</h1>
-    <button type="button" onclick="
-         playGame('Rock');
-    ">Rock</button>
-    <button type="button" onclick="
-        playGame('Paper');
-    ">Paper</button>
-    <button type="button" onclick="
-       playGame('Scissors');
-    ">Scissors</button>
+    <button type="button" class="js-move-button" data-move="Rock" aria-keyshortcuts="1">Rock</button>
+    <button type="button" class="js-move-button" data-move="Paper" aria-keyshortcuts="2">Paper</button>
+    <button type="button" class="js-move-button" data-move="Scissors" aria-keyshortcuts="3">Scissors</button>
+    <p>Keyboard shortcuts: 1 for rock, 2 for paper, 3 for scissors, and R to reset.</p>
     <p class="js-result" role="status"></p>
     <p class="js-moves" aria-live="polite"></p>
     <p class="js-score"></p>
 
-    <button type="button" onclick="resetScore()">Reset Score</button>
+    <button type="button" class="js-reset-button" aria-keyshortcuts="R">Reset Score</button>
 </body>
 
 <script>
@@ -28,6 +23,35 @@
     let score = loadScore();
 
     updateScoreElement();
+
+    document.querySelectorAll('.js-move-button').forEach((button) => {
+        button.addEventListener('click', () => playGame(button.dataset.move));
+    });
+
+    document.querySelector('.js-reset-button').addEventListener('click', resetScore);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.repeat) {
+            return;
+        }
+
+        const keyboardMoves = {
+            1: 'Rock',
+            2: 'Paper',
+            3: 'Scissors'
+        };
+        const move = keyboardMoves[event.key];
+
+        if (move) {
+            playGame(move);
+        } else if (event.key.toLowerCase() === 'r') {
+            resetScore();
+        } else {
+            return;
+        }
+
+        event.preventDefault();
+    });
 
     function loadScore() {
         try {
