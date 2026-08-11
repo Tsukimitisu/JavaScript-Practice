@@ -36,6 +36,7 @@
     <button type="button" onclick="removeLastEntry()">Backspace</button>
     <button type="button" onclick="clearCalculation()">Clear</button>
 
+    <script src="../shared/calculator-math.js"></script>
     <script>
         let calculation = '';
 
@@ -54,11 +55,11 @@
             }
 
             try {
-                calculation = String(eval(calculation));
+                calculation = String(CalculatorMath.evaluate(calculation));
                 displayCalculation();
-            } catch {
+            } catch (error) {
                 calculation = '';
-                displayCalculation('Invalid calculation');
+                displayCalculation(error.message);
             }
         }
 
