@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CSS and JavaScript Exercises</title>
     <style>
         .addCart-btn{
             color: black;
@@ -90,59 +90,73 @@
 </head>
 
 <body>
-    <button class="addCart-btn">Add to Cart</button>
+    <button type="button" class="addCart-btn">Add to Cart</button>
     <br>
-    <button class="js-uberBtn uber-btn" onclick="getUberBtn()">Request now</button>
+    <button type="button" class="js-uberBtn uber-btn">Request now</button>
 
-    <button class="js-button" onclick="test()">Test</button>
+    <button type="button" class="js-button">Test</button>
+    <p class="js-test-result" role="status" aria-live="polite"></p>
 <br>
 <br>
 <br>
-    <button class="js-Gaming hobby-btn" onclick="toggle('.js-Gaming')">Gaming</button>
-    <button class="js-Music hobby-btn" onclick="toggle('.js-Music')">Music</button>
-    <button class="js-Tech hobby-btn" onclick="toggle('.js-Tech')">Tech</button>
+    <button type="button" class="hobby-btn" data-hobby="Gaming" aria-pressed="false">Gaming</button>
+    <button type="button" class="hobby-btn" data-hobby="Music" aria-pressed="false">Music</button>
+    <button type="button" class="hobby-btn" data-hobby="Tech" aria-pressed="false">Tech</button>
 <br>
 <br>
-     <p>Amazon Shipping Calculator</p>
-    <input type="number" onkeydown="handleKeyDown(event)" class="js-CostInput  cost-input"  placeholder="Cost of Order">
-    <button onclick="
-    CalculateTotal()
-    " class="js-CalculateBtn calculate-btn">Calculate</button>
-    <p class="js-result"></p>
+    <h2>Amazon Shipping Calculator</h2>
+    <form class="js-shipping-form">
+        <label for="exercise-order-cost">Cost of order</label>
+        <input id="exercise-order-cost" type="number" min="0" step="0.01" class="js-CostInput cost-input" placeholder="Cost of Order" required>
+        <button type="submit" class="js-CalculateBtn calculate-btn">Calculate</button>
+    </form>
+    <p class="js-result" role="status" aria-live="polite"></p>
   
 </body>
 
 <script>
-    function getUberBtn(){
-    const uberbtn = document.querySelector('.js-uberBtn')
+    const uberButton = document.querySelector('.js-uberBtn');
+    const testButton = document.querySelector('.js-button');
+    const shippingForm = document.querySelector('.js-shipping-form');
 
-    if(uberbtn.innerText === 'Request now'){
-        uberbtn.innerText = 'Schedule for later'
-        uberbtn.classList.add('is-clicked')
+    uberButton.addEventListener('click', getUberBtn);
+    testButton.addEventListener('click', test);
+    shippingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        calculateTotal();
+    });
+
+    document.querySelectorAll('[data-hobby]').forEach((button) => {
+        button.addEventListener('click', () => toggle(button));
+    });
+
+    function getUberBtn(){
+    if(uberButton.textContent === 'Request now'){
+        uberButton.textContent = 'Schedule for later'
+        uberButton.classList.add('is-clicked')
     }else{
-        uberbtn.innerText = 'Request now'
-        uberbtn.classList.remove('is-clicked')
+        uberButton.textContent = 'Request now'
+        uberButton.classList.remove('is-clicked')
     }
 }
 
 function test(){
-    const testBtn = document.querySelector('.js-button')
-
-    if(testBtn.classList.contains('js-button')){
-        console.log('It have Classlist')
-    }   
+    const hasExpectedClass = testButton.classList.contains('js-button');
+    document.querySelector('.js-test-result').textContent = hasExpectedClass
+        ? 'The test button has the expected class.'
+        : 'The expected class is missing.';
 
 }
 
-function toggle(tog){
-    const button = document.querySelector(tog)
-
+function toggle(button){
     if(!button.classList.contains('is-toggled')){
         removeToggle()
         button.classList.add('is-toggled')
+        button.setAttribute('aria-pressed', 'true');
 
     }else{
         button.classList.remove('is-toggled')
+        button.setAttribute('aria-pressed', 'false');
     }
 }
 
@@ -151,38 +165,32 @@ function removeToggle(){
 
     if(prev){
         prev.classList.remove('is-toggled')
+        prev.setAttribute('aria-pressed', 'false');
     }
 }
 
-function CalculateTotal(){
+function calculateTotal(){
    const input = document.querySelector('.js-CostInput')
     const result = document.querySelector('.js-result')
-    let cost = Number(input.value);
+    const inputValue = input.value.trim();
+    let cost = Number(inputValue);
  
-    if(cost <= 0){
-             
-         
-            result.innerHTML = 'Error: cost cannot be less than $0'  
-            result.classList.add('error')
-              return;
+    if(!inputValue || !Number.isFinite(cost) || cost < 0){
+        result.textContent = 'Enter an order cost of $0 or more.';
+        result.classList.add('error');
+        input.focus();
+        return;
     }
+
+    result.classList.remove('error');
+
   if(cost < 40){
-       
-        result.classList.remove('error')
-
-         cost = cost + 10;
-        
+        cost += 10;
     }
 
-    result.innerHTML = `The total cost is: ${cost}`
+    result.textContent = `The total cost is: $${cost.toFixed(2)}`;
 
 }
-
-function handleKeyDown(event){
-        if(event.key === 'Enter'){
-                CalculateTotal()
-            }
-    }
     
 </script>
 
