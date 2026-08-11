@@ -3,88 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Function Exercises</title>
 </head>
 <body>
         <h1>Function Exercises</h1>
         <h2>Calculator</h2>
         <output class="js-calculation" aria-live="polite">0</output>
         <p>
-      <button onclick="
-        updateCalculation('1');
-      ">1</button>
+      <button type="button" data-calculator-value="1">1</button>
 
-      <button onclick="
-        updateCalculation('2');
-      ">2</button>
+      <button type="button" data-calculator-value="2">2</button>
 
-      <button onclick="
-        updateCalculation('3');
-      ">3</button>
+      <button type="button" data-calculator-value="3">3</button>
 
-      <button onclick="
-        updateCalculation(' + ');
-      ">+</button>
+      <button type="button" data-calculator-value=" + ">+</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('4');
-      ">4</button>
+      <button type="button" data-calculator-value="4">4</button>
 
-      <button onclick="
-        updateCalculation('5');
-      ">5</button>
+      <button type="button" data-calculator-value="5">5</button>
 
-      <button onclick="
-        updateCalculation('6');
-      ">6</button>
+      <button type="button" data-calculator-value="6">6</button>
 
-      <button onclick="
-        updateCalculation(' - ');
-      ">-</button>
+      <button type="button" data-calculator-value=" - ">-</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('7');
-      ">7</button>
+      <button type="button" data-calculator-value="7">7</button>
 
-      <button onclick="
-        updateCalculation('8');
-      ">8</button>
+      <button type="button" data-calculator-value="8">8</button>
 
-      <button onclick="
-        updateCalculation('9');
-      ">9</button>
+      <button type="button" data-calculator-value="9">9</button>
 
-      <button onclick="
-        updateCalculation(' * ');
-      ">*</button>
+      <button type="button" data-calculator-value=" * ">*</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('0');
-      ">0</button>
+      <button type="button" data-calculator-value="0">0</button>
 
-      <button onclick="
-        updateCalculation('.');
-      ">.</button>
+      <button type="button" data-calculator-value=".">.</button>
 
-      <button onclick="
-        calculateResult();
-      ">=</button>
+      <button type="button" class="js-calculate">=</button>
 
-      <button onclick="
-        updateCalculation(' / ');
-      ">/</button>
+      <button type="button" data-calculator-value=" / ">/</button>
     </p>
 
     <p>
-      <button onclick="
-        clearCalculation();
-      ">Clear</button>
+      <button type="button" class="js-clear">Clear</button>
     </p>
 
     <section>
@@ -126,6 +92,7 @@
  
 
 </body>
+<script src="../shared/calculator-math.js"></script>
 <script>
     function greet(){
         console.log('Hello There!');
@@ -209,44 +176,12 @@
         }
 
         try {
-            calculation = String(evaluateCalculation(calculation));
+            calculation = String(CalculatorMath.evaluate(calculation));
             displayCalculation();
-        } catch {
+        } catch (error) {
             calculation = '';
-            displayCalculation('Invalid calculation');
+            displayCalculation(error.message);
         }
-    }
-
-    function evaluateCalculation(expression) {
-        const tokens = expression.trim().split(/\s+/);
-
-        if (tokens.length % 2 === 0 || !tokens.every((token, index) =>
-            index % 2 === 0 ? /^(?:\d+\.?\d*|\.\d+)$/.test(token) : /^[+\-*/]$/.test(token)
-        )) {
-            throw new Error('Invalid expression');
-        }
-
-        const values = [Number(tokens[0])];
-        const operators = [];
-
-        for (let index = 1; index < tokens.length; index += 2) {
-            const operator = tokens[index];
-            const rightValue = Number(tokens[index + 1]);
-
-            if (operator === '*' || operator === '/') {
-                const leftValue = values.pop();
-                if (operator === '/' && rightValue === 0) {
-                    throw new Error('Cannot divide by zero');
-                }
-                values.push(operator === '*' ? leftValue * rightValue : leftValue / rightValue);
-            } else {
-                operators.push(operator);
-                values.push(rightValue);
-            }
-        }
-
-        return operators.reduce((result, operator, index) =>
-            operator === '+' ? result + values[index + 1] : result - values[index + 1], values[0]);
     }
 
     function clearCalculation() {
@@ -257,6 +192,13 @@
     function displayCalculation(value = calculation || '0') {
         document.querySelector('.js-calculation').textContent = value;
     }
+
+    document.querySelectorAll('[data-calculator-value]').forEach((button) => {
+        button.addEventListener('click', () => updateCalculation(button.dataset.calculatorValue));
+    });
+
+    document.querySelector('.js-calculate').addEventListener('click', calculateResult);
+    document.querySelector('.js-clear').addEventListener('click', clearCalculation);
 
     const temperatureForm = document.querySelector('.js-temperature-form');
     const temperatureValue = document.querySelector('.js-temperature-value');
