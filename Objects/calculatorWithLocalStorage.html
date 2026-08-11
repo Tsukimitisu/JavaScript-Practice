@@ -8,82 +8,48 @@
   <body>
     <p class="js-result" aria-live="polite">0</p>
     <p>
-      <button onclick="
-        updateCalculation('1');
-      ">1</button>
+      <button type="button" data-calculator-value="1">1</button>
 
-      <button onclick="
-        updateCalculation('2');
-      ">2</button>
+      <button type="button" data-calculator-value="2">2</button>
 
-      <button onclick="
-        updateCalculation('3');
-      ">3</button>
+      <button type="button" data-calculator-value="3">3</button>
 
-      <button onclick="
-        updateCalculation(' + ');
-      ">+</button>
+      <button type="button" data-calculator-value=" + ">+</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('4');
-      ">4</button>
+      <button type="button" data-calculator-value="4">4</button>
 
-      <button onclick="
-        updateCalculation('5');
-      ">5</button>
+      <button type="button" data-calculator-value="5">5</button>
 
-      <button onclick="
-        updateCalculation('6');
-      ">6</button>
+      <button type="button" data-calculator-value="6">6</button>
 
-      <button onclick="
-        updateCalculation(' - ');
-      ">-</button>
+      <button type="button" data-calculator-value=" - ">-</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('7');
-      ">7</button>
+      <button type="button" data-calculator-value="7">7</button>
 
-      <button onclick="
-        updateCalculation('8');
-      ">8</button>
+      <button type="button" data-calculator-value="8">8</button>
 
-      <button onclick="
-        updateCalculation('9');
-      ">9</button>
+      <button type="button" data-calculator-value="9">9</button>
 
-      <button onclick="
-        updateCalculation(' * ');
-      ">*</button>
+      <button type="button" data-calculator-value=" * ">*</button>
     </p>
 
     <p>
-      <button onclick="
-        updateCalculation('0');
-      ">0</button>
+      <button type="button" data-calculator-value="0">0</button>
 
-      <button onclick="
-        updateCalculation('.');
-      ">.</button>
+      <button type="button" data-calculator-value=".">.</button>
 
-      <button onclick="
-        calculateResult();
-      ">=</button>
+      <button type="button" class="js-calculate">=</button>
 
-      <button onclick="
-        updateCalculation(' / ');
-      ">/</button>
+      <button type="button" data-calculator-value=" / ">/</button>
     </p>
 
     <p>
-      <button onclick="removeLastEntry();">Backspace</button>
-      <button onclick="
-        clearCalculation();
-      ">Clear</button>
+      <button type="button" class="js-backspace">Backspace</button>
+      <button type="button" class="js-clear">Clear</button>
     </p>
 
     <script src="../shared/calculator-math.js"></script>
@@ -136,6 +102,14 @@
       function displayCalculation(value = calculation || '0') {
         document.querySelector('.js-result').textContent = value;
       }
+
+      document.querySelectorAll('[data-calculator-value]').forEach((button) => {
+        button.addEventListener('click', () => updateCalculation(button.dataset.calculatorValue));
+      });
+
+      document.querySelector('.js-calculate').addEventListener('click', calculateResult);
+      document.querySelector('.js-backspace').addEventListener('click', removeLastEntry);
+      document.querySelector('.js-clear').addEventListener('click', clearCalculation);
 
       document.addEventListener('keydown', (event) => {
         if (event.target instanceof HTMLButtonElement) {
