@@ -1,4 +1,5 @@
 const root = document.documentElement;
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const yearEl = document.getElementById("year");
 const paletteBtn = document.getElementById("palette-btn");
 const exploreBtn = document.getElementById("explore-btn");
@@ -35,6 +36,8 @@ function applyPalette(index) {
   const palette = palettes[index];
   root.style.setProperty("--accent", palette.accent);
   root.style.setProperty("--accent-2", palette.accent2);
+  themeColorMeta.setAttribute("content", palette.accent);
+  paletteBtn.textContent = `Palette: ${palette.name}`;
   paletteBtn.setAttribute(
     "aria-label",
     `Current palette: ${palette.name}. Change website color palette.`
