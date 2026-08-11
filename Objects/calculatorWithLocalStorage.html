@@ -86,6 +86,7 @@
       ">Clear</button>
     </p>
 
+    <script src="../shared/calculator-math.js"></script>
     <script>
       const storageKey = 'object-calculator-value';
       let calculation = localStorage.getItem(storageKey) || '';
@@ -103,12 +104,12 @@
         }
 
         try {
-          calculation = String(eval(calculation));
+          calculation = String(CalculatorMath.evaluate(calculation));
           saveAndDisplayCalculation();
-        } catch {
+        } catch (error) {
           calculation = '';
           localStorage.removeItem(storageKey);
-          displayCalculation('Invalid calculation');
+          displayCalculation(error.message);
         }
       }
 
