@@ -49,25 +49,36 @@
 </style>
 <body>
    <p>Youtube Subscribed Button</p>
-   <button type="button" onclick="
-  subscribe()
-   " class="js-subBtn  subscribe-btn">Subscribe</button>
+   <button type="button" class="js-subBtn subscribe-btn" aria-pressed="false">Subscribe</button>
 
    <p>Amazon Shipping Calculator</p>
-    <label for="order-cost">Cost of order</label>
-    <input type="number" id="order-cost" min="0" step="0.01" onkeydown="handleKeyDown(event)" class="js-CostInput cost-input" placeholder="0.00">
-    <button type="button" onclick="
-    calculateTotal()
-    " class="js-CalculateBtn calculate-btn">Calculate</button>
+    <form class="js-shipping-form">
+        <label for="order-cost">Cost of order</label>
+        <input type="number" id="order-cost" min="0" step="0.01" class="js-CostInput cost-input" placeholder="0.00" required>
+        <button type="submit" class="js-CalculateBtn calculate-btn">Calculate</button>
+    </form>
     <p class="js-result" role="status" aria-live="polite"></p>
 </body>
 
 <script>
-    function handleKeyDown(event){
-        if(event.key === 'Enter'){
-                calculateTotal()
-            }
-    }
+    const subscriptionStorageKey = 'styled-youtube-subscription';
+    const subscriptionButton = document.querySelector('.js-subBtn');
+    const shippingForm = document.querySelector('.js-shipping-form');
+    let isSubscribed = localStorage.getItem(subscriptionStorageKey) === 'true';
+
+    renderSubscription();
+
+    subscriptionButton.addEventListener('click', () => {
+        isSubscribed = !isSubscribed;
+        localStorage.setItem(subscriptionStorageKey, String(isSubscribed));
+        renderSubscription();
+    });
+
+    shippingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        calculateTotal();
+    });
+
 function calculateTotal(){
     const input = document.querySelector('.js-CostInput');
     const result = document.querySelector('.js-result');
@@ -84,16 +95,10 @@ function calculateTotal(){
     result.textContent = `The total cost is: $${total.toFixed(2)}`;
 }
 
-    function subscribe(){
-         const button = document.querySelector('.js-subBtn')
-
-   if(button.textContent === 'Subscribe'){
-    button.textContent = 'Subscribed'
-    button.classList.add('is-subscribed')
-   }else{
-    button.textContent = 'Subscribe'
-    button.classList.remove('is-subscribed')
-   }
+    function renderSubscription(){
+        subscriptionButton.textContent = isSubscribed ? 'Subscribed' : 'Subscribe';
+        subscriptionButton.classList.toggle('is-subscribed', isSubscribed);
+        subscriptionButton.setAttribute('aria-pressed', String(isSubscribed));
     }
 </script>
 </html>
