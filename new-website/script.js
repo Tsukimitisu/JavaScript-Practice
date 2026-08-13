@@ -2,6 +2,7 @@ const root = document.documentElement;
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const yearEl = document.getElementById("year");
 const paletteBtn = document.getElementById("palette-btn");
+const resetPaletteBtn = document.getElementById("reset-palette-btn");
 const exploreBtn = document.getElementById("explore-btn");
 const contactForm = document.getElementById("contact-form");
 const emailInput = document.getElementById("email");
@@ -48,6 +49,13 @@ paletteBtn.addEventListener("click", () => {
   paletteIndex = (paletteIndex + 1) % palettes.length;
   localStorage.setItem("palette-index", String(paletteIndex));
   applyPalette(paletteIndex);
+});
+
+resetPaletteBtn.addEventListener("click", () => {
+  paletteIndex = 0;
+  localStorage.removeItem("palette-index");
+  applyPalette(paletteIndex);
+  paletteBtn.focus();
 });
 
 exploreBtn.addEventListener("click", () => {
