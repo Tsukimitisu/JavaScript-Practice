@@ -1,4 +1,5 @@
 const storageKey = 'todo-list';
+const filterStorageKey = 'todo-list-filter';
 const todoList = loadTodoList();
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
@@ -8,6 +9,11 @@ const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 let editingIndex = null;
+
+const savedFilter = localStorage.getItem(filterStorageKey);
+if (['all', 'active', 'completed'].includes(savedFilter)) {
+    filterElement.value = savedFilter;
+}
 
 function loadTodoList() {
     try {
@@ -217,6 +223,7 @@ clearCompletedButton.addEventListener('click', () => {
 
 filterElement.addEventListener('change', () => {
     editingIndex = null;
+    localStorage.setItem(filterStorageKey, filterElement.value);
     renderTodoList();
 });
 
