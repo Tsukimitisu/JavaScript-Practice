@@ -4,6 +4,42 @@
     const numberPattern = /^-?(?:\d+\.?\d*|\.\d+)$/;
     const operatorPattern = /^[+\-*/]$/;
 
+    function appendToken(expression, value) {
+        const currentExpression = typeof expression === 'string' ? expression.trimEnd() : '';
+        const token = String(value).trim();
+
+        if (operatorPattern.test(token)) {
+            if (!currentExpression) {
+                return expression || '';
+            }
+
+            const tokens = currentExpression.split(/\s+/);
+            if (operatorPattern.test(tokens.at(-1))) {
+                tokens[tokens.length - 1] = token;
+                return `${tokens.join(' ')} `;
+            }
+
+            return `${currentExpression} ${token} `;
+        }
+
+        if (!/^(?:\d|\.)$/.test(token)) {
+            return expression || '';
+        }
+
+        const tokens = currentExpression.split(/\s+/);
+        const currentNumber = tokens.at(-1) || '';
+
+        if (token === '.' && currentNumber.includes('.')) {
+            return expression || '';
+        }
+
+        if (operatorPattern.test(currentNumber)) {
+            return `${currentExpression} ${token}`;
+        }
+
+        return `${currentExpression}${token}`;
+    }
+
     function evaluate(expression) {
         if (typeof expression !== 'string' || !expression.trim()) {
             throw new Error('Enter a calculation.');
@@ -56,5 +92,5 @@
         return result;
     }
 
-    global.CalculatorMath = Object.freeze({ evaluate });
+    global.CalculatorMath = Object.freeze({ appendToken, evaluate });
 }(globalThis));
