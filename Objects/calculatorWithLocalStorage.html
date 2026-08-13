@@ -60,7 +60,7 @@
       displayCalculation();
 
       function updateCalculation(value) {
-        calculation += value;
+        calculation = CalculatorMath.appendToken(calculation, value);
         saveAndDisplayCalculation();
       }
 
