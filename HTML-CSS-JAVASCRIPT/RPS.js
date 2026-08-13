@@ -99,8 +99,15 @@ function playGame(playerMove) {
 }
 
 function updateScoreElement() {
+  const totalRounds = score.wins + score.losses + score.tie;
+  const winRate = totalRounds === 0
+    ? 0
+    : Math.round((score.wins / totalRounds) * 100);
+
   document.querySelector('.js-score').textContent =
     `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.tie}`;
+  document.querySelector('.js-stats').textContent =
+    `Rounds played: ${totalRounds}. Win rate: ${winRate}%.`;
 }
 
 function resetScore() {
