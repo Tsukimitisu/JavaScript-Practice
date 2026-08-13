@@ -61,7 +61,7 @@
       displayResult();
 
       function updateCalculation(value) {
-        calculation += value;
+        calculation = CalculatorMath.appendToken(calculation, value);
         localStorage.setItem(storageKey, calculation);
         displayResult();
       }
