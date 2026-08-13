@@ -14,6 +14,7 @@
         <p class="js-result" aria-live="polite"></p>
         <p class="js-score"></p>
         <p class="js-streak"></p>
+        <p class="js-stats"></p>
 
     <script>
         const storageKey = 'heads-tails-score';
@@ -92,10 +93,17 @@
         }
 
         function updateScore() {
+            const totalRounds = score.wins + score.losses;
+            const winRate = totalRounds === 0
+                ? 0
+                : Math.round((score.wins / totalRounds) * 100);
+
             document.querySelector('.js-score').textContent =
                 `Wins: ${score.wins}, Losses: ${score.losses}`;
             document.querySelector('.js-streak').textContent =
                 `Current streak: ${score.currentStreak}, Best streak: ${score.bestStreak}`;
+            document.querySelector('.js-stats').textContent =
+                `Rounds played: ${totalRounds}. Win rate: ${winRate}%.`;
         }
 
         function resetScore() {
