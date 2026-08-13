@@ -166,7 +166,7 @@
     let calculation = '';
 
     function updateCalculation(value) {
-        calculation += value;
+        calculation = CalculatorMath.appendToken(calculation, value);
         displayCalculation();
     }
 
