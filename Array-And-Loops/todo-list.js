@@ -64,6 +64,18 @@ function renderTodoList() {
             return true;
         });
 
+    if (visibleTodos.length === 0) {
+        const emptyItem = document.createElement('li');
+        const emptyMessages = {
+            all: 'No tasks yet. Add one above.',
+            active: 'No active tasks.',
+            completed: 'No completed tasks.'
+        };
+
+        emptyItem.textContent = emptyMessages[filterElement.value];
+        listElement.append(emptyItem);
+    }
+
     visibleTodos.forEach(({ todo, index }) => {
         const itemElement = document.createElement('li');
 
