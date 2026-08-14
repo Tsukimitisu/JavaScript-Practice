@@ -43,8 +43,11 @@ function calculateTotal(){
         return;
     }
 
-    const total = cost < 40 ? cost + 10 : cost;
-    result.textContent = `The total cost is: $${total.toFixed(2)}`;
+    const shippingCost = cost < 40 ? 10 : 0;
+    const total = cost + shippingCost;
+    const shippingLabel = shippingCost === 0 ? 'Free' : `$${shippingCost.toFixed(2)}`;
+    result.textContent =
+        `Subtotal: $${cost.toFixed(2)}. Shipping: ${shippingLabel}. Total: $${total.toFixed(2)}.`;
 }
 
     function subscribe(){
