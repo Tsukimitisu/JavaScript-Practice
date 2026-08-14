@@ -173,7 +173,7 @@ function calculateTotal(){
    const input = document.querySelector('.js-CostInput')
     const result = document.querySelector('.js-result')
     const inputValue = input.value.trim();
-    let cost = Number(inputValue);
+    const cost = Number(inputValue);
  
     if(!inputValue || !Number.isFinite(cost) || cost < 0){
         result.textContent = 'Enter an order cost of $0 or more.';
@@ -184,11 +184,11 @@ function calculateTotal(){
 
     result.classList.remove('error');
 
-  if(cost < 40){
-        cost += 10;
-    }
-
-    result.textContent = `The total cost is: $${cost.toFixed(2)}`;
+    const shippingCost = cost < 40 ? 10 : 0;
+    const total = cost + shippingCost;
+    const shippingLabel = shippingCost === 0 ? 'Free' : `$${shippingCost.toFixed(2)}`;
+    result.textContent =
+        `Subtotal: $${cost.toFixed(2)}. Shipping: ${shippingLabel}. Total: $${total.toFixed(2)}.`;
 
 }
     
