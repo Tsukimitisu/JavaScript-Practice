@@ -7,6 +7,7 @@ const exploreBtn = document.getElementById("explore-btn");
 const contactForm = document.getElementById("contact-form");
 const emailInput = document.getElementById("email");
 const formMessage = document.getElementById("form-message");
+const siteHeader = document.querySelector(".site-header");
 const navToggle = document.getElementById("nav-toggle");
 const primaryNav = document.getElementById("primary-nav");
 
@@ -102,6 +103,14 @@ navToggle.addEventListener("click", () => {
 
 primaryNav.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", closeNavigation);
+});
+
+document.addEventListener("click", (event) => {
+  const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+
+  if (isOpen && !siteHeader.contains(event.target)) {
+    closeNavigation();
+  }
 });
 
 document.addEventListener("keydown", (event) => {
