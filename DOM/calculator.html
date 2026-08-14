@@ -49,6 +49,7 @@
     </p>
 
     <p>
+      <button type="button" class="js-toggle-sign">+/-</button>
       <button type="button" class="js-backspace">Backspace</button>
       <button type="button" class="js-clear">Clear</button>
     </p>
@@ -110,6 +111,17 @@
       });
 
       document.querySelector('.js-calculate').addEventListener('click', calculateResult);
+      document.querySelector('.js-toggle-sign').addEventListener('click', () => {
+        calculation = CalculatorMath.toggleSign(calculation);
+
+        if (calculation) {
+          localStorage.setItem(storageKey, calculation);
+        } else {
+          localStorage.removeItem(storageKey);
+        }
+
+        displayResult();
+      });
       document.querySelector('.js-backspace').addEventListener('click', removeLastEntry);
       document.querySelector('.js-clear').addEventListener('click', clearCalculation);
 
