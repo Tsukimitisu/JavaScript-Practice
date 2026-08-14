@@ -33,11 +33,54 @@
             return expression || '';
         }
 
+        if (
+            currentNumber === '-' &&
+            (tokens.length === 1 || operatorPattern.test(tokens.at(-2)))
+        ) {
+            return `${currentExpression}${token}`;
+        }
+
         if (operatorPattern.test(currentNumber)) {
             return `${currentExpression} ${token}`;
         }
 
         return `${currentExpression}${token}`;
+    }
+
+    function toggleSign(expression) {
+        const currentExpression = typeof expression === 'string' ? expression.trimEnd() : '';
+
+        if (!currentExpression) {
+            return '-';
+        }
+
+        const tokens = currentExpression.split(/\s+/);
+        const lastToken = tokens.at(-1);
+
+        if (operatorPattern.test(lastToken)) {
+            const isPendingNegative = lastToken === '-' &&
+                (tokens.length === 1 || operatorPattern.test(tokens.at(-2)));
+
+            if (isPendingNegative) {
+                const expressionWithoutPendingSign = tokens.slice(0, -1).join(' ');
+
+                return operatorPattern.test(tokens.at(-2))
+                    ? `${expressionWithoutPendingSign} `
+                    : expressionWithoutPendingSign;
+            }
+
+            return `${currentExpression} -`;
+        }
+
+        if (!numberPattern.test(lastToken)) {
+            return expression || '';
+        }
+
+        tokens[tokens.length - 1] = lastToken.startsWith('-')
+            ? lastToken.slice(1)
+            : `-${lastToken}`;
+
+        return tokens.join(' ');
     }
 
     function evaluate(expression) {
@@ -92,5 +135,5 @@
         return result;
     }
 
-    global.CalculatorMath = Object.freeze({ appendToken, evaluate });
+    global.CalculatorMath = Object.freeze({ appendToken, evaluate, toggleSign });
 }(globalThis));
