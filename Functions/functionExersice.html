@@ -50,6 +50,7 @@
     </p>
 
     <p>
+      <button type="button" class="js-toggle-sign">+/-</button>
       <button type="button" class="js-clear">Clear</button>
     </p>
 
@@ -198,6 +199,10 @@
     });
 
     document.querySelector('.js-calculate').addEventListener('click', calculateResult);
+    document.querySelector('.js-toggle-sign').addEventListener('click', () => {
+        calculation = CalculatorMath.toggleSign(calculation);
+        displayCalculation();
+    });
     document.querySelector('.js-clear').addEventListener('click', clearCalculation);
 
     const temperatureForm = document.querySelector('.js-temperature-form');
