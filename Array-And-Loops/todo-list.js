@@ -210,7 +210,10 @@ function renderTodoList() {
     });
 
     const remainingCount = todoList.filter((todo) => !todo.completed).length;
-    summaryElement.textContent = `${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining`;
+    const completedCount = todoList.length - remainingCount;
+    summaryElement.textContent =
+        `${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining, ` +
+        `${completedCount} completed, ${todoList.length} total.`;
     clearCompletedButton.disabled = !todoList.some((todo) => todo.completed);
 }
 
