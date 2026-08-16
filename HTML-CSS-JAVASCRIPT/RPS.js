@@ -10,7 +10,12 @@ document.querySelectorAll('.move-btn').forEach((button) => {
 document.querySelector('.reset-btn').addEventListener('click', resetScore);
 
 document.addEventListener('keydown', (event) => {
-  if (event.repeat) {
+  const isTyping = event.target instanceof HTMLInputElement ||
+    event.target instanceof HTMLTextAreaElement ||
+    event.target instanceof HTMLSelectElement ||
+    event.target.isContentEditable;
+
+  if (event.repeat || isTyping) {
     return;
   }
 
