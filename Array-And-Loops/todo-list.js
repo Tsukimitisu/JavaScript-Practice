@@ -144,10 +144,16 @@ function renderTodoList() {
 
         completedInput.type = 'checkbox';
         completedInput.checked = todo.completed;
-        completedInput.setAttribute('aria-label', `Mark ${todo.name} as complete`);
+        completedInput.setAttribute(
+            'aria-label',
+            `Mark ${todo.name} as ${todo.completed ? 'active' : 'complete'}`
+        );
         completedInput.addEventListener('change', () => {
             todo.completed = completedInput.checked;
             saveTodoList();
+            messageElement.textContent = todo.completed
+                ? `Completed ${todo.name}.`
+                : `Marked ${todo.name} as active.`;
             renderTodoList();
         });
 
