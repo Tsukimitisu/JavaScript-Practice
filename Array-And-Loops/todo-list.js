@@ -227,9 +227,11 @@ function renderTodoList() {
 }
 
 clearCompletedButton.addEventListener('click', () => {
+    const completedCount = todoList.filter((todo) => todo.completed).length;
     const activeTodos = todoList.filter((todo) => !todo.completed);
     todoList.splice(0, todoList.length, ...activeTodos);
     saveTodoList();
+    messageElement.textContent = `Cleared ${completedCount} completed ${completedCount === 1 ? 'task' : 'tasks'}.`;
     renderTodoList();
 });
 
