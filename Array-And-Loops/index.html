@@ -10,7 +10,8 @@
         <h1>Todo List</h1>
         <form class="js-todo-form">
             <label for="todo-name">Todo name</label>
-            <input type="text" id="todo-name" placeholder="Todo name" class="js-input" required>
+            <input type="text" id="todo-name" placeholder="Todo name" class="js-input" maxlength="100" aria-describedby="todo-name-count" required>
+            <span id="todo-name-count" class="js-todo-count">0 / 100</span>
             <button type="submit">Add</button>
         </form>
         <p class="js-todo-message" role="status" aria-live="polite"></p>

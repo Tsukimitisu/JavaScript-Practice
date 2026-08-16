@@ -1,5 +1,6 @@
 const storageKey = 'todo-list';
 const filterStorageKey = 'todo-list-filter';
+const maxTodoLength = 100;
 const todoList = loadTodoList();
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
@@ -8,6 +9,7 @@ const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
+const todoCountElement = document.querySelector('.js-todo-count');
 let editingIndex = null;
 
 const savedFilter = localStorage.getItem(filterStorageKey);
@@ -249,12 +251,14 @@ formElement.addEventListener('submit', (event) => {
     saveTodoList();
     renderTodoList();
     formElement.reset();
+    todoCountElement.textContent = `0 / ${maxTodoLength}`;
     messageElement.textContent = `Added ${name}.`;
     inputElement.focus();
 });
 
 inputElement.addEventListener('input', () => {
     messageElement.textContent = '';
+    todoCountElement.textContent = `${inputElement.value.length} / ${maxTodoLength}`;
 });
 
 renderTodoList();
