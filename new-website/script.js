@@ -10,6 +10,7 @@ const formMessage = document.getElementById("form-message");
 const siteHeader = document.querySelector(".site-header");
 const navToggle = document.getElementById("nav-toggle");
 const primaryNav = document.getElementById("primary-nav");
+const desktopNavigationQuery = window.matchMedia("(min-width: 861px)");
 
 const palettes = [
   {
@@ -109,6 +110,12 @@ document.addEventListener("click", (event) => {
   const isOpen = navToggle.getAttribute("aria-expanded") === "true";
 
   if (isOpen && !siteHeader.contains(event.target)) {
+    closeNavigation();
+  }
+});
+
+desktopNavigationQuery.addEventListener("change", (event) => {
+  if (event.matches) {
     closeNavigation();
   }
 });
