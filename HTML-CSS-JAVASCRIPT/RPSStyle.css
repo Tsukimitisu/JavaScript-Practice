@@ -42,3 +42,9 @@
             cursor: pointer;
 
         }
+
+        .move-btn:focus-visible,
+        .reset-btn:focus-visible {
+            outline: 3px solid #f5c542;
+            outline-offset: 4px;
+        }
