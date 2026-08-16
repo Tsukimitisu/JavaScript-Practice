@@ -107,6 +107,17 @@ function renderTodoList() {
                 renderTodoList();
             });
 
+            editForm.addEventListener('keydown', (event) => {
+                if (event.key !== 'Escape') {
+                    return;
+                }
+
+                event.preventDefault();
+                editingIndex = null;
+                messageElement.textContent = `Canceled editing ${todo.name}.`;
+                renderTodoList();
+            });
+
             editForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 const updatedName = editInput.value.trim();
