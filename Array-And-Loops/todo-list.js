@@ -8,6 +8,7 @@ const messageElement = document.querySelector('.js-todo-message');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
+const toggleAllButton = document.querySelector('.js-toggle-all');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 const todoCountElement = document.querySelector('.js-todo-count');
 let editingIndex = null;
@@ -234,8 +235,24 @@ function renderTodoList() {
     summaryElement.textContent =
         `${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining, ` +
         `${completedCount} completed, ${todoList.length} total.`;
+    toggleAllButton.disabled = todoList.length === 0;
+    toggleAllButton.textContent = remainingCount > 0 ? 'Mark all complete' : 'Mark all active';
     clearCompletedButton.disabled = !todoList.some((todo) => todo.completed);
 }
+
+toggleAllButton.addEventListener('click', () => {
+    const shouldComplete = todoList.some((todo) => !todo.completed);
+
+    todoList.forEach((todo) => {
+        todo.completed = shouldComplete;
+    });
+
+    saveTodoList();
+    messageElement.textContent = shouldComplete
+        ? 'Marked all tasks complete.'
+        : 'Marked all tasks active.';
+    renderTodoList();
+});
 
 clearCompletedButton.addEventListener('click', () => {
     const completedCount = todoList.filter((todo) => todo.completed).length;
