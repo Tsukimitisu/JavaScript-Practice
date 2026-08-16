@@ -198,6 +198,7 @@ function renderTodoList() {
         removeButton.addEventListener('click', () => {
             todoList.splice(index, 1);
             saveTodoList();
+            messageElement.textContent = `Removed ${todo.name}.`;
             renderTodoList();
         });
 
