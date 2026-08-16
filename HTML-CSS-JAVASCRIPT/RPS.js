@@ -119,6 +119,6 @@ function resetScore() {
   score = { wins: 0, losses: 0, tie: 0 };
   localStorage.removeItem(storageKey);
   updateScoreElement();
-  document.querySelector('.js-result').textContent = '';
+  document.querySelector('.js-result').textContent = 'Score reset.';
   document.querySelector('.js-moves').textContent = '';
 }
