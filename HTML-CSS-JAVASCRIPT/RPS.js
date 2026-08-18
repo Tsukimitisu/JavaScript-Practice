@@ -52,35 +52,9 @@ function loadScore() {
   return { wins: 0, losses: 0, tie: 0 };
 }
 
-function getComputerMove() {
-  const randomNumber = Math.random();
-
-  if (randomNumber < 1 / 3) {
-    return 'Scissors';
-  }
-
-  if (randomNumber < 2 / 3) {
-    return 'Paper';
-  }
-
-  return 'Rock';
-}
-
 function playGame(playerMove) {
-  const computerMove = getComputerMove();
-  let result = '';
-
-  if (playerMove === computerMove) {
-    result = 'Tie';
-  } else if (
-    (playerMove === 'Rock' && computerMove === 'Paper') ||
-    (playerMove === 'Scissors' && computerMove === 'Rock') ||
-    (playerMove === 'Paper' && computerMove === 'Scissors')
-  ) {
-    result = 'You Lose!';
-  } else {
-    result = 'You Win!';
-  }
+  const computerMove = RPSGame.getComputerMove();
+  const result = RPSGame.getResult(playerMove, computerMove);
 
   if (result === 'You Win!') {
     score.wins += 1;
