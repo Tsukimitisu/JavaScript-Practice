@@ -8,6 +8,7 @@ const messageElement = document.querySelector('.js-todo-message');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
+const searchElement = document.querySelector('.js-todo-search');
 const toggleAllButton = document.querySelector('.js-toggle-all');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 const todoCountElement = document.querySelector('.js-todo-count');
@@ -58,19 +59,17 @@ function isDuplicateTodo(name, excludedIndex = -1) {
 
 function renderTodoList() {
     listElement.replaceChildren();
+    const searchQuery = searchElement.value.trim().toLocaleLowerCase();
 
     const visibleTodos = todoList
         .map((todo, index) => ({ todo, index }))
         .filter(({ todo }) => {
-            if (filterElement.value === 'active') {
-                return !todo.completed;
-            }
+            const matchesFilter = filterElement.value === 'all' ||
+                (filterElement.value === 'active' && !todo.completed) ||
+                (filterElement.value === 'completed' && todo.completed);
+            const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
-            if (filterElement.value === 'completed') {
-                return todo.completed;
-            }
-
-            return true;
+            return matchesFilter && matchesSearch;
         });
 
     if (visibleTodos.length === 0) {
@@ -81,7 +80,9 @@ function renderTodoList() {
             completed: 'No completed tasks.'
         };
 
-        emptyItem.textContent = emptyMessages[filterElement.value];
+        emptyItem.textContent = searchQuery
+            ? `No tasks match "${searchElement.value.trim()}".`
+            : emptyMessages[filterElement.value];
         listElement.append(emptyItem);
     }
 
@@ -268,6 +269,11 @@ clearCompletedButton.addEventListener('click', () => {
 filterElement.addEventListener('change', () => {
     editingIndex = null;
     localStorage.setItem(filterStorageKey, filterElement.value);
+    renderTodoList();
+});
+
+searchElement.addEventListener('input', () => {
+    editingIndex = null;
     renderTodoList();
 });
 
