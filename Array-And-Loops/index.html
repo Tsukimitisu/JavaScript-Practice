@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <link rel="stylesheet" href="todo-list.css">
 </head>
 <body>
     <main>
@@ -16,16 +17,18 @@
         </form>
         <p class="js-todo-message" role="status" aria-live="polite"></p>
         <p class="js-todo-summary" aria-live="polite">0 tasks remaining</p>
-        <label for="todo-filter">Show</label>
-        <select id="todo-filter" class="js-todo-filter">
-            <option value="all">All tasks</option>
-            <option value="active">Active tasks</option>
-            <option value="completed">Completed tasks</option>
-        </select>
-        <label for="todo-search">Search</label>
-        <input type="search" id="todo-search" class="js-todo-search" placeholder="Search tasks" autocomplete="off">
-        <button type="button" class="js-toggle-all">Mark all complete</button>
-        <button type="button" class="js-clear-completed">Clear completed</button>
+        <section class="todo-controls" aria-label="Task controls">
+            <label for="todo-filter">Show</label>
+            <select id="todo-filter" class="js-todo-filter">
+                <option value="all">All tasks</option>
+                <option value="active">Active tasks</option>
+                <option value="completed">Completed tasks</option>
+            </select>
+            <label for="todo-search">Search</label>
+            <input type="search" id="todo-search" class="js-todo-search" placeholder="Search tasks" autocomplete="off">
+            <button type="button" class="js-toggle-all">Mark all complete</button>
+            <button type="button" class="js-clear-completed">Clear completed</button>
+        </section>
         <ul class="js-todo-list" aria-live="polite"></ul>
     </main>
     <script src="todo-list.js"></script>
