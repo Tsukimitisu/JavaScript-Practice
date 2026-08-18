@@ -27,3 +27,9 @@ npx serve .
 ```
 
 The command prints a local URL to open. Exercises that save a cart, score, palette, or todo list use browser local storage, so their state remains after a refresh. Clear the relevant exercise data from browser developer tools when you want a completely fresh start.
+
+Run the shared rock-paper-scissors rule tests with Node.js:
+
+```powershell
+node --test shared/rps-game.test.js
+```
