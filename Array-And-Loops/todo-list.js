@@ -85,7 +85,7 @@ function renderTodoList() {
         listElement.append(emptyItem);
     }
 
-    visibleTodos.forEach(({ todo, index }) => {
+    visibleTodos.forEach(({ todo, index }, visibleIndex) => {
         const itemElement = document.createElement('li');
 
         if (editingIndex === index) {
@@ -176,10 +176,11 @@ function renderTodoList() {
 
         moveUpButton.type = 'button';
         moveUpButton.textContent = 'Move up';
-        moveUpButton.disabled = index === 0;
+        moveUpButton.disabled = visibleIndex === 0;
         moveUpButton.setAttribute('aria-label', `Move ${todo.name} up`);
         moveUpButton.addEventListener('click', () => {
-            [todoList[index - 1], todoList[index]] = [todoList[index], todoList[index - 1]];
+            const previousIndex = visibleTodos[visibleIndex - 1].index;
+            [todoList[previousIndex], todoList[index]] = [todoList[index], todoList[previousIndex]];
             saveTodoList();
             messageElement.textContent = `Moved ${todo.name} up.`;
             renderTodoList();
@@ -187,10 +188,11 @@ function renderTodoList() {
 
         moveDownButton.type = 'button';
         moveDownButton.textContent = 'Move down';
-        moveDownButton.disabled = index === todoList.length - 1;
+        moveDownButton.disabled = visibleIndex === visibleTodos.length - 1;
         moveDownButton.setAttribute('aria-label', `Move ${todo.name} down`);
         moveDownButton.addEventListener('click', () => {
-            [todoList[index], todoList[index + 1]] = [todoList[index + 1], todoList[index]];
+            const nextIndex = visibleTodos[visibleIndex + 1].index;
+            [todoList[index], todoList[nextIndex]] = [todoList[nextIndex], todoList[index]];
             saveTodoList();
             messageElement.textContent = `Moved ${todo.name} down.`;
             renderTodoList();
