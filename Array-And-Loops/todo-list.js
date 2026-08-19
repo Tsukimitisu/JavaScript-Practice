@@ -8,6 +8,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 });
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
+const dueDateElement = document.querySelector('.js-due-date');
 const messageElement = document.querySelector('.js-todo-message');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
@@ -41,7 +42,8 @@ function loadTodoList() {
                     completed: Boolean(todo.completed),
                     createdAt: typeof todo.createdAt === 'string'
                         ? todo.createdAt
-                        : new Date().toISOString()
+                        : new Date().toISOString(),
+                    dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : ''
                 }];
             }
 
@@ -183,7 +185,9 @@ function renderTodoList() {
             todoText.style.textDecoration = 'line-through';
         }
 
-        todoMeta.textContent = `Added ${formatDate(todo.createdAt)}`;
+        todoMeta.textContent = todo.dueDate
+            ? `Due ${formatDate(todo.dueDate)} | Added ${formatDate(todo.createdAt)}`
+            : `Added ${formatDate(todo.createdAt)}`;
 
         moveUpButton.type = 'button';
         moveUpButton.textContent = 'Move up';
@@ -304,7 +308,12 @@ formElement.addEventListener('submit', (event) => {
         return;
     }
 
-    todoList.push({ name, completed: false, createdAt: new Date().toISOString() });
+    todoList.push({
+        name,
+        completed: false,
+        createdAt: new Date().toISOString(),
+        dueDate: dueDateElement.value
+    });
     saveTodoList();
     renderTodoList();
     formElement.reset();
