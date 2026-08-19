@@ -141,6 +141,11 @@ button:focus-visible {
     background: #f8fafc;
 }
 
+.js-todo-list li.todo-overdue {
+    border-color: #fca5a5;
+    background: #fff7f7;
+}
+
 .js-todo-list li > span {
     flex: 1 1 10rem;
     overflow-wrap: anywhere;
