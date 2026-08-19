@@ -15,10 +15,12 @@ const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
 const searchElement = document.querySelector('.js-todo-search');
+const sortElement = document.querySelector('.js-todo-sort');
 const toggleAllButton = document.querySelector('.js-toggle-all');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 const todoCountElement = document.querySelector('.js-todo-count');
 let editingIndex = null;
+const priorityWeight = { high: 0, normal: 1, low: 2 };
 
 const savedFilter = localStorage.getItem(filterStorageKey);
 if (['all', 'active', 'completed'].includes(savedFilter)) {
@@ -83,7 +85,8 @@ function renderTodoList() {
             const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
             return matchesFilter && matchesSearch;
-        });
+        })
+        .sort(compareVisibleTodos);
 
     if (visibleTodos.length === 0) {
         const emptyItem = document.createElement('li');
@@ -195,7 +198,7 @@ function renderTodoList() {
 
         moveUpButton.type = 'button';
         moveUpButton.textContent = 'Move up';
-        moveUpButton.disabled = visibleIndex === 0;
+        moveUpButton.disabled = sortElement.value !== 'manual' || visibleIndex === 0;
         moveUpButton.setAttribute('aria-label', `Move ${todo.name} up`);
         moveUpButton.addEventListener('click', () => {
             const previousIndex = visibleTodos[visibleIndex - 1].index;
@@ -207,7 +210,7 @@ function renderTodoList() {
 
         moveDownButton.type = 'button';
         moveDownButton.textContent = 'Move down';
-        moveDownButton.disabled = visibleIndex === visibleTodos.length - 1;
+        moveDownButton.disabled = sortElement.value !== 'manual' || visibleIndex === visibleTodos.length - 1;
         moveDownButton.setAttribute('aria-label', `Move ${todo.name} down`);
         moveDownButton.addEventListener('click', () => {
             const nextIndex = visibleTodos[visibleIndex + 1].index;
@@ -297,6 +300,11 @@ searchElement.addEventListener('input', () => {
     renderTodoList();
 });
 
+sortElement.addEventListener('change', () => {
+    editingIndex = null;
+    renderTodoList();
+});
+
 formElement.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -346,4 +354,33 @@ function formatDate(dateValue) {
 
 function formatPriority(priority) {
     return `${priority[0].toLocaleUpperCase()}${priority.slice(1)} priority`;
+}
+
+function compareVisibleTodos(first, second) {
+    if (sortElement.value === 'due-date') {
+        return compareDueDates(first.todo, second.todo) || first.index - second.index;
+    }
+
+    if (sortElement.value === 'priority') {
+        return priorityWeight[first.todo.priority] - priorityWeight[second.todo.priority] ||
+            first.index - second.index;
+    }
+
+    return first.index - second.index;
+}
+
+function compareDueDates(firstTodo, secondTodo) {
+    if (!firstTodo.dueDate && !secondTodo.dueDate) {
+        return 0;
+    }
+
+    if (!firstTodo.dueDate) {
+        return 1;
+    }
+
+    if (!secondTodo.dueDate) {
+        return -1;
+    }
+
+    return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
 }
