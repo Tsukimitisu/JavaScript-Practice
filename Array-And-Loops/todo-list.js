@@ -15,6 +15,7 @@ const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
 const searchElement = document.querySelector('.js-todo-search');
+const clearSearchButton = document.querySelector('.js-clear-search');
 const sortElement = document.querySelector('.js-todo-sort');
 const toggleAllButton = document.querySelector('.js-toggle-all');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
@@ -268,6 +269,7 @@ function renderTodoList() {
     toggleAllButton.disabled = todoList.length === 0;
     toggleAllButton.textContent = remainingCount > 0 ? 'Mark all complete' : 'Mark all active';
     clearCompletedButton.disabled = !todoList.some((todo) => todo.completed);
+    clearSearchButton.disabled = !searchQuery;
 }
 
 toggleAllButton.addEventListener('click', () => {
@@ -302,6 +304,13 @@ filterElement.addEventListener('change', () => {
 searchElement.addEventListener('input', () => {
     editingIndex = null;
     renderTodoList();
+});
+
+clearSearchButton.addEventListener('click', () => {
+    searchElement.value = '';
+    editingIndex = null;
+    renderTodoList();
+    searchElement.focus();
 });
 
 sortElement.addEventListener('change', () => {
