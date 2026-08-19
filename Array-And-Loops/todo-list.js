@@ -2,6 +2,10 @@ const storageKey = 'todo-list';
 const filterStorageKey = 'todo-list-filter';
 const maxTodoLength = 100;
 const todoList = loadTodoList();
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    month: 'short',
+    day: 'numeric'
+});
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
 const messageElement = document.querySelector('.js-todo-message');
@@ -28,13 +32,16 @@ function loadTodoList() {
 
         return savedTodos.flatMap((todo) => {
             if (typeof todo === 'string') {
-                return [{ name: todo, completed: false }];
+                return [{ name: todo, completed: false, createdAt: new Date().toISOString() }];
             }
 
             if (typeof todo?.name === 'string') {
                 return [{
                     name: todo.name,
-                    completed: Boolean(todo.completed)
+                    completed: Boolean(todo.completed),
+                    createdAt: typeof todo.createdAt === 'string'
+                        ? todo.createdAt
+                        : new Date().toISOString()
                 }];
             }
 
@@ -150,6 +157,7 @@ function renderTodoList() {
 
         const completedInput = document.createElement('input');
         const todoText = document.createElement('span');
+        const todoMeta = document.createElement('small');
         const moveUpButton = document.createElement('button');
         const moveDownButton = document.createElement('button');
         const editButton = document.createElement('button');
@@ -174,6 +182,8 @@ function renderTodoList() {
         if (todo.completed) {
             todoText.style.textDecoration = 'line-through';
         }
+
+        todoMeta.textContent = `Added ${formatDate(todo.createdAt)}`;
 
         moveUpButton.type = 'button';
         moveUpButton.textContent = 'Move up';
@@ -221,6 +231,8 @@ function renderTodoList() {
             completedInput,
             ' ',
             todoText,
+            ' ',
+            todoMeta,
             ' ',
             moveUpButton,
             ' ',
@@ -292,7 +304,7 @@ formElement.addEventListener('submit', (event) => {
         return;
     }
 
-    todoList.push({ name, completed: false });
+    todoList.push({ name, completed: false, createdAt: new Date().toISOString() });
     saveTodoList();
     renderTodoList();
     formElement.reset();
@@ -307,3 +319,13 @@ inputElement.addEventListener('input', () => {
 });
 
 renderTodoList();
+
+function formatDate(dateValue) {
+    const date = new Date(dateValue);
+
+    if (Number.isNaN(date.getTime())) {
+        return 'today';
+    }
+
+    return dateFormatter.format(date);
+}
