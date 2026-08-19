@@ -9,6 +9,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 const formElement = document.querySelector('.js-todo-form');
 const inputElement = document.querySelector('.js-input');
 const dueDateElement = document.querySelector('.js-due-date');
+const priorityElement = document.querySelector('.js-priority');
 const messageElement = document.querySelector('.js-todo-message');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
@@ -43,7 +44,10 @@ function loadTodoList() {
                     createdAt: typeof todo.createdAt === 'string'
                         ? todo.createdAt
                         : new Date().toISOString(),
-                    dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : ''
+                    dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : '',
+                    priority: ['high', 'normal', 'low'].includes(todo.priority)
+                        ? todo.priority
+                        : 'normal'
                 }];
             }
 
@@ -186,8 +190,8 @@ function renderTodoList() {
         }
 
         todoMeta.textContent = todo.dueDate
-            ? `Due ${formatDate(todo.dueDate)} | Added ${formatDate(todo.createdAt)}`
-            : `Added ${formatDate(todo.createdAt)}`;
+            ? `${formatPriority(todo.priority)} | Due ${formatDate(todo.dueDate)} | Added ${formatDate(todo.createdAt)}`
+            : `${formatPriority(todo.priority)} | Added ${formatDate(todo.createdAt)}`;
 
         moveUpButton.type = 'button';
         moveUpButton.textContent = 'Move up';
@@ -312,7 +316,8 @@ formElement.addEventListener('submit', (event) => {
         name,
         completed: false,
         createdAt: new Date().toISOString(),
-        dueDate: dueDateElement.value
+        dueDate: dueDateElement.value,
+        priority: priorityElement.value
     });
     saveTodoList();
     renderTodoList();
@@ -337,4 +342,8 @@ function formatDate(dateValue) {
     }
 
     return dateFormatter.format(date);
+}
+
+function formatPriority(priority) {
+    return `${priority[0].toLocaleUpperCase()}${priority.slice(1)} priority`;
 }
