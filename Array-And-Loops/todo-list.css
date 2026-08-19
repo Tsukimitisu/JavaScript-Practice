@@ -34,13 +34,13 @@ h1 {
 
 .js-todo-form {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1.4fr) minmax(10rem, 0.8fr) minmax(9rem, 0.7fr) auto auto;
     gap: 0.65rem;
     align-items: center;
 }
 
 .js-todo-form label {
-    grid-column: 1 / -1;
+    align-self: end;
 }
 
 label {
@@ -146,6 +146,12 @@ button:focus-visible {
     overflow-wrap: anywhere;
 }
 
+.js-todo-list li > small {
+    flex: 0 1 16rem;
+    color: #64748b;
+    font-size: 0.78rem;
+}
+
 .js-todo-list input[type="checkbox"] {
     min-height: auto;
     accent-color: #4f46e5;
@@ -168,11 +174,15 @@ button:focus-visible {
     }
 
     .js-todo-form {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr;
     }
 
-    .js-todo-form .js-input {
-        grid-column: 1 / -1;
+    .js-todo-count {
+        justify-self: start;
+    }
+
+    .js-todo-form button {
+        width: 100%;
     }
 
     .todo-controls {
