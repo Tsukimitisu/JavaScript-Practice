@@ -14,6 +14,12 @@
             <input type="text" id="todo-name" placeholder="Todo name" class="js-input" maxlength="100" aria-describedby="todo-name-count" required>
             <label for="todo-due-date">Due date</label>
             <input type="date" id="todo-due-date" class="js-due-date">
+            <label for="todo-priority">Priority</label>
+            <select id="todo-priority" class="js-priority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="low">Low</option>
+            </select>
             <span id="todo-name-count" class="js-todo-count">0 / 100</span>
             <button type="submit">Add</button>
         </form>
