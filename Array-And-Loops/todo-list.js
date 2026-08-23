@@ -403,10 +403,13 @@ function isOverdue(todo) {
         return false;
     }
 
-    const today = new Date();
-    const todayValue = today.toISOString().slice(0, 10);
+    return todo.dueDate < getLocalDateValue();
+}
 
-    return todo.dueDate < todayValue;
+function getLocalDateValue(date = new Date()) {
+    const timezoneOffset = date.getTimezoneOffset() * 60 * 1000;
+
+    return new Date(date.getTime() - timezoneOffset).toISOString().slice(0, 10);
 }
 
 function getDueDateLabel(todo) {
