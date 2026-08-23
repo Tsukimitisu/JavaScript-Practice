@@ -1,5 +1,6 @@
 const storageKey = 'todo-list';
 const filterStorageKey = 'todo-list-filter';
+const sortStorageKey = 'todo-list-sort';
 const maxTodoLength = 100;
 const todoList = loadTodoList();
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -26,6 +27,11 @@ const priorityWeight = { high: 0, normal: 1, low: 2 };
 const savedFilter = localStorage.getItem(filterStorageKey);
 if (['all', 'active', 'completed'].includes(savedFilter)) {
     filterElement.value = savedFilter;
+}
+
+const savedSort = localStorage.getItem(sortStorageKey);
+if (['manual', 'due-date', 'priority'].includes(savedSort)) {
+    sortElement.value = savedSort;
 }
 
 function loadTodoList() {
@@ -315,6 +321,7 @@ clearSearchButton.addEventListener('click', () => {
 
 sortElement.addEventListener('change', () => {
     editingIndex = null;
+    localStorage.setItem(sortStorageKey, sortElement.value);
     renderTodoList();
 });
 
