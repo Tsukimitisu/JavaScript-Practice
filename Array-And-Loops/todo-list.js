@@ -273,8 +273,11 @@ function renderTodoList() {
 
     const remainingCount = todoList.filter((todo) => !todo.completed).length;
     const completedCount = todoList.length - remainingCount;
+    const visibleCountText = filterElement.value !== 'all' || searchQuery
+        ? `${visibleTodos.length} shown. `
+        : '';
     summaryElement.textContent =
-        `${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining, ` +
+        `${visibleCountText}${remainingCount} ${remainingCount === 1 ? 'task' : 'tasks'} remaining, ` +
         `${completedCount} completed, ${todoList.length} total.`;
     toggleAllButton.disabled = todoList.length === 0;
     toggleAllButton.textContent = remainingCount > 0 ? 'Mark all complete' : 'Mark all active';
