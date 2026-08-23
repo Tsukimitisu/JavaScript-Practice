@@ -132,6 +132,22 @@ button:focus-visible {
     flex: 1 1 12rem;
 }
 
+.todo-shortcuts {
+    margin: 0.85rem 0 0;
+    color: #64748b;
+    font-size: 0.82rem;
+}
+
+kbd {
+    border: 1px solid #cbd5e1;
+    border-bottom-width: 2px;
+    border-radius: 0.3rem;
+    padding: 0.08rem 0.35rem;
+    background: #f8fafc;
+    color: #334155;
+    font-family: inherit;
+}
+
 .js-clear-search {
     background: #0f766e;
 }

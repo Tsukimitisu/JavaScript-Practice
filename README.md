@@ -18,6 +18,12 @@ A collection of small browser exercises for learning JavaScript fundamentals, DO
 | Combined | [Styled rock paper scissors](HTML-CSS-JAVASCRIPT/RPSFinal.html) | Accessible UI, CSS, and event listeners |
 | Website | [Luma Studio](new-website/index.html) | Responsive design, forms, themes, and navigation |
 
+## Todo list features
+
+The todo exercise stores tasks in the browser and supports due dates, priorities, completion states, editing, manual reordering, and sorting. Use the task filter to focus on active, completed, due-today, or overdue work. Removed tasks can be restored with **Undo remove** until another task is removed.
+
+Press `/` outside a form field to focus task search. While search is focused, press `Escape` to clear it and return to the task list.
+
 ## Run locally
 
 No packages or build step are required. Clone the repository and open an exercise HTML file in a browser. You can also serve the whole folder so every project is available from one local origin:
