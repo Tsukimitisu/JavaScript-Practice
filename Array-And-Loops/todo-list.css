@@ -103,6 +103,16 @@ button:focus-visible {
     font-weight: 700;
 }
 
+.js-undo-remove {
+    min-height: 2.25rem;
+    padding-block: 0.4rem;
+    background: #0f766e;
+}
+
+.js-undo-remove:hover:not(:disabled) {
+    background: #115e59;
+}
+
 .js-todo-summary {
     margin-top: 0.35rem;
     color: #475569;

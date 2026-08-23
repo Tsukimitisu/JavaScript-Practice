@@ -12,6 +12,7 @@ const inputElement = document.querySelector('.js-input');
 const dueDateElement = document.querySelector('.js-due-date');
 const priorityElement = document.querySelector('.js-priority');
 const messageElement = document.querySelector('.js-todo-message');
+const undoRemoveButton = document.querySelector('.js-undo-remove');
 const listElement = document.querySelector('.js-todo-list');
 const summaryElement = document.querySelector('.js-todo-summary');
 const filterElement = document.querySelector('.js-todo-filter');
@@ -22,6 +23,7 @@ const toggleAllButton = document.querySelector('.js-toggle-all');
 const clearCompletedButton = document.querySelector('.js-clear-completed');
 const todoCountElement = document.querySelector('.js-todo-count');
 let editingIndex = null;
+let lastRemovedTodo = null;
 const priorityWeight = { high: 0, normal: 1, low: 2 };
 
 const savedFilter = localStorage.getItem(filterStorageKey);
@@ -291,7 +293,9 @@ function renderTodoList() {
         removeButton.textContent = 'Remove';
         removeButton.setAttribute('aria-label', `Remove ${todo.name}`);
         removeButton.addEventListener('click', () => {
-            todoList.splice(index, 1);
+            const [removedTodo] = todoList.splice(index, 1);
+            lastRemovedTodo = { todo: removedTodo, index };
+            undoRemoveButton.hidden = false;
             saveTodoList();
             messageElement.textContent = `Removed ${todo.name}.`;
             renderTodoList();
@@ -349,6 +353,20 @@ clearCompletedButton.addEventListener('click', () => {
     todoList.splice(0, todoList.length, ...activeTodos);
     saveTodoList();
     messageElement.textContent = `Cleared ${completedCount} completed ${completedCount === 1 ? 'task' : 'tasks'}.`;
+    renderTodoList();
+});
+
+undoRemoveButton.addEventListener('click', () => {
+    if (!lastRemovedTodo) {
+        return;
+    }
+
+    const insertIndex = Math.min(lastRemovedTodo.index, todoList.length);
+    todoList.splice(insertIndex, 0, lastRemovedTodo.todo);
+    messageElement.textContent = `Restored ${lastRemovedTodo.todo.name}.`;
+    lastRemovedTodo = null;
+    undoRemoveButton.hidden = true;
+    saveTodoList();
     renderTodoList();
 });
 
