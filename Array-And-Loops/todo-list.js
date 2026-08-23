@@ -25,7 +25,7 @@ let editingIndex = null;
 const priorityWeight = { high: 0, normal: 1, low: 2 };
 
 const savedFilter = localStorage.getItem(filterStorageKey);
-if (['all', 'active', 'completed'].includes(savedFilter)) {
+if (['all', 'active', 'completed', 'overdue'].includes(savedFilter)) {
     filterElement.value = savedFilter;
 }
 
@@ -88,7 +88,8 @@ function renderTodoList() {
         .filter(({ todo }) => {
             const matchesFilter = filterElement.value === 'all' ||
                 (filterElement.value === 'active' && !todo.completed) ||
-                (filterElement.value === 'completed' && todo.completed);
+                (filterElement.value === 'completed' && todo.completed) ||
+                (filterElement.value === 'overdue' && isOverdue(todo));
             const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
             return matchesFilter && matchesSearch;
@@ -100,7 +101,8 @@ function renderTodoList() {
         const emptyMessages = {
             all: 'No tasks yet. Add one above.',
             active: 'No active tasks.',
-            completed: 'No completed tasks.'
+            completed: 'No completed tasks.',
+            overdue: 'No overdue tasks.'
         };
 
         emptyItem.textContent = searchQuery
