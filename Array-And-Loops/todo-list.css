@@ -170,15 +170,22 @@ button:focus-visible {
     accent-color: #4f46e5;
 }
 
-.js-todo-list li form {
-    display: flex;
+.js-todo-list li .todo-edit-form {
+    display: grid;
     flex: 1 1 100%;
-    flex-wrap: wrap;
+    grid-template-columns: minmax(10rem, 1fr) minmax(9rem, auto) minmax(8rem, auto) auto auto;
     gap: 0.55rem;
+    align-items: end;
 }
 
-.js-todo-list li form input {
-    flex: 1 1 12rem;
+.todo-edit-form label {
+    grid-row: 1;
+}
+
+.todo-edit-form input,
+.todo-edit-form select,
+.todo-edit-form button {
+    grid-row: 2;
 }
 
 @media (max-width: 38rem) {
@@ -205,5 +212,16 @@ button:focus-visible {
 
     .todo-controls input {
         flex-basis: auto;
+    }
+
+    .js-todo-list li .todo-edit-form {
+        grid-template-columns: 1fr;
+    }
+
+    .todo-edit-form label,
+    .todo-edit-form input,
+    .todo-edit-form select,
+    .todo-edit-form button {
+        grid-row: auto;
     }
 }

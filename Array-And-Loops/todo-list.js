@@ -118,13 +118,38 @@ function renderTodoList() {
 
         if (editingIndex === index) {
             const editForm = document.createElement('form');
+            const editNameLabel = document.createElement('label');
             const editInput = document.createElement('input');
+            const editDueDateLabel = document.createElement('label');
+            const editDueDateInput = document.createElement('input');
+            const editPriorityLabel = document.createElement('label');
+            const editPrioritySelect = document.createElement('select');
             const saveButton = document.createElement('button');
             const cancelButton = document.createElement('button');
 
+            editForm.className = 'todo-edit-form';
+            editNameLabel.htmlFor = `edit-todo-name-${index}`;
+            editNameLabel.textContent = 'Task name';
+            editInput.id = editNameLabel.htmlFor;
             editInput.value = todo.name;
             editInput.required = true;
-            editInput.setAttribute('aria-label', `Edit ${todo.name}`);
+
+            editDueDateLabel.htmlFor = `edit-todo-date-${index}`;
+            editDueDateLabel.textContent = 'Due date';
+            editDueDateInput.id = editDueDateLabel.htmlFor;
+            editDueDateInput.type = 'date';
+            editDueDateInput.value = todo.dueDate;
+
+            editPriorityLabel.htmlFor = `edit-todo-priority-${index}`;
+            editPriorityLabel.textContent = 'Priority';
+            editPrioritySelect.id = editPriorityLabel.htmlFor;
+            ['high', 'normal', 'low'].forEach((priority) => {
+                const option = document.createElement('option');
+                option.value = priority;
+                option.textContent = formatPriority(priority);
+                editPrioritySelect.append(option);
+            });
+            editPrioritySelect.value = todo.priority;
 
             saveButton.type = 'submit';
             saveButton.textContent = 'Save';
@@ -162,13 +187,24 @@ function renderTodoList() {
                 }
 
                 todo.name = updatedName;
+                todo.dueDate = editDueDateInput.value;
+                todo.priority = editPrioritySelect.value;
                 editingIndex = null;
                 saveTodoList();
-                messageElement.textContent = `Updated task to ${updatedName}.`;
+                messageElement.textContent = `Updated ${updatedName}.`;
                 renderTodoList();
             });
 
-            editForm.append(editInput, ' ', saveButton, ' ', cancelButton);
+            editForm.append(
+                editNameLabel,
+                editInput,
+                editDueDateLabel,
+                editDueDateInput,
+                editPriorityLabel,
+                editPrioritySelect,
+                saveButton,
+                cancelButton
+            );
             itemElement.append(editForm);
             listElement.append(itemElement);
             editInput.focus();
