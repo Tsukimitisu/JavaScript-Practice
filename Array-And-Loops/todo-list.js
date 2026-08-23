@@ -382,10 +382,35 @@ searchElement.addEventListener('input', () => {
 });
 
 clearSearchButton.addEventListener('click', () => {
+    clearTodoSearch();
+});
+
+function clearTodoSearch({ focusSearch = true } = {}) {
     searchElement.value = '';
     editingIndex = null;
     renderTodoList();
-    searchElement.focus();
+
+    if (focusSearch) {
+        searchElement.focus();
+    }
+}
+
+document.addEventListener('keydown', (event) => {
+    const isTyping = ['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName) ||
+        event.target.isContentEditable;
+
+    if (event.key === '/' && !isTyping) {
+        event.preventDefault();
+        searchElement.focus();
+        return;
+    }
+
+    if (event.key === 'Escape' && document.activeElement === searchElement) {
+        event.preventDefault();
+        clearTodoSearch({ focusSearch: false });
+        searchElement.blur();
+        messageElement.textContent = 'Cleared task search.';
+    }
 });
 
 sortElement.addEventListener('change', () => {
