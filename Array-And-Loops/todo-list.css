@@ -182,6 +182,13 @@ button:focus-visible {
     grid-row: 1;
 }
 
+.todo-edit-count {
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
 .todo-edit-form input,
 .todo-edit-form select,
 .todo-edit-form button {

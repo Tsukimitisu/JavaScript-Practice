@@ -119,6 +119,7 @@ function renderTodoList() {
         if (editingIndex === index) {
             const editForm = document.createElement('form');
             const editNameLabel = document.createElement('label');
+            const editCount = document.createElement('span');
             const editInput = document.createElement('input');
             const editDueDateLabel = document.createElement('label');
             const editDueDateInput = document.createElement('input');
@@ -129,10 +130,17 @@ function renderTodoList() {
 
             editForm.className = 'todo-edit-form';
             editNameLabel.htmlFor = `edit-todo-name-${index}`;
-            editNameLabel.textContent = 'Task name';
+            editNameLabel.textContent = 'Task name ';
+            editCount.className = 'todo-edit-count';
+            editCount.textContent = `${todo.name.length} / ${maxTodoLength}`;
+            editNameLabel.append(editCount);
             editInput.id = editNameLabel.htmlFor;
             editInput.value = todo.name;
             editInput.required = true;
+            editInput.maxLength = maxTodoLength;
+            editInput.addEventListener('input', () => {
+                editCount.textContent = `${editInput.value.length} / ${maxTodoLength}`;
+            });
 
             editDueDateLabel.htmlFor = `edit-todo-date-${index}`;
             editDueDateLabel.textContent = 'Due date';
