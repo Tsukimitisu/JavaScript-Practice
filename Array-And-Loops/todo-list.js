@@ -25,7 +25,7 @@ let editingIndex = null;
 const priorityWeight = { high: 0, normal: 1, low: 2 };
 
 const savedFilter = localStorage.getItem(filterStorageKey);
-if (['all', 'active', 'completed', 'overdue'].includes(savedFilter)) {
+if (['all', 'active', 'completed', 'today', 'overdue'].includes(savedFilter)) {
     filterElement.value = savedFilter;
 }
 
@@ -89,6 +89,7 @@ function renderTodoList() {
             const matchesFilter = filterElement.value === 'all' ||
                 (filterElement.value === 'active' && !todo.completed) ||
                 (filterElement.value === 'completed' && todo.completed) ||
+                (filterElement.value === 'today' && isDueToday(todo)) ||
                 (filterElement.value === 'overdue' && isOverdue(todo));
             const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
@@ -102,6 +103,7 @@ function renderTodoList() {
             all: 'No tasks yet. Add one above.',
             active: 'No active tasks.',
             completed: 'No completed tasks.',
+            today: 'No tasks are due today.',
             overdue: 'No overdue tasks.'
         };
 
@@ -413,6 +415,10 @@ function isOverdue(todo) {
     }
 
     return todo.dueDate < getLocalDateValue();
+}
+
+function isDueToday(todo) {
+    return todo.dueDate === getLocalDateValue();
 }
 
 function getLocalDateValue(date = new Date()) {
