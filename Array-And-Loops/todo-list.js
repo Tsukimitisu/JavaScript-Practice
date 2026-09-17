@@ -247,6 +247,7 @@ function renderTodoList() {
         moveUpButton.addEventListener('click', () => {
             const previousIndex = visibleTodos[visibleIndex - 1].index;
             [todoList[previousIndex], todoList[index]] = [todoList[index], todoList[previousIndex]];
+            editingIndex = null;
             saveTodoList();
             messageElement.textContent = `Moved ${todo.name} up.`;
             renderTodoList();
@@ -259,6 +260,7 @@ function renderTodoList() {
         moveDownButton.addEventListener('click', () => {
             const nextIndex = visibleTodos[visibleIndex + 1].index;
             [todoList[index], todoList[nextIndex]] = [todoList[nextIndex], todoList[index]];
+            editingIndex = null;
             saveTodoList();
             messageElement.textContent = `Moved ${todo.name} down.`;
             renderTodoList();
@@ -277,6 +279,7 @@ function renderTodoList() {
         removeButton.setAttribute('aria-label', `Remove ${todo.name}`);
         removeButton.addEventListener('click', () => {
             const [removedTodo] = todoList.splice(index, 1);
+            editingIndex = null;
             lastRemovedTodo = { todo: removedTodo, index };
             undoRemoveButton.hidden = false;
             saveTodoList();
@@ -334,6 +337,7 @@ clearCompletedButton.addEventListener('click', () => {
     const completedCount = todoList.filter((todo) => todo.completed).length;
     const activeTodos = todoList.filter((todo) => !todo.completed);
     todoList.splice(0, todoList.length, ...activeTodos);
+    editingIndex = null;
     saveTodoList();
     messageElement.textContent = `Cleared ${completedCount} completed ${completedCount === 1 ? 'task' : 'tasks'}.`;
     renderTodoList();
@@ -346,6 +350,7 @@ undoRemoveButton.addEventListener('click', () => {
 
     const insertIndex = Math.min(lastRemovedTodo.index, todoList.length);
     todoList.splice(insertIndex, 0, lastRemovedTodo.todo);
+    editingIndex = null;
     messageElement.textContent = `Restored ${lastRemovedTodo.todo.name}.`;
     lastRemovedTodo = null;
     undoRemoveButton.hidden = true;
