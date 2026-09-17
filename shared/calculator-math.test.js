@@ -36,6 +36,13 @@ test('starts decimal operands with zero', () => {
     assert.equal(evaluate('2 + 0.5'), 2.5);
 });
 
+test('replaces redundant leading zeros when entering whole numbers', () => {
+    assert.equal(appendToken('0', '5'), '5');
+    assert.equal(appendToken('-0', '5'), '-5');
+    assert.equal(appendToken('2 + 0', '7'), '2 + 7');
+    assert.equal(appendToken('0.', '5'), '0.5');
+});
+
 test('toggles the current operand sign', () => {
     assert.equal(toggleSign('2 + 3'), '2 + -3');
     assert.equal(toggleSign('2 + -3'), '2 + 3');

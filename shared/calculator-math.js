@@ -48,6 +48,13 @@
             return `${currentExpression} ${token === '.' ? '0.' : token}`;
         }
 
+        if (/^-?0$/.test(currentNumber) && /^\d$/.test(token)) {
+            tokens[tokens.length - 1] = currentNumber.startsWith('-')
+                ? `-${token}`
+                : token;
+            return tokens.join(' ');
+        }
+
         return `${currentExpression}${token}`;
     }
 
