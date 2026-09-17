@@ -44,25 +44,8 @@ function loadTodoList() {
         }
 
         return savedTodos.flatMap((todo) => {
-            if (typeof todo === 'string') {
-                return [{ name: todo, completed: false, createdAt: new Date().toISOString() }];
-            }
-
-            if (typeof todo?.name === 'string') {
-                return [{
-                    name: todo.name,
-                    completed: Boolean(todo.completed),
-                    createdAt: typeof todo.createdAt === 'string'
-                        ? todo.createdAt
-                        : new Date().toISOString(),
-                    dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : '',
-                    priority: ['high', 'normal', 'low'].includes(todo.priority)
-                        ? todo.priority
-                        : 'normal'
-                }];
-            }
-
-            return [];
+            const normalizedTodo = TodoData.normalizeTodo(todo);
+            return normalizedTodo ? [normalizedTodo] : [];
         });
     } catch {
         return [];
