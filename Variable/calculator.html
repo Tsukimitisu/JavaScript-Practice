@@ -70,7 +70,7 @@
         }
 
         function removeLastEntry() {
-            calculation = calculation.trimEnd().slice(0, -1).trimEnd();
+            calculation = CalculatorMath.backspace(calculation);
             displayCalculation();
         }
 
