@@ -43,6 +43,12 @@ test('replaces redundant leading zeros when entering whole numbers', () => {
     assert.equal(appendToken('0.', '5'), '0.5');
 });
 
+test('replaces a pending negative operand when changing operators', () => {
+    assert.equal(appendToken('2 + -', '*'), '2 * ');
+    assert.equal(appendToken('2 - -', '/'), '2 / ');
+    assert.equal(appendToken('-', '*'), '-');
+});
+
 test('toggles the current operand sign', () => {
     assert.equal(toggleSign('2 + 3'), '2 + -3');
     assert.equal(toggleSign('2 + -3'), '2 + 3');

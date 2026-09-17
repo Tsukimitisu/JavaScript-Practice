@@ -14,6 +14,15 @@
             }
 
             const tokens = currentExpression.split(/\s+/);
+            if (tokens.length === 1 && tokens[0] === '-') {
+                return expression;
+            }
+
+            if (tokens.at(-1) === '-' && operatorPattern.test(tokens.at(-2))) {
+                tokens.splice(-2, 2, token);
+                return `${tokens.join(' ')} `;
+            }
+
             if (operatorPattern.test(tokens.at(-1))) {
                 tokens[tokens.length - 1] = token;
                 return `${tokens.join(' ')} `;
