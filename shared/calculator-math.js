@@ -103,6 +103,12 @@
         return tokens.join(' ');
     }
 
+    function backspace(expression) {
+        return typeof expression === 'string'
+            ? expression.trimEnd().slice(0, -1).trimEnd()
+            : '';
+    }
+
     function evaluate(expression) {
         if (typeof expression !== 'string' || !expression.trim()) {
             throw new Error('Enter a calculation.');
@@ -155,5 +161,5 @@
         return result;
     }
 
-    global.CalculatorMath = Object.freeze({ appendToken, evaluate, toggleSign });
+    global.CalculatorMath = Object.freeze({ appendToken, backspace, evaluate, toggleSign });
 }(globalThis));

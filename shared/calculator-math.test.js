@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 
 require('./calculator-math.js');
 
-const { appendToken, evaluate, toggleSign } = globalThis.CalculatorMath;
+const { appendToken, backspace, evaluate, toggleSign } = globalThis.CalculatorMath;
 
 test('evaluates multiplication and division before addition and subtraction', () => {
     assert.equal(evaluate('2 + 3 * 4'), 14);
@@ -53,4 +53,11 @@ test('toggles the current operand sign', () => {
     assert.equal(toggleSign('2 + 3'), '2 + -3');
     assert.equal(toggleSign('2 + -3'), '2 + 3');
     assert.equal(toggleSign('2 + '), '2 + -');
+});
+
+test('backspace removes digits and whole pending operators', () => {
+    assert.equal(backspace('23'), '2');
+    assert.equal(backspace('2 + '), '2');
+    assert.equal(backspace('2 + -3'), '2 + -');
+    assert.equal(backspace(''), '');
 });
