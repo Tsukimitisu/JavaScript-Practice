@@ -26,6 +26,10 @@
             return expression || '';
         }
 
+        if (token === '.' && !currentExpression) {
+            return '0.';
+        }
+
         const tokens = currentExpression.split(/\s+/);
         const currentNumber = tokens.at(-1) || '';
 
@@ -37,11 +41,11 @@
             currentNumber === '-' &&
             (tokens.length === 1 || operatorPattern.test(tokens.at(-2)))
         ) {
-            return `${currentExpression}${token}`;
+            return `${currentExpression}${token === '.' ? '0.' : token}`;
         }
 
         if (operatorPattern.test(currentNumber)) {
-            return `${currentExpression} ${token}`;
+            return `${currentExpression} ${token === '.' ? '0.' : token}`;
         }
 
         return `${currentExpression}${token}`;

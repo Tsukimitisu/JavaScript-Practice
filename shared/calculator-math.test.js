@@ -29,6 +29,13 @@ test('appends digits and replaces a pending operator', () => {
     assert.equal(appendToken('2 + ', '3'), '2 + 3');
 });
 
+test('starts decimal operands with zero', () => {
+    assert.equal(appendToken('', '.'), '0.');
+    assert.equal(appendToken('2 + ', '.'), '2 + 0.');
+    assert.equal(appendToken('2 + -', '.'), '2 + -0.');
+    assert.equal(evaluate('2 + 0.5'), 2.5);
+});
+
 test('toggles the current operand sign', () => {
     assert.equal(toggleSign('2 + 3'), '2 + -3');
     assert.equal(toggleSign('2 + -3'), '2 + 3');
