@@ -27,5 +27,11 @@
         };
     }
 
-    global.TodoData = Object.freeze({ normalizeTodo });
+    function parseDate(dateValue) {
+        return /^\d{4}-\d{2}-\d{2}$/.test(dateValue)
+            ? new Date(`${dateValue}T00:00:00`)
+            : new Date(dateValue);
+    }
+
+    global.TodoData = Object.freeze({ normalizeTodo, parseDate });
 }(globalThis));

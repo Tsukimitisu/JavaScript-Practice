@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 
 require('./todo-data.js');
 
-const { normalizeTodo } = globalThis.TodoData;
+const { normalizeTodo, parseDate } = globalThis.TodoData;
 const createdAt = '2026-09-17T00:00:00.000Z';
 
 test('migrates legacy string tasks with all fields used by the list', () => {
@@ -32,4 +32,20 @@ test('preserves supported task fields and defaults invalid priorities', () => {
     });
     assert.equal(normalizeTodo({ name: 'Task', priority: 'urgent' }, createdAt).priority, 'normal');
     assert.equal(normalizeTodo({ completed: true }, createdAt), null);
+});
+
+test('interprets due dates in the local calendar day', () => {
+    const previousTimeZone = process.env.TZ;
+    process.env.TZ = 'America/Los_Angeles';
+
+    try {
+        assert.equal(parseDate('2026-09-17').getDate(), 17);
+        assert.equal(parseDate('2026-09-17T12:00:00.000Z').getDate(), 17);
+    } finally {
+        if (previousTimeZone === undefined) {
+            delete process.env.TZ;
+        } else {
+            process.env.TZ = previousTimeZone;
+        }
+    }
 });

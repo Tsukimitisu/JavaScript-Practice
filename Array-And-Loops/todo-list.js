@@ -440,7 +440,7 @@ inputElement.addEventListener('input', () => {
 renderTodoList();
 
 function formatDate(dateValue) {
-    const date = new Date(dateValue);
+    const date = TodoData.parseDate(dateValue);
 
     if (Number.isNaN(date.getTime())) {
         return 'today';
