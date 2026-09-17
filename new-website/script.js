@@ -69,14 +69,14 @@ contactForm.addEventListener("submit", (event) => {
 
   if (!emailInput.checkValidity()) {
     emailInput.setAttribute("aria-invalid", "true");
-    formMessage.textContent = "Enter a valid email so we can contact you.";
+    formMessage.textContent = "Enter a valid email address.";
     formMessage.dataset.state = "error";
     emailInput.focus();
     return;
   }
 
   emailInput.removeAttribute("aria-invalid");
-  formMessage.textContent = "Thanks. We will send a proposal soon.";
+  formMessage.textContent = "Email looks valid. This demo did not send a message.";
   formMessage.dataset.state = "success";
   contactForm.reset();
 });
