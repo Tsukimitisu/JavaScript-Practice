@@ -74,7 +74,7 @@ function renderTodoList() {
             const matchesFilter = filterElement.value === 'all' ||
                 (filterElement.value === 'active' && !todo.completed) ||
                 (filterElement.value === 'completed' && todo.completed) ||
-                (filterElement.value === 'today' && isDueToday(todo)) ||
+                (filterElement.value === 'today' && TodoData.isDueToday(todo)) ||
                 (filterElement.value === 'overdue' && isOverdue(todo));
             const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
@@ -493,10 +493,6 @@ function isOverdue(todo) {
     }
 
     return todo.dueDate < TodoData.getLocalDateValue();
-}
-
-function isDueToday(todo) {
-    return todo.dueDate === TodoData.getLocalDateValue();
 }
 
 function getDueDateLabel(todo) {

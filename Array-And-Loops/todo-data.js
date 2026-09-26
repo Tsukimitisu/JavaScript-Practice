@@ -26,6 +26,10 @@
         return new Date(date.getTime() - timezoneOffset).toISOString().slice(0, 10);
     }
 
+    function isDueToday(todo, date = new Date()) {
+        return todo?.dueDate === getLocalDateValue(date);
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -73,6 +77,7 @@
     global.TodoData = Object.freeze({
         getLocalDateValue,
         isDateValue,
+        isDueToday,
         normalizeTodo,
         parseDate
     });
