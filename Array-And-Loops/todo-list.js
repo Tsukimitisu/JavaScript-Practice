@@ -75,7 +75,7 @@ function renderTodoList() {
                 (filterElement.value === 'active' && !todo.completed) ||
                 (filterElement.value === 'completed' && todo.completed) ||
                 (filterElement.value === 'today' && TodoData.isDueToday(todo)) ||
-                (filterElement.value === 'overdue' && isOverdue(todo));
+                (filterElement.value === 'overdue' && TodoData.isOverdue(todo));
             const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
 
             return matchesFilter && matchesSearch;
@@ -232,7 +232,7 @@ function renderTodoList() {
             todoText.style.textDecoration = 'line-through';
         }
 
-        if (isOverdue(todo)) {
+        if (TodoData.isOverdue(todo)) {
             itemElement.classList.add('todo-overdue');
         }
 
@@ -487,16 +487,8 @@ function compareDueDates(firstTodo, secondTodo) {
     return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
 }
 
-function isOverdue(todo) {
-    if (!todo.dueDate || todo.completed) {
-        return false;
-    }
-
-    return todo.dueDate < TodoData.getLocalDateValue();
-}
-
 function getDueDateLabel(todo) {
-    return isOverdue(todo)
+    return TodoData.isOverdue(todo)
         ? `Overdue ${formatDate(todo.dueDate)}`
         : `Due ${formatDate(todo.dueDate)}`;
 }

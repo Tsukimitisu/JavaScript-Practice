@@ -30,6 +30,14 @@
         return todo?.dueDate === getLocalDateValue(date);
     }
 
+    function isOverdue(todo, date = new Date()) {
+        return Boolean(
+            todo?.dueDate &&
+            !todo.completed &&
+            todo.dueDate < getLocalDateValue(date)
+        );
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -78,6 +86,7 @@
         getLocalDateValue,
         isDateValue,
         isDueToday,
+        isOverdue,
         normalizeTodo,
         parseDate
     });

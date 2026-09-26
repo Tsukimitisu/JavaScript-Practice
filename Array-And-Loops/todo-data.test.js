@@ -7,6 +7,7 @@ const {
     getLocalDateValue,
     isDateValue,
     isDueToday,
+    isOverdue,
     normalizeTodo,
     parseDate
 } = globalThis.TodoData;
@@ -87,4 +88,13 @@ test('detects tasks due on the supplied local day', () => {
     assert.equal(isDueToday({ dueDate: '2026-09-17' }, now), true);
     assert.equal(isDueToday({ dueDate: '2026-09-18' }, now), false);
     assert.equal(isDueToday({ dueDate: '' }, now), false);
+});
+
+test('only marks incomplete tasks before the supplied day as overdue', () => {
+    const now = new Date(2026, 8, 17, 12);
+
+    assert.equal(isOverdue({ dueDate: '2026-09-16', completed: false }, now), true);
+    assert.equal(isOverdue({ dueDate: '2026-09-17', completed: false }, now), false);
+    assert.equal(isOverdue({ dueDate: '2026-09-16', completed: true }, now), false);
+    assert.equal(isOverdue({ dueDate: '', completed: false }, now), false);
 });
