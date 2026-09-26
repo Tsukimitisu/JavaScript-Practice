@@ -24,7 +24,6 @@ const clearCompletedButton = document.querySelector('.js-clear-completed');
 const todoCountElement = document.querySelector('.js-todo-count');
 let editingIndex = null;
 let lastRemovedTodo = null;
-const priorityWeight = { high: 0, normal: 1, low: 2 };
 
 const savedFilter = localStorage.getItem(filterStorageKey);
 if (['all', 'active', 'completed', 'today', 'overdue'].includes(savedFilter)) {
@@ -464,7 +463,7 @@ function compareVisibleTodos(first, second) {
     }
 
     if (sortElement.value === 'priority') {
-        return priorityWeight[first.todo.priority] - priorityWeight[second.todo.priority] ||
+        return TodoData.comparePriorities(first.todo, second.todo) ||
             first.index - second.index;
     }
 

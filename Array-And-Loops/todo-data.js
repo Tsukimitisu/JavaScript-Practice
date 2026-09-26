@@ -1,6 +1,8 @@
 (function attachTodoData(global) {
     'use strict';
 
+    const priorityWeight = Object.freeze({ high: 0, normal: 1, low: 2 });
+
     function isDateValue(value) {
         if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
             return false;
@@ -54,6 +56,10 @@
         return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
     }
 
+    function comparePriorities(firstTodo, secondTodo) {
+        return priorityWeight[firstTodo.priority] - priorityWeight[secondTodo.priority];
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -100,6 +106,7 @@
 
     global.TodoData = Object.freeze({
         compareDueDates,
+        comparePriorities,
         getLocalDateValue,
         isDateValue,
         isDueToday,

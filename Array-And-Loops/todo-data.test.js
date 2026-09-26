@@ -5,6 +5,7 @@ require('./todo-data.js');
 
 const {
     compareDueDates,
+    comparePriorities,
     getLocalDateValue,
     isDateValue,
     isDueToday,
@@ -111,4 +112,15 @@ test('sorts dated tasks first and undated tasks last', () => {
     assert.ok(compareDueDates(early, undated) < 0);
     assert.ok(compareDueDates(undated, early) > 0);
     assert.equal(compareDueDates(undated, undated), 0);
+});
+
+test('sorts priorities from high to low', () => {
+    const high = { priority: 'high' };
+    const normal = { priority: 'normal' };
+    const low = { priority: 'low' };
+
+    assert.ok(comparePriorities(high, normal) < 0);
+    assert.ok(comparePriorities(normal, low) < 0);
+    assert.ok(comparePriorities(low, high) > 0);
+    assert.equal(comparePriorities(normal, normal), 0);
 });
