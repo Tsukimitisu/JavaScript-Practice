@@ -38,6 +38,22 @@
         );
     }
 
+    function compareDueDates(firstTodo, secondTodo) {
+        if (!firstTodo.dueDate && !secondTodo.dueDate) {
+            return 0;
+        }
+
+        if (!firstTodo.dueDate) {
+            return 1;
+        }
+
+        if (!secondTodo.dueDate) {
+            return -1;
+        }
+
+        return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -83,6 +99,7 @@
     }
 
     global.TodoData = Object.freeze({
+        compareDueDates,
         getLocalDateValue,
         isDateValue,
         isDueToday,

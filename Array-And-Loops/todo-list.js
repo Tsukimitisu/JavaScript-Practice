@@ -460,7 +460,7 @@ function formatPriority(priority) {
 
 function compareVisibleTodos(first, second) {
     if (sortElement.value === 'due-date') {
-        return compareDueDates(first.todo, second.todo) || first.index - second.index;
+        return TodoData.compareDueDates(first.todo, second.todo) || first.index - second.index;
     }
 
     if (sortElement.value === 'priority') {
@@ -469,22 +469,6 @@ function compareVisibleTodos(first, second) {
     }
 
     return first.index - second.index;
-}
-
-function compareDueDates(firstTodo, secondTodo) {
-    if (!firstTodo.dueDate && !secondTodo.dueDate) {
-        return 0;
-    }
-
-    if (!firstTodo.dueDate) {
-        return 1;
-    }
-
-    if (!secondTodo.dueDate) {
-        return -1;
-    }
-
-    return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
 }
 
 function getDueDateLabel(todo) {

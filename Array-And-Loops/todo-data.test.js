@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 require('./todo-data.js');
 
 const {
+    compareDueDates,
     getLocalDateValue,
     isDateValue,
     isDueToday,
@@ -97,4 +98,17 @@ test('only marks incomplete tasks before the supplied day as overdue', () => {
     assert.equal(isOverdue({ dueDate: '2026-09-17', completed: false }, now), false);
     assert.equal(isOverdue({ dueDate: '2026-09-16', completed: true }, now), false);
     assert.equal(isOverdue({ dueDate: '', completed: false }, now), false);
+});
+
+test('sorts dated tasks first and undated tasks last', () => {
+    const early = { dueDate: '2026-09-17' };
+    const late = { dueDate: '2026-09-20' };
+    const undated = { dueDate: '' };
+
+    assert.ok(compareDueDates(early, late) < 0);
+    assert.ok(compareDueDates(late, early) > 0);
+    assert.equal(compareDueDates(early, early), 0);
+    assert.ok(compareDueDates(early, undated) < 0);
+    assert.ok(compareDueDates(undated, early) > 0);
+    assert.equal(compareDueDates(undated, undated), 0);
 });
