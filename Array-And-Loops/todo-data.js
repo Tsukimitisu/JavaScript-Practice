@@ -14,6 +14,12 @@
             date.getDate() === day;
     }
 
+    function isTimestamp(value) {
+        return typeof value === 'string' &&
+            value.trim() !== '' &&
+            Number.isFinite(Date.parse(value));
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -44,7 +50,7 @@
         return {
             name,
             completed: Boolean(todo.completed),
-            createdAt: typeof todo.createdAt === 'string' ? todo.createdAt : createdAt,
+            createdAt: isTimestamp(todo.createdAt) ? todo.createdAt : createdAt,
             dueDate: isDateValue(todo.dueDate) ? todo.dueDate : '',
             priority: ['high', 'normal', 'low'].includes(todo.priority)
                 ? todo.priority

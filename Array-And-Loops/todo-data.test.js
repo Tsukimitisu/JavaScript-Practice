@@ -44,6 +44,20 @@ test('keeps real calendar due dates and discards invalid ones', () => {
     assert.equal(normalizeTodo({ name: 'Invalid', dueDate: '2026-02-30' }, createdAt).dueDate, '');
 });
 
+test('replaces invalid saved creation timestamps', () => {
+    assert.equal(normalizeTodo({
+        name: 'Missing timestamp'
+    }, createdAt).createdAt, createdAt);
+    assert.equal(normalizeTodo({
+        name: 'Invalid timestamp',
+        createdAt: 'not-a-date'
+    }, createdAt).createdAt, createdAt);
+    assert.equal(normalizeTodo({
+        name: 'Valid timestamp',
+        createdAt: '2026-09-18T10:30:00.000Z'
+    }, createdAt).createdAt, '2026-09-18T10:30:00.000Z');
+});
+
 test('interprets due dates in the local calendar day', () => {
     const previousTimeZone = process.env.TZ;
     process.env.TZ = 'America/Los_Angeles';
