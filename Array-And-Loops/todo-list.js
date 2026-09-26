@@ -55,14 +55,6 @@ function saveTodoList() {
     localStorage.setItem(storageKey, JSON.stringify(todoList));
 }
 
-function isDuplicateTodo(name, excludedIndex = -1) {
-    const normalizedName = name.toLocaleLowerCase();
-
-    return todoList.some((todo, index) =>
-        index !== excludedIndex && todo.name.toLocaleLowerCase() === normalizedName
-    );
-}
-
 function renderTodoList() {
     listElement.replaceChildren();
     const searchQuery = searchElement.value.trim().toLocaleLowerCase();
@@ -172,7 +164,7 @@ function renderTodoList() {
                     return;
                 }
 
-                if (isDuplicateTodo(updatedName, index)) {
+                if (TodoData.hasDuplicateName(todoList, updatedName, index)) {
                     messageElement.textContent = 'A task with that name already exists.';
                     editInput.focus();
                     return;
@@ -415,7 +407,7 @@ formElement.addEventListener('submit', (event) => {
         return;
     }
 
-    if (isDuplicateTodo(name)) {
+    if (TodoData.hasDuplicateName(todoList, name)) {
         messageElement.textContent = 'A task with that name already exists.';
         inputElement.focus();
         return;

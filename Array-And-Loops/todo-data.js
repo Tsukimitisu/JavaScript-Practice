@@ -68,6 +68,15 @@
         return todo.name.toLocaleLowerCase().includes(normalizedQuery);
     }
 
+    function hasDuplicateName(todos, name, excludedIndex = -1) {
+        const normalizedName = name.trim().toLocaleLowerCase();
+
+        return todos.some((todo, index) =>
+            index !== excludedIndex &&
+            todo.name.trim().toLocaleLowerCase() === normalizedName
+        );
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -116,6 +125,7 @@
         compareDueDates,
         comparePriorities,
         getLocalDateValue,
+        hasDuplicateName,
         isDateValue,
         isDueToday,
         isOverdue,

@@ -7,6 +7,7 @@ const {
     compareDueDates,
     comparePriorities,
     getLocalDateValue,
+    hasDuplicateName,
     isDateValue,
     isDueToday,
     isOverdue,
@@ -133,4 +134,16 @@ test('matches task searches without case or surrounding whitespace', () => {
     assert.equal(matchesSearch(todo, '  GUIDE  '), true);
     assert.equal(matchesSearch(todo, ''), true);
     assert.equal(matchesSearch(todo, 'TypeScript'), false);
+});
+
+test('detects duplicate task names while allowing the edited task', () => {
+    const todos = [
+        { name: 'Read a book' },
+        { name: 'Practice JavaScript' }
+    ];
+
+    assert.equal(hasDuplicateName(todos, '  read A BOOK  '), true);
+    assert.equal(hasDuplicateName(todos, 'Write notes'), false);
+    assert.equal(hasDuplicateName(todos, 'Read a book', 0), false);
+    assert.equal(hasDuplicateName(todos, 'Practice JavaScript', 0), true);
 });
