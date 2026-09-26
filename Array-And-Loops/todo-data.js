@@ -3,8 +3,14 @@
 
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
+            const name = todo.trim();
+
+            if (!name) {
+                return null;
+            }
+
             return {
-                name: todo,
+                name,
                 completed: false,
                 createdAt,
                 dueDate: '',
@@ -16,8 +22,14 @@
             return null;
         }
 
+        const name = todo.name.trim();
+
+        if (!name) {
+            return null;
+        }
+
         return {
-            name: todo.name,
+            name,
             completed: Boolean(todo.completed),
             createdAt: typeof todo.createdAt === 'string' ? todo.createdAt : createdAt,
             dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : '',

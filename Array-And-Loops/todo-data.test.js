@@ -7,13 +7,14 @@ const { normalizeTodo, parseDate } = globalThis.TodoData;
 const createdAt = '2026-09-17T00:00:00.000Z';
 
 test('migrates legacy string tasks with all fields used by the list', () => {
-    assert.deepEqual(normalizeTodo('Read a book', createdAt), {
+    assert.deepEqual(normalizeTodo('  Read a book  ', createdAt), {
         name: 'Read a book',
         completed: false,
         createdAt,
         dueDate: '',
         priority: 'normal'
     });
+    assert.equal(normalizeTodo('   ', createdAt), null);
 });
 
 test('preserves supported task fields and defaults invalid priorities', () => {
@@ -32,6 +33,7 @@ test('preserves supported task fields and defaults invalid priorities', () => {
     });
     assert.equal(normalizeTodo({ name: 'Task', priority: 'urgent' }, createdAt).priority, 'normal');
     assert.equal(normalizeTodo({ completed: true }, createdAt), null);
+    assert.equal(normalizeTodo({ name: '\t' }, createdAt), null);
 });
 
 test('interprets due dates in the local calendar day', () => {
