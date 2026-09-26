@@ -60,6 +60,14 @@
         return priorityWeight[firstTodo.priority] - priorityWeight[secondTodo.priority];
     }
 
+    function matchesSearch(todo, query) {
+        const normalizedQuery = typeof query === 'string'
+            ? query.trim().toLocaleLowerCase()
+            : '';
+
+        return todo.name.toLocaleLowerCase().includes(normalizedQuery);
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -111,6 +119,7 @@
         isDateValue,
         isDueToday,
         isOverdue,
+        matchesSearch,
         normalizeTodo,
         parseDate
     });

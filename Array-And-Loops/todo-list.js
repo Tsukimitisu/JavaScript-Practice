@@ -75,7 +75,7 @@ function renderTodoList() {
                 (filterElement.value === 'completed' && todo.completed) ||
                 (filterElement.value === 'today' && TodoData.isDueToday(todo)) ||
                 (filterElement.value === 'overdue' && TodoData.isOverdue(todo));
-            const matchesSearch = todo.name.toLocaleLowerCase().includes(searchQuery);
+            const matchesSearch = TodoData.matchesSearch(todo, searchQuery);
 
             return matchesFilter && matchesSearch;
         })

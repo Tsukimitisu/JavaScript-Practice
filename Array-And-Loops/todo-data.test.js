@@ -10,6 +10,7 @@ const {
     isDateValue,
     isDueToday,
     isOverdue,
+    matchesSearch,
     normalizeTodo,
     parseDate
 } = globalThis.TodoData;
@@ -123,4 +124,13 @@ test('sorts priorities from high to low', () => {
     assert.ok(comparePriorities(normal, low) < 0);
     assert.ok(comparePriorities(low, high) > 0);
     assert.equal(comparePriorities(normal, normal), 0);
+});
+
+test('matches task searches without case or surrounding whitespace', () => {
+    const todo = { name: 'Read JavaScript Guide' };
+
+    assert.equal(matchesSearch(todo, 'javascript'), true);
+    assert.equal(matchesSearch(todo, '  GUIDE  '), true);
+    assert.equal(matchesSearch(todo, ''), true);
+    assert.equal(matchesSearch(todo, 'TypeScript'), false);
 });
