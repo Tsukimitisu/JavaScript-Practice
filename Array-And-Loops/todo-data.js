@@ -20,6 +20,12 @@
             Number.isFinite(Date.parse(value));
     }
 
+    function getLocalDateValue(date = new Date()) {
+        const timezoneOffset = date.getTimezoneOffset() * 60 * 1000;
+
+        return new Date(date.getTime() - timezoneOffset).toISOString().slice(0, 10);
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -64,5 +70,10 @@
             : new Date(dateValue);
     }
 
-    global.TodoData = Object.freeze({ isDateValue, normalizeTodo, parseDate });
+    global.TodoData = Object.freeze({
+        getLocalDateValue,
+        isDateValue,
+        normalizeTodo,
+        parseDate
+    });
 }(globalThis));

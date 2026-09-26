@@ -492,17 +492,11 @@ function isOverdue(todo) {
         return false;
     }
 
-    return todo.dueDate < getLocalDateValue();
+    return todo.dueDate < TodoData.getLocalDateValue();
 }
 
 function isDueToday(todo) {
-    return todo.dueDate === getLocalDateValue();
-}
-
-function getLocalDateValue(date = new Date()) {
-    const timezoneOffset = date.getTimezoneOffset() * 60 * 1000;
-
-    return new Date(date.getTime() - timezoneOffset).toISOString().slice(0, 10);
+    return todo.dueDate === TodoData.getLocalDateValue();
 }
 
 function getDueDateLabel(todo) {
