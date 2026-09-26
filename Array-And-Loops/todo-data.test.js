@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 
 require('./todo-data.js');
 
-const { normalizeTodo, parseDate } = globalThis.TodoData;
+const { isDateValue, normalizeTodo, parseDate } = globalThis.TodoData;
 const createdAt = '2026-09-17T00:00:00.000Z';
 
 test('migrates legacy string tasks with all fields used by the list', () => {
@@ -34,6 +34,14 @@ test('preserves supported task fields and defaults invalid priorities', () => {
     assert.equal(normalizeTodo({ name: 'Task', priority: 'urgent' }, createdAt).priority, 'normal');
     assert.equal(normalizeTodo({ completed: true }, createdAt), null);
     assert.equal(normalizeTodo({ name: '\t' }, createdAt), null);
+});
+
+test('keeps real calendar due dates and discards invalid ones', () => {
+    assert.equal(isDateValue('2028-02-29'), true);
+    assert.equal(isDateValue('2026-02-29'), false);
+    assert.equal(isDateValue('2026-13-01'), false);
+    assert.equal(normalizeTodo({ name: 'Valid', dueDate: '2026-09-20' }, createdAt).dueDate, '2026-09-20');
+    assert.equal(normalizeTodo({ name: 'Invalid', dueDate: '2026-02-30' }, createdAt).dueDate, '');
 });
 
 test('interprets due dates in the local calendar day', () => {

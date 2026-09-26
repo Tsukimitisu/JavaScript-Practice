@@ -1,6 +1,19 @@
 (function attachTodoData(global) {
     'use strict';
 
+    function isDateValue(value) {
+        if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return false;
+        }
+
+        const [year, month, day] = value.split('-').map(Number);
+        const date = new Date(year, month - 1, day);
+
+        return date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day;
+    }
+
     function normalizeTodo(todo, createdAt = new Date().toISOString()) {
         if (typeof todo === 'string') {
             const name = todo.trim();
@@ -32,7 +45,7 @@
             name,
             completed: Boolean(todo.completed),
             createdAt: typeof todo.createdAt === 'string' ? todo.createdAt : createdAt,
-            dueDate: typeof todo.dueDate === 'string' ? todo.dueDate : '',
+            dueDate: isDateValue(todo.dueDate) ? todo.dueDate : '',
             priority: ['high', 'normal', 'low'].includes(todo.priority)
                 ? todo.priority
                 : 'normal'
@@ -40,10 +53,10 @@
     }
 
     function parseDate(dateValue) {
-        return /^\d{4}-\d{2}-\d{2}$/.test(dateValue)
+        return isDateValue(dateValue)
             ? new Date(`${dateValue}T00:00:00`)
             : new Date(dateValue);
     }
 
-    global.TodoData = Object.freeze({ normalizeTodo, parseDate });
+    global.TodoData = Object.freeze({ isDateValue, normalizeTodo, parseDate });
 }(globalThis));
