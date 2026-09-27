@@ -81,9 +81,17 @@ test('toggles the current operand sign', () => {
     assert.equal(toggleSign('2 + '), '2 + -');
 });
 
+test('toggles pending signs without changing invalid input', () => {
+    assert.equal(toggleSign(''), '-');
+    assert.equal(toggleSign('-'), '');
+    assert.equal(toggleSign('2 + -'), '2 + ');
+    assert.equal(toggleSign('not-a-number'), 'not-a-number');
+});
+
 test('backspace removes digits and whole pending operators', () => {
     assert.equal(backspace('23'), '2');
     assert.equal(backspace('2 + '), '2');
     assert.equal(backspace('2 + -3'), '2 + -');
     assert.equal(backspace(''), '');
+    assert.equal(backspace(undefined), '');
 });
