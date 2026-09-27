@@ -11,6 +11,13 @@ test('selects each move from a deterministic random value', () => {
     assert.equal(getComputerMove(0.99), 'Scissors');
 });
 
+test('changes moves at the exact third boundaries', () => {
+    assert.equal(getComputerMove((1 / 3) - Number.EPSILON), 'Rock');
+    assert.equal(getComputerMove(1 / 3), 'Paper');
+    assert.equal(getComputerMove((2 / 3) - Number.EPSILON), 'Paper');
+    assert.equal(getComputerMove(2 / 3), 'Scissors');
+});
+
 test('reports ties', () => {
     assert.equal(getResult('Rock', 'Rock'), 'Tie');
     assert.equal(getResult('Paper', 'Paper'), 'Tie');
