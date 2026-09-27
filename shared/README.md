@@ -7,10 +7,10 @@
 
 [calculator-math.js](calculator-math.js) exposes `globalThis.CalculatorMath` with `appendToken`, `toggleSign`, and `evaluate`. Expressions use whitespace-separated operands and operators, such as `2 + 3 * 4`, which evaluates to 14. Evaluation supports addition, subtraction, multiplication, and division, including decimal and negative operands. Invalid expressions and division by zero throw errors.
 
-Run the existing game-rule tests from the repository root:
+Run all shared-helper and todo-data tests from the repository root:
 
 ```powershell
-node --test shared/rps-game.test.js
+npm test
 ```
 
 Practice: call `RPSGame.getComputerMove(0)` and `RPSGame.getResult('Rock', 'Scissors')` in a page console after loading the helper. Expect `Rock` and `You Win!`.
