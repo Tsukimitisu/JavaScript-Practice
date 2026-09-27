@@ -116,9 +116,13 @@
     }
 
     function parseDate(dateValue) {
-        return isDateValue(dateValue)
-            ? new Date(`${dateValue}T00:00:00`)
-            : new Date(dateValue);
+        if (isDateValue(dateValue)) {
+            return new Date(`${dateValue}T00:00:00`);
+        }
+
+        return typeof dateValue === 'string' && dateValue.trim()
+            ? new Date(dateValue)
+            : new Date(Number.NaN);
     }
 
     global.TodoData = Object.freeze({

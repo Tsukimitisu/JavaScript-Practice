@@ -86,6 +86,12 @@ test('interprets due dates in the local calendar day', () => {
     }
 });
 
+test('returns an invalid date for missing or empty date values', () => {
+    assert.equal(Number.isNaN(parseDate().getTime()), true);
+    assert.equal(Number.isNaN(parseDate('').getTime()), true);
+    assert.equal(Number.isNaN(parseDate('   ').getTime()), true);
+});
+
 test('detects tasks due on the supplied local day', () => {
     const now = new Date(2026, 8, 17, 12);
 
