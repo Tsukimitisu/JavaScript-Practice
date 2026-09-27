@@ -48,6 +48,13 @@ test('appends digits and replaces a pending operator', () => {
     assert.equal(appendToken('2 + ', '3'), '2 + 3');
 });
 
+test('ignores unsupported input tokens and repeated decimal points', () => {
+    assert.equal(appendToken('12', 'x'), '12');
+    assert.equal(appendToken('1.2', '.'), '1.2');
+    assert.equal(appendToken('2 + 3.4', '.'), '2 + 3.4');
+    assert.equal(appendToken(null, '7'), '7');
+});
+
 test('starts decimal operands with zero', () => {
     assert.equal(appendToken('', '.'), '0.');
     assert.equal(appendToken('2 + ', '.'), '2 + 0.');
