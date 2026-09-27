@@ -1,0 +1,8 @@
+{
+  "name": "javascript-practice",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test shared/calculator-math.test.js shared/rps-game.test.js Array-And-Loops/todo-data.test.js"
+  }
+}
