@@ -11,6 +11,12 @@ test('evaluates multiplication and division before addition and subtraction', ()
     assert.equal(evaluate('10 - 6 / 2 * 3'), 1);
 });
 
+test('evaluates operators with equal precedence from left to right', () => {
+    assert.equal(evaluate('20 / 5 * 2'), 8);
+    assert.equal(evaluate('10 - 3 + 1'), 8);
+    assert.equal(evaluate('18 / 3 / 2'), 3);
+});
+
 test('supports decimal and negative operands', () => {
     assert.equal(evaluate('-.5 * 4'), -2);
     assert.equal(evaluate('2 + -3.5'), -1.5);
