@@ -34,6 +34,13 @@ test('rejects incomplete calculations and division by zero', () => {
     assert.throws(() => evaluate('2 / 0'), /Cannot divide by zero/);
 });
 
+test('rejects malformed expressions and non-finite results', () => {
+    assert.throws(() => evaluate('two + 2'), /Invalid calculation/);
+    assert.throws(() => evaluate('2 + + 3'), /Invalid calculation/);
+    assert.throws(() => evaluate('1e308 * 10'), /Invalid calculation/);
+    assert.throws(() => evaluate(`${'9'.repeat(309)} * 10`), /outside the supported range/);
+});
+
 test('appends digits and replaces a pending operator', () => {
     assert.equal(appendToken('', '2'), '2');
     assert.equal(appendToken('2', ' + '), '2 + ');
