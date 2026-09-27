@@ -22,6 +22,12 @@ test('supports decimal and negative operands', () => {
     assert.equal(evaluate('2 + -3.5'), -1.5);
 });
 
+test('accepts a standalone number and flexible whitespace', () => {
+    assert.equal(evaluate('42'), 42);
+    assert.equal(evaluate('  2   +   3  '), 5);
+    assert.equal(evaluate('\t-4\n*\t2 '), -8);
+});
+
 test('rejects incomplete calculations and division by zero', () => {
     assert.throws(() => evaluate(''), /Enter a calculation/);
     assert.throws(() => evaluate('2 +'), /Invalid calculation/);
