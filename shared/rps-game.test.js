@@ -41,3 +41,9 @@ test('rejects unsupported moves and random values', () => {
     assert.throws(() => getComputerMove(-0.01), RangeError);
     assert.throws(() => getComputerMove(1), RangeError);
 });
+
+test('rejects non-numeric and non-finite random values', () => {
+    assert.throws(() => getComputerMove('0.5'), RangeError);
+    assert.throws(() => getComputerMove(Number.NaN), RangeError);
+    assert.throws(() => getComputerMove(Number.POSITIVE_INFINITY), RangeError);
+});
