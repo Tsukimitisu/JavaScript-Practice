@@ -2,7 +2,13 @@
   "name": "javascript-practice",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "test": "node --test shared/calculator-math.test.js shared/rps-game.test.js Array-And-Loops/todo-data.test.js"
+    "test": "node --test shared/calculator-math.test.js shared/rps-game.test.js Array-And-Loops/todo-data.test.js",
+    "test:calculator": "node --test shared/calculator-math.test.js",
+    "test:rps": "node --test shared/rps-game.test.js",
+    "test:todo": "node --test Array-And-Loops/todo-data.test.js"
   }
 }
