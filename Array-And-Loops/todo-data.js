@@ -76,10 +76,15 @@
     }
 
     function hasDuplicateName(todos, name, excludedIndex = -1) {
+        if (!Array.isArray(todos) || typeof name !== 'string' || !name.trim()) {
+            return false;
+        }
+
         const normalizedName = name.trim().toLocaleLowerCase();
 
         return todos.some((todo, index) =>
             index !== excludedIndex &&
+            typeof todo?.name === 'string' &&
             todo.name.trim().toLocaleLowerCase() === normalizedName
         );
     }

@@ -166,3 +166,12 @@ test('detects duplicate task names while allowing the edited task', () => {
     assert.equal(hasDuplicateName(todos, 'Read a book', 0), false);
     assert.equal(hasDuplicateName(todos, 'Practice JavaScript', 0), true);
 });
+
+test('ignores invalid duplicate-check inputs and malformed saved tasks', () => {
+    const todos = [null, {}, { name: 42 }, { name: 'Valid task' }];
+
+    assert.equal(hasDuplicateName(todos, 'valid task'), true);
+    assert.equal(hasDuplicateName(todos, ''), false);
+    assert.equal(hasDuplicateName(todos, null), false);
+    assert.equal(hasDuplicateName(null, 'Valid task'), false);
+});
