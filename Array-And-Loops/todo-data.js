@@ -64,6 +64,10 @@
     }
 
     function matchesSearch(todo, query) {
+        if (typeof todo?.name !== 'string') {
+            return false;
+        }
+
         const normalizedQuery = typeof query === 'string'
             ? query.trim().toLocaleLowerCase()
             : '';

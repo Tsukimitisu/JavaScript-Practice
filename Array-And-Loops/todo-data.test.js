@@ -149,6 +149,12 @@ test('matches task searches without case or surrounding whitespace', () => {
     assert.equal(matchesSearch(todo, 'TypeScript'), false);
 });
 
+test('does not match malformed tasks', () => {
+    assert.equal(matchesSearch(null, 'task'), false);
+    assert.equal(matchesSearch({}, 'task'), false);
+    assert.equal(matchesSearch({ name: 42 }, ''), false);
+});
+
 test('detects duplicate task names while allowing the edited task', () => {
     const todos = [
         { name: 'Read a book' },
