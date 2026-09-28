@@ -133,6 +133,13 @@ test('sorts priorities from high to low', () => {
     assert.equal(comparePriorities(normal, normal), 0);
 });
 
+test('treats missing and unsupported priorities as normal', () => {
+    assert.equal(comparePriorities({}, { priority: 'normal' }), 0);
+    assert.equal(comparePriorities({ priority: 'urgent' }, {}), 0);
+    assert.ok(comparePriorities({ priority: 'high' }, null) < 0);
+    assert.ok(comparePriorities(undefined, { priority: 'low' }) < 0);
+});
+
 test('matches task searches without case or surrounding whitespace', () => {
     const todo = { name: 'Read JavaScript Guide' };
 

@@ -57,7 +57,10 @@
     }
 
     function comparePriorities(firstTodo, secondTodo) {
-        return priorityWeight[firstTodo.priority] - priorityWeight[secondTodo.priority];
+        const firstWeight = priorityWeight[firstTodo?.priority] ?? priorityWeight.normal;
+        const secondWeight = priorityWeight[secondTodo?.priority] ?? priorityWeight.normal;
+
+        return firstWeight - secondWeight;
     }
 
     function matchesSearch(todo, query) {
