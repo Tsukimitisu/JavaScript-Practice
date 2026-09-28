@@ -34,7 +34,7 @@
 
     function isOverdue(todo, date = new Date()) {
         return Boolean(
-            todo?.dueDate &&
+            isDateValue(todo?.dueDate) &&
             !todo.completed &&
             todo.dueDate < getLocalDateValue(date)
         );

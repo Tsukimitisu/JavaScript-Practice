@@ -109,6 +109,15 @@ test('only marks incomplete tasks before the supplied day as overdue', () => {
     assert.equal(isOverdue({ dueDate: '', completed: false }, now), false);
 });
 
+test('does not mark invalid calendar dates as overdue', () => {
+    const now = new Date(2026, 8, 17, 12);
+
+    assert.equal(isOverdue({ dueDate: '2026-09-1', completed: false }, now), false);
+    assert.equal(isOverdue({ dueDate: '2026-02-30', completed: false }, now), false);
+    assert.equal(isOverdue({ dueDate: 20260916, completed: false }, now), false);
+    assert.equal(isOverdue(null, now), false);
+});
+
 test('sorts dated tasks first and undated tasks last', () => {
     const early = { dueDate: '2026-09-17' };
     const late = { dueDate: '2026-09-20' };
