@@ -29,6 +29,10 @@ test('changes moves at the exact third boundaries', () => {
     assert.equal(getComputerMove(2 / 3), 'Scissors');
 });
 
+test('accepts the largest representable value below one', () => {
+    assert.equal(getComputerMove(1 - Number.EPSILON), 'Scissors');
+});
+
 test('reports ties', () => {
     assert.equal(getResult('Rock', 'Rock'), 'Tie');
     assert.equal(getResult('Paper', 'Paper'), 'Tie');
