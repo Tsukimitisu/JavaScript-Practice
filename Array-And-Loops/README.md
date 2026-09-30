@@ -10,4 +10,12 @@ Press `/` outside a form field to focus search. Press Escape in search to clear 
 
 Practice: trace how filtering and sorting produce the visible list from the stored task array.
 
+The reusable data rules live in [todo-data.js](todo-data.js). They normalize saved
+tasks, reject impossible calendar dates, and treat missing or malformed dates as
+undated during sorting. Run their focused tests from the repository root with:
+
+```powershell
+npm run test:todo
+```
+
 [Back to the exercise guide](../README.md)
