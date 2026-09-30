@@ -47,6 +47,13 @@ test('preserves supported task fields and defaults invalid priorities', () => {
     assert.equal(normalizeTodo({ name: '\t' }, createdAt), null);
 });
 
+test('only restores completion from saved boolean values', () => {
+    assert.equal(normalizeTodo({ name: 'Done', completed: true }, createdAt).completed, true);
+    assert.equal(normalizeTodo({ name: 'Open', completed: false }, createdAt).completed, false);
+    assert.equal(normalizeTodo({ name: 'Malformed', completed: 'false' }, createdAt).completed, false);
+    assert.equal(normalizeTodo({ name: 'Numeric', completed: 1 }, createdAt).completed, false);
+});
+
 test('keeps real calendar due dates and discards invalid ones', () => {
     assert.equal(isDateValue('2028-02-29'), true);
     assert.equal(isDateValue('2026-02-29'), false);

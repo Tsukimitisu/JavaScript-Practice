@@ -121,7 +121,7 @@
 
         return {
             name,
-            completed: Boolean(todo.completed),
+            completed: todo.completed === true,
             createdAt: isTimestamp(todo.createdAt) ? todo.createdAt : createdAt,
             dueDate: isDateValue(todo.dueDate) ? todo.dueDate : '',
             priority: ['high', 'normal', 'low'].includes(todo.priority)
