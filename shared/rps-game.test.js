@@ -11,6 +11,17 @@ test('selects each move from a deterministic random value', () => {
     assert.equal(getComputerMove(0.99), 'Scissors');
 });
 
+test('uses Math.random when no random value is supplied', () => {
+    const originalRandom = Math.random;
+    Math.random = () => 0.5;
+
+    try {
+        assert.equal(getComputerMove(), 'Paper');
+    } finally {
+        Math.random = originalRandom;
+    }
+});
+
 test('changes moves at the exact third boundaries', () => {
     assert.equal(getComputerMove((1 / 3) - Number.EPSILON), 'Rock');
     assert.equal(getComputerMove(1 / 3), 'Paper');
