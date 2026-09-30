@@ -55,6 +55,11 @@ test('ignores unsupported input tokens and repeated decimal points', () => {
     assert.equal(appendToken(null, '7'), '7');
 });
 
+test('returns a string when invalid expression values are supplied', () => {
+    assert.equal(appendToken(12, 'x'), '');
+    assert.equal(appendToken(null, '+'), '');
+});
+
 test('starts decimal operands with zero', () => {
     assert.equal(appendToken('', '.'), '0.');
     assert.equal(appendToken('2 + ', '.'), '2 + 0.');

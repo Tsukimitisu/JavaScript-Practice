@@ -5,17 +5,18 @@
     const operatorPattern = /^[+\-*/]$/;
 
     function appendToken(expression, value) {
-        const currentExpression = typeof expression === 'string' ? expression.trimEnd() : '';
+        const originalExpression = typeof expression === 'string' ? expression : '';
+        const currentExpression = originalExpression.trimEnd();
         const token = String(value).trim();
 
         if (operatorPattern.test(token)) {
             if (!currentExpression) {
-                return expression || '';
+                return originalExpression;
             }
 
             const tokens = currentExpression.split(/\s+/);
             if (tokens.length === 1 && tokens[0] === '-') {
-                return expression;
+                return originalExpression;
             }
 
             if (tokens.at(-1) === '-' && operatorPattern.test(tokens.at(-2))) {
@@ -32,7 +33,7 @@
         }
 
         if (!/^(?:\d|\.)$/.test(token)) {
-            return expression || '';
+            return originalExpression;
         }
 
         if (token === '.' && !currentExpression) {
@@ -43,7 +44,7 @@
         const currentNumber = tokens.at(-1) || '';
 
         if (token === '.' && currentNumber.includes('.')) {
-            return expression || '';
+            return originalExpression;
         }
 
         if (
