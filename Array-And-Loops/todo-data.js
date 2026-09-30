@@ -17,8 +17,13 @@
     }
 
     function isTimestamp(value) {
-        return typeof value === 'string' &&
-            value.trim() !== '' &&
+        if (typeof value !== 'string' || value.trim() === '') {
+            return false;
+        }
+
+        const calendarPrefix = value.match(/^(\d{4}-\d{2}-\d{2})T/);
+
+        return (!calendarPrefix || isDateValue(calendarPrefix[1])) &&
             Number.isFinite(Date.parse(value));
     }
 

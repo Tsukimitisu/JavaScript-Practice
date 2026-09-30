@@ -76,6 +76,13 @@ test('replaces invalid saved creation timestamps', () => {
     }, createdAt).createdAt, '2026-09-18T10:30:00.000Z');
 });
 
+test('rejects timestamps with impossible calendar dates', () => {
+    assert.equal(normalizeTodo({
+        name: 'Invalid calendar timestamp',
+        createdAt: '2026-02-30T10:30:00.000Z'
+    }, createdAt).createdAt, createdAt);
+});
+
 test('interprets due dates in the local calendar day', () => {
     const previousTimeZone = process.env.TZ;
     process.env.TZ = 'America/Los_Angeles';
