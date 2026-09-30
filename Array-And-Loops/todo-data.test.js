@@ -117,6 +117,11 @@ test('does not normalize impossible calendar dates', () => {
     assert.equal(Number.isNaN(parseDate('2026-00-10').getTime()), true);
 });
 
+test('does not normalize timestamps with impossible calendar dates', () => {
+    assert.equal(Number.isNaN(parseDate('2026-02-30T10:30:00.000Z').getTime()), true);
+    assert.equal(Number.isNaN(parseDate('2026-13-01T00:00:00Z').getTime()), true);
+});
+
 test('detects tasks due on the supplied local day', () => {
     const now = new Date(2026, 8, 17, 12);
 
