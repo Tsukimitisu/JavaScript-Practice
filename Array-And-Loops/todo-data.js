@@ -41,19 +41,22 @@
     }
 
     function compareDueDates(firstTodo, secondTodo) {
-        if (!firstTodo.dueDate && !secondTodo.dueDate) {
+        const firstDueDate = firstTodo?.dueDate;
+        const secondDueDate = secondTodo?.dueDate;
+
+        if (!firstDueDate && !secondDueDate) {
             return 0;
         }
 
-        if (!firstTodo.dueDate) {
+        if (!firstDueDate) {
             return 1;
         }
 
-        if (!secondTodo.dueDate) {
+        if (!secondDueDate) {
             return -1;
         }
 
-        return firstTodo.dueDate.localeCompare(secondTodo.dueDate);
+        return firstDueDate.localeCompare(secondDueDate);
     }
 
     function comparePriorities(firstTodo, secondTodo) {

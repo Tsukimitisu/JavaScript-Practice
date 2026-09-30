@@ -131,6 +131,14 @@ test('sorts dated tasks first and undated tasks last', () => {
     assert.equal(compareDueDates(undated, undated), 0);
 });
 
+test('treats missing tasks as undated while sorting', () => {
+    const dated = { dueDate: '2026-09-17' };
+
+    assert.ok(compareDueDates(dated, null) < 0);
+    assert.ok(compareDueDates(undefined, dated) > 0);
+    assert.equal(compareDueDates(null, undefined), 0);
+});
+
 test('sorts priorities from high to low', () => {
     const high = { priority: 'high' };
     const normal = { priority: 'normal' };
