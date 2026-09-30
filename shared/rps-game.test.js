@@ -53,6 +53,7 @@ test('reports every losing matchup', () => {
 
 test('rejects unsupported moves and random values', () => {
     assert.throws(() => getResult('Lizard', 'Rock'), TypeError);
+    assert.throws(() => getResult('Rock', 'Lizard'), TypeError);
     assert.throws(() => getComputerMove(-0.01), RangeError);
     assert.throws(() => getComputerMove(1), RangeError);
 });
