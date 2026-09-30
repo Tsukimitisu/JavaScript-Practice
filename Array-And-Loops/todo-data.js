@@ -23,6 +23,10 @@
     }
 
     function getLocalDateValue(date = new Date()) {
+        if (!(date instanceof Date) || !Number.isFinite(date.getTime())) {
+            throw new TypeError('Expected a valid Date.');
+        }
+
         const timezoneOffset = date.getTimezoneOffset() * 60 * 1000;
 
         return new Date(date.getTime() - timezoneOffset).toISOString().slice(0, 10);

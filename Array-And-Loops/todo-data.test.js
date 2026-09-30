@@ -93,6 +93,11 @@ test('interprets due dates in the local calendar day', () => {
     }
 });
 
+test('rejects invalid values when formatting a local date', () => {
+    assert.throws(() => getLocalDateValue('2026-09-17'), /valid Date/);
+    assert.throws(() => getLocalDateValue(new Date(Number.NaN)), /valid Date/);
+});
+
 test('returns an invalid date for missing or empty date values', () => {
     assert.equal(Number.isNaN(parseDate().getTime()), true);
     assert.equal(Number.isNaN(parseDate('').getTime()), true);
