@@ -99,6 +99,12 @@ test('returns an invalid date for missing or empty date values', () => {
     assert.equal(Number.isNaN(parseDate('   ').getTime()), true);
 });
 
+test('does not normalize impossible calendar dates', () => {
+    assert.equal(Number.isNaN(parseDate('2026-02-30').getTime()), true);
+    assert.equal(Number.isNaN(parseDate('2026-13-01').getTime()), true);
+    assert.equal(Number.isNaN(parseDate('2026-00-10').getTime()), true);
+});
+
 test('detects tasks due on the supplied local day', () => {
     const now = new Date(2026, 8, 17, 12);
 

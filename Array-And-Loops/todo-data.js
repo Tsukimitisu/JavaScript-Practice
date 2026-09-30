@@ -135,6 +135,10 @@
             return new Date(`${dateValue}T00:00:00`);
         }
 
+        if (typeof dateValue === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+            return new Date(Number.NaN);
+        }
+
         return typeof dateValue === 'string' && dateValue.trim()
             ? new Date(dateValue)
             : new Date(Number.NaN);
