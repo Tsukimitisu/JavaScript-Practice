@@ -41,8 +41,8 @@
     }
 
     function compareDueDates(firstTodo, secondTodo) {
-        const firstDueDate = firstTodo?.dueDate;
-        const secondDueDate = secondTodo?.dueDate;
+        const firstDueDate = isDateValue(firstTodo?.dueDate) ? firstTodo.dueDate : '';
+        const secondDueDate = isDateValue(secondTodo?.dueDate) ? secondTodo.dueDate : '';
 
         if (!firstDueDate && !secondDueDate) {
             return 0;
